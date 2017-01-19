@@ -1,18 +1,3 @@
-/*
- * Copyright 2002-2012 the original author or authors.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 
 package org.springframework.core.serializer;
 
@@ -21,11 +6,13 @@ import java.io.OutputStream;
 
 /**
  * A strategy interface for streaming an object to an OutputStream.
+ * 将对象写入到输出流的策略接口。
  *
  * @author Gary Russell
  * @author Mark Fisher
  * @since 3.0.5
  */
+// 序列化器
 public interface Serializer<T> {
 
 	/**
@@ -37,6 +24,7 @@ public interface Serializer<T> {
 	 * @param outputStream the output stream
 	 * @throws IOException in case of errors writing to the stream
 	 */
+    // 将类型为T的对象写入到给定的输出流
 	void serialize(T object, OutputStream outputStream) throws IOException;
 
 }

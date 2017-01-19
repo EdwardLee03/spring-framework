@@ -29,6 +29,7 @@ import java.io.Serializable;
  * @author Mark Fisher
  * @since 3.0.5
  */
+// 默认的序列化器
 public class DefaultSerializer implements Serializer<Object> {
 
 	/**
@@ -42,6 +43,7 @@ public class DefaultSerializer implements Serializer<Object> {
 			throw new IllegalArgumentException(getClass().getSimpleName() + " requires a Serializable payload " +
 					"but received an object of type [" + object.getClass().getName() + "]");
 		}
+        // 对象输出流
 		ObjectOutputStream objectOutputStream = new ObjectOutputStream(outputStream);
 		objectOutputStream.writeObject(object);
 		objectOutputStream.flush();
