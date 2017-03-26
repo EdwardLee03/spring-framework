@@ -1,18 +1,3 @@
-/*
- * Copyright 2002-2016 the original author or authors.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 
 package org.springframework.beans.factory.support;
 
@@ -39,6 +24,7 @@ import org.springframework.util.StringUtils;
  * Base class for concrete, full-fledged {@link BeanDefinition} classes,
  * factoring out common properties of {@link GenericBeanDefinition},
  * {@link RootBeanDefinition}, and {@link ChildBeanDefinition}.
+ * 分解常用属性。
  *
  * <p>The autowire constants match the ones defined in the
  * {@link org.springframework.beans.factory.config.AutowireCapableBeanFactory}
@@ -52,6 +38,7 @@ import org.springframework.util.StringUtils;
  * @see RootBeanDefinition
  * @see ChildBeanDefinition
  */
+// 核心类 组件定义的抽象基类
 @SuppressWarnings("serial")
 public abstract class AbstractBeanDefinition extends BeanMetadataAttributeAccessor
 		implements BeanDefinition, Cloneable {
@@ -60,8 +47,10 @@ public abstract class AbstractBeanDefinition extends BeanMetadataAttributeAccess
 	 * Constant for the default scope name: {@code ""}, equivalent to singleton
 	 * status unless overridden from a parent bean definition (if applicable).
 	 */
+    // 等价于 单例状态
 	public static final String SCOPE_DEFAULT = "";
 
+    // 组件自动装配选项
 	/**
 	 * Constant that indicates no autowiring at all.
 	 * @see #setAutowireMode
@@ -72,6 +61,7 @@ public abstract class AbstractBeanDefinition extends BeanMetadataAttributeAccess
 	 * Constant that indicates autowiring bean properties by name.
 	 * @see #setAutowireMode
 	 */
+    // 组件名称
 	public static final int AUTOWIRE_BY_NAME = AutowireCapableBeanFactory.AUTOWIRE_BY_NAME;
 
 	/**
@@ -93,9 +83,11 @@ public abstract class AbstractBeanDefinition extends BeanMetadataAttributeAccess
 	 * @deprecated as of Spring 3.0: If you are using mixed autowiring strategies,
 	 * use annotation-based autowiring for clearer demarcation of autowiring needs.
 	 */
+    // 使用基于注解的自动装配
 	@Deprecated
 	public static final int AUTOWIRE_AUTODETECT = AutowireCapableBeanFactory.AUTOWIRE_AUTODETECT;
 
+    // 依赖检查
 	/**
 	 * Constant that indicates no dependency check at all.
 	 * @see #setDependencyCheck
@@ -106,6 +98,7 @@ public abstract class AbstractBeanDefinition extends BeanMetadataAttributeAccess
 	 * Constant that indicates dependency checking for object references.
 	 * @see #setDependencyCheck
 	 */
+    // 对象引用
 	public static final int DEPENDENCY_CHECK_OBJECTS = 1;
 
 	/**
@@ -135,55 +128,121 @@ public abstract class AbstractBeanDefinition extends BeanMetadataAttributeAccess
 	public static final String INFER_METHOD = "(inferred)";
 
 
+    /**
+     * 组件类型名称
+     */
 	private volatile Object beanClass;
 
+    /**
+     * 组件范围（单例）
+     */
 	private String scope = SCOPE_DEFAULT;
 
 	private boolean abstractFlag = false;
 
+    /**
+     * 非延迟初始化（实例化是就进行初始化）
+     */
 	private boolean lazyInit = false;
 
+    /**
+     * 自动装配模式（不进行自动装配）
+     */
 	private int autowireMode = AUTOWIRE_NO;
 
+    /**
+     * 依赖检查（不检查）
+     */
 	private int dependencyCheck = DEPENDENCY_CHECK_NONE;
 
+    /**
+     * 依赖的组件列表
+     */
 	private String[] dependsOn;
 
+    /**
+     * 自动装配候选组件（是）
+     */
 	private boolean autowireCandidate = true;
 
 	private boolean primary = false;
 
+    /**
+     * 自动装配候选组件限定者映射表
+     */
 	private final Map<String, AutowireCandidateQualifier> qualifiers =
 			new LinkedHashMap<String, AutowireCandidateQualifier>(0);
 
+    /**
+     * 非公开的访问是否允许（是）
+     */
 	private boolean nonPublicAccessAllowed = true;
 
 	private boolean lenientConstructorResolution = true;
 
+    /**
+     * 工厂组件名称
+     */
 	private String factoryBeanName;
 
+    /**
+     * 工厂方法名称
+     */
 	private String factoryMethodName;
 
+    /**
+     * 构造函数参数列表
+     */
 	private ConstructorArgumentValues constructorArgumentValues;
 
+    /**
+     * 属性值列表
+     */
 	private MutablePropertyValues propertyValues;
 
+    /**
+     * 方法覆盖列表
+     */
 	private MethodOverrides methodOverrides = new MethodOverrides();
 
+    /**
+     * 初始化方法名称
+     */
 	private String initMethodName;
 
+    /**
+     * 销毁方法名称
+     */
 	private String destroyMethodName;
 
+    /**
+     * 是否强制执行初始化方法（是）
+     */
 	private boolean enforceInitMethod = true;
 
+    /**
+     * 是否强制执行销毁方法（是）
+     */
 	private boolean enforceDestroyMethod = true;
 
+    /**
+     * 是否合成
+     */
 	private boolean synthetic = false;
 
+    /**
+     * 组件角色
+     */
 	private int role = BeanDefinition.ROLE_APPLICATION;
 
+    /**
+     * 组件描述
+     */
 	private String description;
 
+    /**
+     * 组件配置源
+     */
 	private Resource resource;
 
 
@@ -346,7 +405,7 @@ public abstract class AbstractBeanDefinition extends BeanMetadataAttributeAccess
 	public String getBeanClassName() {
 		Object beanClassObject = this.beanClass;
 		if (beanClassObject instanceof Class) {
-			return ((Class<?>) beanClassObject).getName();
+			return ((Class<?>) beanClassObject).getName(); // 类实例
 		}
 		else {
 			return (String) beanClassObject;
@@ -393,6 +452,7 @@ public abstract class AbstractBeanDefinition extends BeanMetadataAttributeAccess
 	 * @return the resolved bean class
 	 * @throws ClassNotFoundException if the class name could be resolved
 	 */
+    // 核心实现 解析组件类型
 	public Class<?> resolveBeanClass(ClassLoader classLoader) throws ClassNotFoundException {
 		String className = getBeanClassName();
 		if (className == null) {
@@ -433,6 +493,7 @@ public abstract class AbstractBeanDefinition extends BeanMetadataAttributeAccess
 	 */
 	@Override
 	public boolean isSingleton() {
+        // 默认为单例
 		return SCOPE_SINGLETON.equals(scope) || SCOPE_DEFAULT.equals(scope);
 	}
 
@@ -515,17 +576,17 @@ public abstract class AbstractBeanDefinition extends BeanMetadataAttributeAccess
 	 * @see #AUTOWIRE_BY_TYPE
 	 */
 	public int getResolvedAutowireMode() {
-		if (this.autowireMode == AUTOWIRE_AUTODETECT) {
+		if (this.autowireMode == AUTOWIRE_AUTODETECT) { // 自动探测机制的自动装配
 			// Work out whether to apply setter autowiring or constructor autowiring.
 			// If it has a no-arg constructor it's deemed to be setter autowiring,
 			// otherwise we'll try constructor autowiring.
 			Constructor<?>[] constructors = getBeanClass().getConstructors();
 			for (Constructor<?> constructor : constructors) {
 				if (constructor.getParameterTypes().length == 0) {
-					return AUTOWIRE_BY_TYPE;
+					return AUTOWIRE_BY_TYPE; // 发现无参构造函数，则使用基于类型的自动装配
 				}
 			}
-			return AUTOWIRE_CONSTRUCTOR;
+			return AUTOWIRE_CONSTRUCTOR; // 构造函数
 		}
 		else {
 			return this.autowireMode;

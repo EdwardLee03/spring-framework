@@ -1,18 +1,3 @@
-/*
- * Copyright 2002-2014 the original author or authors.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 
 package org.springframework.beans.factory.config;
 
@@ -24,6 +9,7 @@ import org.springframework.core.AttributeAccessor;
  * A BeanDefinition describes a bean instance, which has property values,
  * constructor argument values, and further information supplied by
  * concrete implementations.
+ * 描述一个组件实例，它具有属性值、构造函数参数值和Getter/Setter方法。
  *
  * <p>This is just a minimal interface: The main intention is to allow a
  * {@link BeanFactoryPostProcessor} such as {@link PropertyPlaceholderConfigurer}
@@ -36,13 +22,16 @@ import org.springframework.core.AttributeAccessor;
  * @see org.springframework.beans.factory.support.RootBeanDefinition
  * @see org.springframework.beans.factory.support.ChildBeanDefinition
  */
+// 核心接口 组件定义
 public interface BeanDefinition extends AttributeAccessor, BeanMetadataElement {
 
+	// 范围标识符
 	/**
 	 * Scope identifier for the standard singleton scope: "singleton".
 	 * <p>Note that extended bean factories might support further scopes.
 	 * @see #setScope
 	 */
+    // 单例
 	String SCOPE_SINGLETON = ConfigurableBeanFactory.SCOPE_SINGLETON;
 
 	/**
@@ -50,13 +39,16 @@ public interface BeanDefinition extends AttributeAccessor, BeanMetadataElement {
 	 * <p>Note that extended bean factories might support further scopes.
 	 * @see #setScope
 	 */
+    // 原型
 	String SCOPE_PROTOTYPE = ConfigurableBeanFactory.SCOPE_PROTOTYPE;
 
 
+    // 角色暗示
 	/**
 	 * Role hint indicating that a {@code BeanDefinition} is a major part
 	 * of the application. Typically corresponds to a user-defined bean.
 	 */
+    // 用户自定义的组件
 	int ROLE_APPLICATION = 0;
 
 	/**
@@ -84,6 +76,7 @@ public interface BeanDefinition extends AttributeAccessor, BeanMetadataElement {
 	/**
 	 * Set the name of the parent definition of this bean definition, if any.
 	 */
+    // 核心方法 设置此组件定义的父定义的名称（组件定义继承）
 	void setParentName(String parentName);
 
 	/**
@@ -99,6 +92,7 @@ public interface BeanDefinition extends AttributeAccessor, BeanMetadataElement {
 	 * @see #setFactoryBeanName
 	 * @see #setFactoryMethodName
 	 */
+    // 核心方法 设置此组件定义的组件类名
 	void setBeanClassName(String beanClassName);
 
 	/**
@@ -120,6 +114,7 @@ public interface BeanDefinition extends AttributeAccessor, BeanMetadataElement {
 	 * @see #SCOPE_SINGLETON
 	 * @see #SCOPE_PROTOTYPE
 	 */
+    // 组件范围
 	void setScope(String scope);
 
 	/**
@@ -133,6 +128,7 @@ public interface BeanDefinition extends AttributeAccessor, BeanMetadataElement {
 	 * <p>If {@code false}, the bean will get instantiated on startup by bean
 	 * factories that perform eager initialization of singletons.
 	 */
+    // 核心方法 组件是否应该被延迟初始化
 	void setLazyInit(boolean lazyInit);
 
 	/**
@@ -145,6 +141,7 @@ public interface BeanDefinition extends AttributeAccessor, BeanMetadataElement {
 	 * Set the names of the beans that this bean depends on being initialized.
 	 * The bean factory will guarantee that these beans get initialized first.
 	 */
+    // 核心方法 设置此组件初始化时依赖的组件名称列表（深度优先实例化机制）
 	void setDependsOn(String... dependsOn);
 
 	/**
@@ -159,6 +156,7 @@ public interface BeanDefinition extends AttributeAccessor, BeanMetadataElement {
 	 * if the specified bean is not marked as an autowire candidate. As a consequence,
 	 * autowiring by name will nevertheless inject a bean if the name matches.
 	 */
+    // 核心方法 设置此组件是否是自动装配的候选项
 	void setAutowireCandidate(boolean autowireCandidate);
 
 	/**
@@ -171,6 +169,7 @@ public interface BeanDefinition extends AttributeAccessor, BeanMetadataElement {
 	 * <p>If this value is {@code true} for exactly one bean among multiple
 	 * matching candidates, it will serve as a tie-breaker.
 	 */
+    // 核心方法 设置此组件是否是主要的自动装配候选项
 	void setPrimary(boolean primary);
 
 	/**
@@ -183,6 +182,7 @@ public interface BeanDefinition extends AttributeAccessor, BeanMetadataElement {
 	 * This the name of the bean to call the specified factory method on.
 	 * @see #setFactoryMethodName
 	 */
+    // 核心方法 指定使用的工厂组件名称
 	void setFactoryBeanName(String factoryBeanName);
 
 	/**
@@ -198,6 +198,7 @@ public interface BeanDefinition extends AttributeAccessor, BeanMetadataElement {
 	 * @see #setFactoryBeanName
 	 * @see #setBeanClassName
 	 */
+    // 核心方法 指定工厂方法
 	void setFactoryMethodName(String factoryMethodName);
 
 	/**
@@ -210,6 +211,7 @@ public interface BeanDefinition extends AttributeAccessor, BeanMetadataElement {
 	 * <p>The returned instance can be modified during bean factory post-processing.
 	 * @return the ConstructorArgumentValues object (never {@code null})
 	 */
+    // 核心方法 返回此组件的构造函数参数值列表
 	ConstructorArgumentValues getConstructorArgumentValues();
 
 	/**
@@ -217,6 +219,7 @@ public interface BeanDefinition extends AttributeAccessor, BeanMetadataElement {
 	 * <p>The returned instance can be modified during bean factory post-processing.
 	 * @return the MutablePropertyValues object (never {@code null})
 	 */
+    // 核心方法 返回要应用于组件新实例的属性值列表
 	MutablePropertyValues getPropertyValues();
 
 
@@ -253,6 +256,7 @@ public interface BeanDefinition extends AttributeAccessor, BeanMetadataElement {
 
 	/**
 	 * Return a human-readable description of this bean definition.
+     * 组件定义的可读描述
 	 */
 	String getDescription();
 
@@ -260,6 +264,7 @@ public interface BeanDefinition extends AttributeAccessor, BeanMetadataElement {
 	 * Return a description of the resource that this bean definition
 	 * came from (for the purpose of showing context in case of errors).
 	 */
+    // 核心方法 返回此组件定义的资源描述
 	String getResourceDescription();
 
 	/**
@@ -268,6 +273,7 @@ public interface BeanDefinition extends AttributeAccessor, BeanMetadataElement {
 	 * <p>Note that this method returns the immediate originator. Iterate through the
 	 * originator chain to find the original BeanDefinition as defined by the user.
 	 */
+    // 核心方法 返回原始的组件定义
 	BeanDefinition getOriginatingBeanDefinition();
 
 }

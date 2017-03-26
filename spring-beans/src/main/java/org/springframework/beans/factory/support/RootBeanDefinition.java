@@ -1,18 +1,3 @@
-/*
- * Copyright 2002-2016 the original author or authors.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 
 package org.springframework.beans.factory.support;
 
@@ -47,17 +32,30 @@ import org.springframework.util.Assert;
  * @see GenericBeanDefinition
  * @see ChildBeanDefinition
  */
+// 根组件定义
 @SuppressWarnings("serial")
 public class RootBeanDefinition extends AbstractBeanDefinition {
 
+    /**
+     * 组件定义持有者
+     */
 	private BeanDefinitionHolder decoratedDefinition;
 
+    /**
+     * 注解的元素
+     */
 	private AnnotatedElement qualifiedElement;
 
+    /**
+     * 是否允许缓存化（是）
+     */
 	boolean allowCaching = true;
 
 	boolean isFactoryMethodUnique = false;
 
+    /**
+     * 可解析的目标类型
+     */
 	volatile ResolvableType targetType;
 
 	/** Package-visible field for caching the determined Class of a given bean definition */
@@ -66,21 +64,25 @@ public class RootBeanDefinition extends AbstractBeanDefinition {
 	/** Package-visible field for caching the return type of a generically typed factory method */
 	volatile ResolvableType factoryMethodReturnType;
 
+    // 构造函数参数锁
 	/** Common lock for the four constructor fields below */
 	final Object constructorArgumentLock = new Object();
 
+    // 可解析的构造函数或工厂方法
 	/** Package-visible field for caching the resolved constructor or factory method */
 	Object resolvedConstructorOrFactoryMethod;
 
 	/** Package-visible field that marks the constructor arguments as resolved */
 	boolean constructorArgumentsResolved = false;
 
+    // 解析后的构造函数的参数列表
 	/** Package-visible field for caching fully resolved constructor arguments */
 	Object[] resolvedConstructorArguments;
 
 	/** Package-visible field for caching partly prepared constructor arguments */
 	Object[] preparedConstructorArguments;
 
+    // 后置处理器对象锁
 	/** Common lock for the two post-processing fields below */
 	final Object postProcessingLock = new Object();
 
@@ -90,10 +92,19 @@ public class RootBeanDefinition extends AbstractBeanDefinition {
 	/** Package-visible field that indicates a before-instantiation post-processor having kicked in */
 	volatile Boolean beforeInstantiationResolved;
 
+    /**
+     * 配置成员集合
+     */
 	private Set<Member> externallyManagedConfigMembers;
 
+    /**
+     * 初始化方法集合
+     */
 	private Set<String> externallyManagedInitMethods;
 
+    /**
+     * 销毁方法集合
+     */
 	private Set<String> externallyManagedDestroyMethods;
 
 

@@ -1,18 +1,3 @@
-/*
- * Copyright 2002-2012 the original author or authors.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 
 package org.springframework.beans.factory.config;
 
@@ -25,6 +10,7 @@ import org.springframework.util.StringUtils;
 /**
  * Holder for a BeanDefinition with name and aliases.
  * Can be registered as a placeholder for an inner bean.
+ * 具有名称和别名的组件定义持有者。
  *
  * <p>Can also be used for programmatic registration of inner bean
  * definitions. If you don't care about BeanNameAware and the like,
@@ -36,12 +22,16 @@ import org.springframework.util.StringUtils;
  * @see org.springframework.beans.factory.support.RootBeanDefinition
  * @see org.springframework.beans.factory.support.ChildBeanDefinition
  */
+// 核心类 组件定义持有者
 public class BeanDefinitionHolder implements BeanMetadataElement {
 
+    /** 组件定义 */
 	private final BeanDefinition beanDefinition;
 
+    /** 组件名称 */
 	private final String beanName;
 
+    /** 组件别名数组 */
 	private final String[] aliases;
 
 
@@ -117,6 +107,7 @@ public class BeanDefinitionHolder implements BeanMetadataElement {
 	/**
 	 * Determine whether the given candidate name matches the bean name
 	 * or the aliases stored in this bean definition.
+     * 确定给定的候选名称是否与Bean定义中的名称或别名相匹配。
 	 */
 	public boolean matchesName(String candidateName) {
 		return (candidateName != null && (candidateName.equals(this.beanName) ||
@@ -179,7 +170,7 @@ public class BeanDefinitionHolder implements BeanMetadataElement {
 
 	@Override
 	public int hashCode() {
-		int hashCode = this.beanDefinition.hashCode();
+        int hashCode = this.beanDefinition.hashCode();
 		hashCode = 29 * hashCode + this.beanName.hashCode();
 		hashCode = 29 * hashCode + ObjectUtils.nullSafeHashCode(this.aliases);
 		return hashCode;

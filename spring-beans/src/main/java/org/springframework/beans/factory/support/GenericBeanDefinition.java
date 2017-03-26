@@ -1,18 +1,3 @@
-/*
- * Copyright 2002-2016 the original author or authors.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 
 package org.springframework.beans.factory.support;
 
@@ -23,11 +8,14 @@ import org.springframework.beans.factory.config.BeanDefinition;
  * Like any bean definition, it allows for specifying a class plus optionally
  * constructor argument values and property values. Additionally, deriving from a
  * parent bean definition can be flexibly configured through the "parentName" property.
+ * 一站式的标准组件定义目标。
  *
  * <p>In general, use this {@code GenericBeanDefinition} class for the purpose of
  * registering user-visible bean definitions (which a post-processor might operate on,
  * potentially even reconfiguring the parent name). Use {@code RootBeanDefinition} /
  * {@code ChildBeanDefinition} where parent/child relationships happen to be pre-determined.
+ * 使用此类的目标是注册用户可见的组件定义。
+ * 使用RootBeanDefinition和ChildBeanDefinition是为了父/子关系。
  *
  * @author Juergen Hoeller
  * @since 2.5
@@ -35,9 +23,13 @@ import org.springframework.beans.factory.config.BeanDefinition;
  * @see RootBeanDefinition
  * @see ChildBeanDefinition
  */
+// 通用的组件定义，用于注册用户可见的组件定义
 @SuppressWarnings("serial")
 public class GenericBeanDefinition extends AbstractBeanDefinition {
 
+    /**
+     * 父组件定义的名称
+     */
 	private String parentName;
 
 
