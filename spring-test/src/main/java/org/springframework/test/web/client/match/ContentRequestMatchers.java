@@ -1,20 +1,9 @@
-/*
- * Copyright 2002-2016 the original author or authors.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 
 package org.springframework.test.web.client.match;
+
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.springframework.test.util.AssertionErrors.assertEquals;
+import static org.springframework.test.util.AssertionErrors.assertTrue;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -23,8 +12,6 @@ import javax.xml.transform.Source;
 import javax.xml.transform.dom.DOMSource;
 
 import org.hamcrest.Matcher;
-import org.w3c.dom.Node;
-
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpInputMessage;
 import org.springframework.http.MediaType;
@@ -34,9 +21,7 @@ import org.springframework.mock.http.client.MockClientHttpRequest;
 import org.springframework.test.util.XmlExpectationsHelper;
 import org.springframework.test.web.client.RequestMatcher;
 import org.springframework.util.MultiValueMap;
-
-import static org.hamcrest.MatcherAssert.*;
-import static org.springframework.test.util.AssertionErrors.*;
+import org.w3c.dom.Node;
 
 /**
  * Factory for request content {@code RequestMatcher}'s. An instance of this
@@ -118,8 +103,9 @@ public class ContentRequestMatchers {
 	}
 
 	/**
-	 * Get the body of the request as a UTF-8 string and compare it to the given String.
+	 * Gete body of the request as a UTF-8 string and compare it to the given String.
 	 */
+	// 期望的响应内容
 	public RequestMatcher string(final String expectedContent) {
 		return new RequestMatcher() {
 			@Override
