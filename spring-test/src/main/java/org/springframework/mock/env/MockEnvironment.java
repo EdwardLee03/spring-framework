@@ -29,6 +29,7 @@ import org.springframework.core.env.ConfigurableEnvironment;
  * @since 3.2
  * @see org.springframework.mock.env.MockPropertySource
  */
+// 测试环境模拟
 public class MockEnvironment extends AbstractEnvironment {
 
 	private MockPropertySource propertySource = new MockPropertySource();

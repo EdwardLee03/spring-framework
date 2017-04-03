@@ -1,18 +1,3 @@
-/*
- * Copyright 2002-2012 the original author or authors.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 
 package org.springframework.mock.web;
 
@@ -50,14 +35,27 @@ import org.springframework.util.ObjectUtils;
  * @see MockFilterConfig
  * @see PassThroughFilterChain
  */
+// 过滤器链式执行模拟
 public class MockFilterChain implements FilterChain {
 
+    /**
+     * 程序请求
+     */
 	private ServletRequest request;
 
+    /**
+     * 程序响应
+     */
 	private ServletResponse response;
 
+    /**
+     * 过滤器列表
+     */
 	private final List<Filter> filters;
 
+    /**
+     * 过滤器迭代器
+     */
 	private Iterator<Filter> iterator;
 
 
@@ -93,6 +91,7 @@ public class MockFilterChain implements FilterChain {
 		this.filters = initFilterList(servlet, filters);
 	}
 
+    // 初始化过滤器列表
 	private static List<Filter> initFilterList(Servlet servlet, Filter... filters) {
 		Filter[] allFilters = ObjectUtils.addObjectToArray(filters, new ServletFilterProxy(servlet));
 		return Arrays.asList(allFilters);
@@ -116,8 +115,10 @@ public class MockFilterChain implements FilterChain {
 	 * Invoke registered {@link Filter}s and/or {@link Servlet} also saving the
 	 * request and response.
 	 */
+    // 调用已注册的过滤器列表或服务端程序
 	@Override
-	public void doFilter(ServletRequest request, ServletResponse response) throws IOException, ServletException {
+	public void doFilter(ServletRequest request, ServletResponse response)
+            throws IOException, ServletException {
 		Assert.notNull(request, "Request must not be null");
 		Assert.notNull(response, "Response must not be null");
 
@@ -129,8 +130,11 @@ public class MockFilterChain implements FilterChain {
 			this.iterator = this.filters.iterator();
 		}
 
+        // 过滤器链式执行
 		if (this.iterator.hasNext()) {
+            // 下一个过滤器
 			Filter nextFilter = this.iterator.next();
+            // 执行过滤
 			nextFilter.doFilter(request, response, this);
 		}
 
@@ -150,10 +154,15 @@ public class MockFilterChain implements FilterChain {
 
 	/**
 	 * A filter that simply delegates to a Servlet.
+     * 代理给服务端程序的过滤器。
 	 */
 	private static class ServletFilterProxy implements Filter {
 
+        /**
+         * 代理程序
+         */
 		private final Servlet delegateServlet;
+
 
 		private ServletFilterProxy(Servlet servlet) {
 			Assert.notNull(servlet, "servlet cannot be null");
@@ -163,7 +172,7 @@ public class MockFilterChain implements FilterChain {
 		@Override
 		public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
 				throws IOException, ServletException {
-
+            // 执行请求
 			this.delegateServlet.service(request, response);
 		}
 

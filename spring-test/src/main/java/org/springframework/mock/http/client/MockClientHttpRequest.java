@@ -1,18 +1,3 @@
-/*
- * Copyright 2002-2016 the original author or authors.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 
 package org.springframework.mock.http.client;
 
@@ -31,14 +16,27 @@ import org.springframework.mock.http.MockHttpOutputMessage;
  * @author Sam Brannen
  * @since 3.2
  */
+// 客户端HTTP请求模拟
 public class MockClientHttpRequest extends MockHttpOutputMessage implements ClientHttpRequest {
 
+    /**
+     * HTTP方法
+     */
 	private HttpMethod httpMethod;
 
+    /**
+     * 请求URL
+     */
 	private URI uri;
 
+    /**
+     * 客户端HTTP响应
+     */
 	private ClientHttpResponse clientHttpResponse;
 
+    /**
+     * 是否已执行
+     */
 	private boolean executed = false;
 
 
@@ -88,6 +86,7 @@ public class MockClientHttpRequest extends MockHttpOutputMessage implements Clie
 	 * configured {@link #setResponse(ClientHttpResponse) response}.
 	 * @see #executeInternal()
 	 */
+    // 执行请求
 	@Override
 	public final ClientHttpResponse execute() throws IOException {
 		this.executed = true;

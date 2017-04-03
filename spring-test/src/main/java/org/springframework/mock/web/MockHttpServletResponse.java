@@ -1,18 +1,3 @@
-/*
- * Copyright 2002-2015 the original author or authors.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 
 package org.springframework.mock.web;
 
@@ -54,16 +39,29 @@ import org.springframework.web.util.WebUtils;
  * @author Brian Clozel
  * @since 1.0.2
  */
+// HTTP服务端程序响应模拟
 public class MockHttpServletResponse implements HttpServletResponse {
 
+    /**
+     * 编码前缀
+     */
 	private static final String CHARSET_PREFIX = "charset=";
 
+    /**
+     * 响应内容类型
+     */
 	private static final String CONTENT_TYPE_HEADER = "Content-Type";
 
+    /**
+     * 响应内容长度
+     */
 	private static final String CONTENT_LENGTH_HEADER = "Content-Length";
 
 	private static final String LOCATION_HEADER = "Location";
 
+    /**
+     * 日期格式
+     */
 	private static final String DATE_FORMAT = "EEE, dd MMM yyyy HH:mm:ss zzz";
 
 	private static final TimeZone GMT = TimeZone.getTimeZone("GMT");
@@ -77,20 +75,32 @@ public class MockHttpServletResponse implements HttpServletResponse {
 
 	private boolean writerAccessAllowed = true;
 
+    /**
+     * 字符编码
+     */
 	private String characterEncoding = WebUtils.DEFAULT_CHARACTER_ENCODING;
 
 	private boolean charset = false;
 
-	private final ByteArrayOutputStream content = new ByteArrayOutputStream(1024);
+    /**
+     * 响应内容（1KB）
+     */
+    private final ByteArrayOutputStream content = new ByteArrayOutputStream(1024);
 
 	private final ServletOutputStream outputStream = new ResponseServletOutputStream(this.content);
 
+    /**
+     * 输出写程序
+     */
 	private PrintWriter writer;
 
 	private long contentLength = 0;
 
 	private String contentType;
 
+    /**
+     * 缓冲区大小（4KB）
+     */
 	private int bufferSize = 4096;
 
 	private boolean committed;
@@ -102,14 +112,23 @@ public class MockHttpServletResponse implements HttpServletResponse {
 	// HttpServletResponse properties
 	//---------------------------------------------------------------------
 
+    /**
+     * Cookie列表
+     */
 	private final List<Cookie> cookies = new ArrayList<Cookie>();
 
 	private final Map<String, HeaderValueHolder> headers = new LinkedCaseInsensitiveMap<HeaderValueHolder>();
 
+    /**
+     * 请求状态
+     */
 	private int status = HttpServletResponse.SC_OK;
 
 	private String errorMessage;
 
+    /**
+     * 向前走的URL
+     */
 	private String forwardedUrl;
 
 	private final List<String> includedUrls = new ArrayList<String>();

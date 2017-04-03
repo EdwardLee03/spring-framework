@@ -1,18 +1,3 @@
-/*
- * Copyright 2002-2015 the original author or authors.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 
 package org.springframework.mock.web;
 
@@ -39,18 +24,37 @@ import org.springframework.web.util.WebUtils;
  * @author Rossen Stoyanchev
  * @since 3.2
  */
+// 异步上下文模拟
 public class MockAsyncContext implements AsyncContext {
 
+    /**
+     * HTTP请求
+     */
 	private final HttpServletRequest request;
 
+    /**
+     * HTTP响应
+     */
 	private final HttpServletResponse response;
 
+    /**
+     * 异步监听器
+     */
 	private final List<AsyncListener> listeners = new ArrayList<AsyncListener>();
 
+    /**
+     * 分发的路径
+     */
 	private String dispatchedPath;
 
+    /**
+     * 默认的超时时间
+     */
 	private long timeout = 10 * 1000L;	// 10 seconds is Tomcat's default
 
+    /**
+     * 分发处理程序列表
+     */
 	private final List<Runnable> dispatchHandlers = new ArrayList<Runnable>();
 
 
@@ -85,11 +89,13 @@ public class MockAsyncContext implements AsyncContext {
 		dispatch(this.request.getRequestURI());
  	}
 
+    // 分发请求
 	@Override
 	public void dispatch(String path) {
 		dispatch(null, path);
 	}
 
+    // 分发请求
 	@Override
 	public void dispatch(ServletContext context, String path) {
 		this.dispatchedPath = path;
@@ -102,6 +108,7 @@ public class MockAsyncContext implements AsyncContext {
 		return this.dispatchedPath;
 	}
 
+    // 请求处理完成
 	@Override
 	public void complete() {
 		MockHttpServletRequest mockRequest = WebUtils.getNativeRequest(request, MockHttpServletRequest.class);
@@ -110,6 +117,7 @@ public class MockAsyncContext implements AsyncContext {
 		}
 		for (AsyncListener listener : this.listeners) {
 			try {
+                // 监听异步事件完成
 				listener.onComplete(new AsyncEvent(this, this.request, this.response));
 			}
 			catch (IOException ex) {

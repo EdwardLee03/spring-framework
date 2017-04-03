@@ -1,18 +1,3 @@
-/*
- * Copyright 2002-2013 the original author or authors.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 
 package org.springframework.mock.web;
 
@@ -45,14 +30,21 @@ import org.springframework.util.Assert;
  * @author Sam Brannen
  * @since 1.0.2
  */
+// HTTP会话模拟
 @SuppressWarnings("deprecation")
 public class MockHttpSession implements HttpSession {
 
+    /**
+     * 会话Cookie值
+     */
 	public static final String SESSION_COOKIE_NAME = "JSESSION";
 
 
 	private static int nextId = 1;
 
+    /**
+     * 会话标识
+     */
 	private String id;
 
 	private final long creationTime = System.currentTimeMillis();
@@ -61,6 +53,9 @@ public class MockHttpSession implements HttpSession {
 
 	private long lastAccessedTime = System.currentTimeMillis();
 
+    /**
+     * 程序执行上下文
+     */
 	private final ServletContext servletContext;
 
 	private final Map<String, Object> attributes = new LinkedHashMap<String, Object>();
@@ -115,6 +110,7 @@ public class MockHttpSession implements HttpSession {
 	 * @return the new session id.
 	 * @since 4.0.3
 	 */
+    // 更改会话标识
 	public String changeSessionId() {
 		this.id = Integer.toString(nextId++);
 		return this.id;

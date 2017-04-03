@@ -1,18 +1,3 @@
-/*
- * Copyright 2002-2017 the original author or authors.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 
 package org.springframework.mock.web;
 
@@ -79,6 +64,7 @@ import org.springframework.util.StringUtils;
  * @author Brian Clozel
  * @since 1.0.2
  */
+// HTTP服务端程序请求模拟
 public class MockHttpServletRequest implements HttpServletRequest {
 
 	private static final String HTTP = "http";
@@ -144,16 +130,31 @@ public class MockHttpServletRequest implements HttpServletRequest {
 	// ServletRequest properties
 	// ---------------------------------------------------------------------
 
+    /**
+     * 属性映射表
+     */
 	private final Map<String, Object> attributes = new LinkedHashMap<String, Object>();
 
+    /**
+     * 字符编码
+     */
 	private String characterEncoding;
 
+    /**
+     * 请求内容
+     */
 	private byte[] content;
 
 	private String contentType;
 
+    /**
+     * 参数映射表
+     */
 	private final Map<String, String[]> parameters = new LinkedHashMap<String, String[]>();
 
+    /**
+     * 请求协议
+     */
 	private String protocol = DEFAULT_PROTOCOL;
 
 	private String scheme = DEFAULT_PROTOCOL;
@@ -171,6 +172,9 @@ public class MockHttpServletRequest implements HttpServletRequest {
 
 	private boolean secure = false;
 
+    /**
+     * 请求上下文
+     */
 	private final ServletContext servletContext;
 
 	private int remotePort = DEFAULT_SERVER_PORT;

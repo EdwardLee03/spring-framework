@@ -1,18 +1,3 @@
-/*
- * Copyright 2002-2016 the original author or authors.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 
 package org.springframework.mock.web;
 
@@ -98,13 +83,21 @@ import org.springframework.web.util.WebUtils;
  * @see org.springframework.context.support.ClassPathXmlApplicationContext
  * @see org.springframework.context.support.FileSystemXmlApplicationContext
  */
+// 服务端程序执行上下文模拟
 public class MockServletContext implements ServletContext {
 
 	/** Default Servlet name used by Tomcat, Jetty, JBoss, and GlassFish: {@value}. */
+    // 默认的程序名称
 	private static final String COMMON_DEFAULT_SERVLET_NAME = "default";
 
+    /**
+     * 临时目录
+     */
 	private static final String TEMP_DIR_SYSTEM_PROPERTY = "java.io.tmpdir";
 
+    /**
+     * 默认的会话追踪模式
+     */
 	private static final Set<SessionTrackingMode> DEFAULT_SESSION_TRACKING_MODES =
 			new LinkedHashSet<SessionTrackingMode>(3);
 
@@ -117,14 +110,27 @@ public class MockServletContext implements ServletContext {
 
 	private final Log logger = LogFactory.getLog(getClass());
 
+	/**
+	 * 资源文件加载器
+	 */
 	private final ResourceLoader resourceLoader;
 
+    /**
+     * 资源文件根路径
+     */
 	private final String resourceBasePath;
 
+    /**
+     * 上下文路径
+     */
 	private String contextPath = "";
 
+    /**
+     * 服务端程序上下文映射表
+     */
 	private final Map<String, ServletContext> contexts = new HashMap<String, ServletContext>();
 
+    // 3.0
 	private int majorVersion = 3;
 
 	private int minorVersion = 0;
@@ -133,14 +139,26 @@ public class MockServletContext implements ServletContext {
 
 	private int effectiveMinorVersion = 0;
 
+    /**
+     * 命名的请求分发器映射表
+     */
 	private final Map<String, RequestDispatcher> namedRequestDispatchers = new HashMap<String, RequestDispatcher>();
 
+    /**
+     * 默认的服务端程序名称
+     */
 	private String defaultServletName = COMMON_DEFAULT_SERVLET_NAME;
 
+    /**
+     * 初始化参数映射表
+     */
 	private final Map<String, String> initParameters = new LinkedHashMap<String, String>();
 
 	private final Map<String, Object> attributes = new LinkedHashMap<String, Object>();
 
+    /**
+     * 服务端程序上下文名称
+     */
 	private String servletContextName = "MockServletContext";
 
 	private final Set<String> declaredRoles = new LinkedHashSet<String>();
@@ -196,6 +214,7 @@ public class MockServletContext implements ServletContext {
 			this.attributes.put(WebUtils.TEMP_DIR_CONTEXT_ATTRIBUTE, new File(tempDir));
 		}
 
+        // 注册命名的请求分发器
 		registerNamedDispatcher(this.defaultServletName, new MockRequestDispatcher(this.defaultServletName));
 	}
 
@@ -221,6 +240,7 @@ public class MockServletContext implements ServletContext {
 		return this.contextPath;
 	}
 
+    // 注册程序执行上下文
 	public void registerContext(String contextPath, ServletContext context) {
 		this.contexts.put(contextPath, context);
 	}
@@ -294,6 +314,7 @@ public class MockServletContext implements ServletContext {
 		return ("application/octet-stream".equals(mimeType) ? null : mimeType);
 	}
 
+    // 获取资源文件路径集合
 	@Override
 	public Set<String> getResourcePaths(String path) {
 		String actualPath = (path.endsWith("/") ? path : path + "/");
@@ -320,6 +341,7 @@ public class MockServletContext implements ServletContext {
 		}
 	}
 
+    // 获取资源文件URL
 	@Override
 	public URL getResource(String path) throws MalformedURLException {
 		Resource resource = this.resourceLoader.getResource(getResourceLocation(path));
@@ -353,6 +375,7 @@ public class MockServletContext implements ServletContext {
 		}
 	}
 
+    // 获取请求分发器
 	@Override
 	public RequestDispatcher getRequestDispatcher(String path) {
 		if (!path.startsWith("/")) {
@@ -361,6 +384,7 @@ public class MockServletContext implements ServletContext {
 		return new MockRequestDispatcher(path);
 	}
 
+    // 获取命名的请求分发器
 	@Override
 	public RequestDispatcher getNamedDispatcher(String path) {
 		return this.namedRequestDispatchers.get(path);
@@ -374,9 +398,11 @@ public class MockServletContext implements ServletContext {
 	 * @see #getNamedDispatcher
 	 * @see #unregisterNamedDispatcher
 	 */
+    // 注册命名的请求分发器
 	public void registerNamedDispatcher(String name, RequestDispatcher requestDispatcher) {
 		Assert.notNull(name, "RequestDispatcher name must not be null");
 		Assert.notNull(requestDispatcher, "RequestDispatcher must not be null");
+
 		this.namedRequestDispatchers.put(name, requestDispatcher);
 	}
 

@@ -1,6 +1,7 @@
 /**
  * A comprehensive set of Servlet API 3.0 mock objects,
  * targeted at usage with Spring's Web MVC framework.
+ * Servlet API 3.0模拟对象实现。
  *
  * <p>Useful for testing web contexts and controllers.
  *
