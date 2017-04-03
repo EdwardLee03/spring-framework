@@ -1,18 +1,3 @@
-/*
- * Copyright 2002-2016 the original author or authors.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 
 package org.springframework.test.context.cache;
 
@@ -52,6 +37,7 @@ import org.springframework.util.Assert;
  * @since 2.5
  * @see ContextCacheUtils#retrieveMaxCacheSize()
  */
+// 核心类 上应用上下文缓存的默认实现
 public class DefaultContextCache implements ContextCache {
 
 	private static final Log statsLogger = LogFactory.getLog(CONTEXT_CACHE_LOGGING_CATEGORY);
@@ -73,6 +59,7 @@ public class DefaultContextCache implements ContextCache {
 
 	private final int maxSize;
 
+    // 缓存命中统计
 	private final AtomicInteger hitCount = new AtomicInteger();
 
 	private final AtomicInteger missCount = new AtomicInteger();
@@ -204,7 +191,7 @@ public class DefaultContextCache implements ContextCache {
 		// stack as opposed to prior to the recursive call).
 		ApplicationContext context = this.contextMap.remove(key);
 		if (context instanceof ConfigurableApplicationContext) {
-			((ConfigurableApplicationContext) context).close();
+			((ConfigurableApplicationContext) context).close(); // 关闭可配置的应用上下文
 		}
 		removedContexts.add(key);
 	}
@@ -316,14 +303,15 @@ public class DefaultContextCache implements ContextCache {
 	 * properly closes application contexts.
 	 * @since 4.3
 	 */
+    // 基于LinkedHashMap的LRU缓存
 	@SuppressWarnings("serial")
 	private class LruCache extends LinkedHashMap<MergedContextConfiguration, ApplicationContext> {
 
 		/**
 		 * Create a new {@code LruCache} with the supplied initial capacity
 		 * and load factor.
-		 * @param initialCapacity the initial capacity
-		 * @param loadFactor the load factor
+		 * @param initialCapacity the initial capacity (初始容量)
+		 * @param loadFactor the load factor (负载因子)
 		 */
 		LruCache(int initialCapacity, float loadFactor) {
 			super(initialCapacity, loadFactor, true);

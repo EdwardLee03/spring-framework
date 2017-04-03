@@ -1,18 +1,3 @@
-/*
- * Copyright 2002-2015 the original author or authors.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 
 package org.springframework.test.context.cache;
 
@@ -47,6 +32,9 @@ public class DefaultCacheAwareContextLoaderDelegate implements CacheAwareContext
 	 */
 	static final ContextCache defaultContextCache = new DefaultContextCache();
 
+    /**
+     * 上下文缓存
+     */
 	private final ContextCache contextCache;
 
 
@@ -86,13 +74,13 @@ public class DefaultCacheAwareContextLoaderDelegate implements CacheAwareContext
 	 */
 	protected ApplicationContext loadContextInternal(MergedContextConfiguration mergedContextConfiguration)
 			throws Exception {
-
+		// 上下文加载器
 		ContextLoader contextLoader = mergedContextConfiguration.getContextLoader();
 		Assert.notNull(contextLoader, "Cannot load an ApplicationContext with a NULL 'contextLoader'. " +
 				"Consider annotating your test class with @ContextConfiguration or @ContextHierarchy.");
 
 		ApplicationContext applicationContext;
-
+        // 加载上下文
 		if (contextLoader instanceof SmartContextLoader) {
 			SmartContextLoader smartContextLoader = (SmartContextLoader) contextLoader;
 			applicationContext = smartContextLoader.loadContext(mergedContextConfiguration);
@@ -110,9 +98,11 @@ public class DefaultCacheAwareContextLoaderDelegate implements CacheAwareContext
 	@Override
 	public ApplicationContext loadContext(MergedContextConfiguration mergedContextConfiguration) {
 		synchronized (this.contextCache) {
+            // 先从应用上下文缓存获取
 			ApplicationContext context = this.contextCache.get(mergedContextConfiguration);
 			if (context == null) {
 				try {
+                    // 加载应用上下文
 					context = loadContextInternal(mergedContextConfiguration);
 					if (logger.isDebugEnabled()) {
 						logger.debug(String.format("Storing ApplicationContext in cache under key [%s]",
@@ -140,6 +130,7 @@ public class DefaultCacheAwareContextLoaderDelegate implements CacheAwareContext
 	@Override
 	public void closeContext(MergedContextConfiguration mergedContextConfiguration, HierarchyMode hierarchyMode) {
 		synchronized (this.contextCache) {
+            // 从应用上下文缓存移除
 			this.contextCache.remove(mergedContextConfiguration, hierarchyMode);
 		}
 	}

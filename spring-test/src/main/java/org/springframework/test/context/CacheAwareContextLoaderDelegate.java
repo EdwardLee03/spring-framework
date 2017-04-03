@@ -1,18 +1,3 @@
-/*
- * Copyright 2002-2015 the original author or authors.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 
 package org.springframework.test.context;
 
@@ -33,6 +18,7 @@ import org.springframework.test.annotation.DirtiesContext.HierarchyMode;
  * @author Sam Brannen
  * @since 3.2.2
  */
+// 应用上下文加载器代理
 public interface CacheAwareContextLoaderDelegate {
 
 	/**
@@ -49,6 +35,7 @@ public interface CacheAwareContextLoaderDelegate {
 	 * @throws IllegalStateException if an error occurs while retrieving or loading
 	 * the application context
 	 */
+    // 加载应用上下文
 	ApplicationContext loadContext(MergedContextConfiguration mergedContextConfiguration);
 
 	/**
@@ -69,6 +56,7 @@ public interface CacheAwareContextLoaderDelegate {
 	 * is not part of a hierarchy
 	 * @since 4.1
 	 */
+    // 从应用上下文缓存中移除对应的上下文
 	void closeContext(MergedContextConfiguration mergedContextConfiguration, HierarchyMode hierarchyMode);
 
 }
