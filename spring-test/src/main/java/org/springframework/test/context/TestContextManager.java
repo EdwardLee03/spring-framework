@@ -1,18 +1,3 @@
-/*
- * Copyright 2002-2016 the original author or authors.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 
 package org.springframework.test.context;
 
@@ -30,6 +15,7 @@ import org.springframework.util.ReflectionUtils;
 /**
  * {@code TestContextManager} is the main entry point into the <em>Spring
  * TestContext Framework</em>.
+ * <em>Spring TestContext Framework</em>的主要入口点。
  *
  * <p>Specifically, a {@code TestContextManager} is responsible for managing a
  * single {@link TestContext} and signaling events to all registered
@@ -37,21 +23,22 @@ import org.springframework.util.ReflectionUtils;
  * execution points:
  *
  * <ul>
- * <li>{@link #beforeTestClass() before test class execution}: prior to any
+ * <li>{@link #beforeTestClass() before test class execution (在测试类执行之前)}: prior to any
  * <em>before class callbacks</em> of a particular testing framework (e.g.,
  * JUnit 4's {@link org.junit.BeforeClass @BeforeClass})</li>
  * <li>{@link #prepareTestInstance(Object) test instance preparation}:
  * immediately following instantiation of the test instance</li>
- * <li>{@link #beforeTestMethod(Object, Method) before test method execution}:
+ * <li>{@link #beforeTestMethod(Object, Method) before test method execution (在测试方法执行之前)}:
  * prior to any <em>before method callbacks</em> of a particular testing framework
  * (e.g., JUnit 4's {@link org.junit.Before @Before})</li>
  * <li>{@link #afterTestMethod(Object, Method, Throwable) after test method
- * execution}: after any <em>after method callbacks</em> of a particular testing
+ * execution (在测试方法执行之后)}: after any <em>after method callbacks</em> of a particular testing
  * framework (e.g., JUnit 4's {@link org.junit.After @After})</li>
  * <li>{@link #afterTestClass() after test class execution}: after any
  * <em>after class callbacks</em> of a particular testing framework (e.g., JUnit
  * 4's {@link org.junit.AfterClass @AfterClass})</li>
  * </ul>
+ * 负责管理单个测试执行上下文并触发事件给所有已注册的测试执行监听器。
  *
  * <p>Support for loading and accessing
  * {@link org.springframework.context.ApplicationContext application contexts},
@@ -80,12 +67,19 @@ import org.springframework.util.ReflectionUtils;
  * @see ContextConfiguration
  * @see ContextHierarchy
  */
+// 核心类 测试上下文管理者
 public class TestContextManager {
 
 	private static final Log logger = LogFactory.getLog(TestContextManager.class);
 
+    /**
+     * 测试执行上下文
+     */
 	private final TestContext testContext;
 
+    /**
+     * 测试执行监听器列表
+     */
 	private final List<TestExecutionListener> testExecutionListeners = new ArrayList<TestExecutionListener>();
 
 
@@ -101,6 +95,7 @@ public class TestContextManager {
 	 * @param testClass the test class to be managed
 	 * @see #TestContextManager(TestContextBootstrapper)
 	 */
+    // 委托给测试执行上下文管理者来配置测试类
 	public TestContextManager(Class<?> testClass) {
 		this(BootstrapUtils.resolveTestContextBootstrapper(BootstrapUtils.createBootstrapContext(testClass)));
 	}
@@ -133,6 +128,7 @@ public class TestContextManager {
 	 * by appending them to the list of listeners used by this {@code TestContextManager}.
 	 * @see #registerTestExecutionListeners(TestExecutionListener...)
 	 */
+    // 注册提供的测试执行监听器列表
 	public void registerTestExecutionListeners(List<TestExecutionListener> testExecutionListeners) {
 		registerTestExecutionListeners(testExecutionListeners.toArray(new TestExecutionListener[testExecutionListeners.size()]));
 	}
@@ -183,6 +179,7 @@ public class TestContextManager {
 	 * exception
 	 * @see #getTestExecutionListeners()
 	 */
+    // @BeforeClass
 	public void beforeTestClass() throws Exception {
 		Class<?> testClass = getTestContext().getTestClass();
 		if (logger.isTraceEnabled()) {
@@ -192,6 +189,7 @@ public class TestContextManager {
 
 		for (TestExecutionListener testExecutionListener : getTestExecutionListeners()) {
 			try {
+                // 在每个测试类之前通知每个测试执行监听器
 				testExecutionListener.beforeTestClass(getTestContext());
 			}
 			catch (Throwable ex) {
@@ -257,6 +255,7 @@ public class TestContextManager {
 	 * @throws Exception if a registered TestExecutionListener throws an exception
 	 * @see #getTestExecutionListeners()
 	 */
+    // @Before
 	public void beforeTestMethod(Object testInstance, Method testMethod) throws Exception {
 		Assert.notNull(testInstance, "Test instance must not be null");
 		if (logger.isTraceEnabled()) {
@@ -303,6 +302,7 @@ public class TestContextManager {
 	 * @throws Exception if a registered TestExecutionListener throws an exception
 	 * @see #getTestExecutionListeners()
 	 */
+    // @After
 	public void afterTestMethod(Object testInstance, Method testMethod, Throwable exception) throws Exception {
 		Assert.notNull(testInstance, "Test instance must not be null");
 		if (logger.isTraceEnabled()) {
@@ -348,6 +348,7 @@ public class TestContextManager {
 	 * @throws Exception if a registered TestExecutionListener throws an exception
 	 * @see #getTestExecutionListeners()
 	 */
+    // @AfterClass
 	public void afterTestClass() throws Exception {
 		Class<?> testClass = getTestContext().getTestClass();
 		if (logger.isTraceEnabled()) {
