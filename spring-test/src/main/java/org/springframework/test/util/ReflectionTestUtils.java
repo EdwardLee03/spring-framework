@@ -1,18 +1,3 @@
-/*
- * Copyright 2002-2016 the original author or authors.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 
 package org.springframework.test.util;
 
@@ -62,8 +47,10 @@ import org.springframework.util.StringUtils;
  * @see ReflectionUtils
  * @see AopTestUtils
  */
+// 核心类 反射相关的用于单元和集成测试场景的辅助方法集合
 public class ReflectionTestUtils {
 
+	// setter/getter
 	private static final String SETTER_PREFIX = "set";
 
 	private static final String GETTER_PREFIX = "get";
@@ -80,6 +67,7 @@ public class ReflectionTestUtils {
 	 * @param name the name of the field to set; never {@code null}
 	 * @param value the value to set
 	 */
+    // 核心方法 为给定的目标对象设置字段值
 	public static void setField(Object targetObject, String name, Object value) {
 		setField(targetObject, name, value, null);
 	}
@@ -160,6 +148,7 @@ public class ReflectionTestUtils {
 	 * @see ReflectionUtils#setField(Field, Object, Object)
 	 * @see AopTestUtils#getUltimateTargetObject(Object)
 	 */
+    // 核心方法 为给定的目标对象设置字段值
 	public static void setField(Object targetObject, Class<?> targetClass, String name, Object value, Class<?> type) {
 		Assert.isTrue(targetObject != null || targetClass != null,
 			"Either targetObject or targetClass for the field must be specified");
@@ -170,6 +159,7 @@ public class ReflectionTestUtils {
 			targetClass = ultimateTarget.getClass();
 		}
 
+        // 查找字段
 		Field field = ReflectionUtils.findField(targetClass, name, type);
 		if (field == null) {
 			throw new IllegalArgumentException(String.format(
@@ -183,6 +173,7 @@ public class ReflectionTestUtils {
 					safeToString(ultimateTarget), targetClass, value));
 		}
 		ReflectionUtils.makeAccessible(field);
+        // 设置字段值
 		ReflectionUtils.setField(field, ultimateTarget, value);
 	}
 
@@ -197,6 +188,7 @@ public class ReflectionTestUtils {
 	 * @return the field's current value
 	 * @see #getField(Class, String)
 	 */
+    // 核心方法 获取给定字段值
 	public static Object getField(Object targetObject, String name) {
 		return getField(targetObject, null, name);
 	}
@@ -213,6 +205,7 @@ public class ReflectionTestUtils {
 	 * @since 4.2
 	 * @see #getField(Object, String)
 	 */
+    // 核心方法 获取静态的字段值
 	public static Object getField(Class<?> targetClass, String name) {
 		return getField(null, targetClass, name);
 	}
@@ -241,6 +234,7 @@ public class ReflectionTestUtils {
 	 * @see ReflectionUtils#getField(Field, Object)
 	 * @see AopTestUtils#getUltimateTargetObject(Object)
 	 */
+    // 获取给定目标对象和类型的字段值
 	public static Object getField(Object targetObject, Class<?> targetClass, String name) {
 		Assert.isTrue(targetObject != null || targetClass != null,
 			"Either targetObject or targetClass for the field must be specified");
@@ -285,6 +279,7 @@ public class ReflectionTestUtils {
 	 * @see ReflectionUtils#makeAccessible(Method)
 	 * @see ReflectionUtils#invokeMethod(Method, Object, Object[])
 	 */
+    // 调用setter方法
 	public static void invokeSetterMethod(Object target, String name, Object value) {
 		invokeSetterMethod(target, name, value, null);
 	}
@@ -310,16 +305,19 @@ public class ReflectionTestUtils {
 	 * @see ReflectionUtils#makeAccessible(Method)
 	 * @see ReflectionUtils#invokeMethod(Method, Object, Object[])
 	 */
+    // 核心方法 调用setter方法
 	public static void invokeSetterMethod(Object target, String name, Object value, Class<?> type) {
 		Assert.notNull(target, "Target object must not be null");
 		Assert.hasText(name, "Method name must not be empty");
 		Class<?>[] paramTypes = (type != null ? new Class<?>[] {type} : null);
 
+        // setter方法名称
 		String setterMethodName = name;
 		if (!name.startsWith(SETTER_PREFIX)) {
 			setterMethodName = SETTER_PREFIX + StringUtils.capitalize(name);
 		}
 
+        // 查找setter方法
 		Method method = ReflectionUtils.findMethod(target.getClass(), setterMethodName, paramTypes);
 		if (method == null && !setterMethodName.equals(name)) {
 			setterMethodName = name;
@@ -337,6 +335,7 @@ public class ReflectionTestUtils {
 		}
 
 		ReflectionUtils.makeAccessible(method);
+        // 调用setter方法
 		ReflectionUtils.invokeMethod(method, target, value);
 	}
 
@@ -360,14 +359,17 @@ public class ReflectionTestUtils {
 	 * @see ReflectionUtils#makeAccessible(Method)
 	 * @see ReflectionUtils#invokeMethod(Method, Object, Object[])
 	 */
+    // 核心实现 调用getter方法
 	public static Object invokeGetterMethod(Object target, String name) {
 		Assert.notNull(target, "Target object must not be null");
 		Assert.hasText(name, "Method name must not be empty");
 
+        // getter方法名称
 		String getterMethodName = name;
 		if (!name.startsWith(GETTER_PREFIX)) {
 			getterMethodName = GETTER_PREFIX + StringUtils.capitalize(name);
 		}
+        // 查找getter方法
 		Method method = ReflectionUtils.findMethod(target.getClass(), getterMethodName);
 		if (method == null && !getterMethodName.equals(name)) {
 			getterMethodName = name;
@@ -382,6 +384,7 @@ public class ReflectionTestUtils {
 			logger.debug(String.format("Invoking getter method '%s' on %s", getterMethodName, safeToString(target)));
 		}
 		ReflectionUtils.makeAccessible(method);
+        // 调用getter方法
 		return ReflectionUtils.invokeMethod(method, target);
 	}
 
@@ -401,12 +404,14 @@ public class ReflectionTestUtils {
 	 * @see ReflectionUtils#invokeMethod(Method, Object, Object[])
 	 * @see ReflectionUtils#handleReflectionException(Exception)
 	 */
+    // 核心方法 调用给定目标对象的给定名称方法
 	@SuppressWarnings("unchecked")
 	public static <T> T invokeMethod(Object target, String name, Object... args) {
 		Assert.notNull(target, "Target object must not be null");
 		Assert.hasText(name, "Method name must not be empty");
 
 		try {
+            // 方法调用者
 			MethodInvoker methodInvoker = new MethodInvoker();
 			methodInvoker.setTargetObject(target);
 			methodInvoker.setTargetMethod(name);
@@ -418,7 +423,7 @@ public class ReflectionTestUtils {
 						ObjectUtils.nullSafeToString(args)));
 			}
 
-			return (T) methodInvoker.invoke();
+			return (T) methodInvoker.invoke(); // 调用方法
 		}
 		catch (Exception ex) {
 			ReflectionUtils.handleReflectionException(ex);

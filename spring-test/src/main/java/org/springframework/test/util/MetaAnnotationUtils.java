@@ -1,18 +1,3 @@
-/*
- * Copyright 2002-2016 the original author or authors.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 
 package org.springframework.test.util;
 
@@ -53,6 +38,7 @@ import org.springframework.util.ObjectUtils;
  * @see AnnotationUtils
  * @see AnnotationDescriptor
  */
+// 元注解辅助类
 public abstract class MetaAnnotationUtils {
 
 	/**
@@ -80,6 +66,7 @@ public abstract class MetaAnnotationUtils {
 	 * @see AnnotationUtils#findAnnotationDeclaringClass(Class, Class)
 	 * @see #findAnnotationDescriptorForTypes(Class, Class...)
 	 */
+    // 查找注解描述符
 	public static <T extends Annotation> AnnotationDescriptor<T> findAnnotationDescriptor(
 			Class<?> clazz, Class<T> annotationType) {
 
@@ -104,12 +91,12 @@ public abstract class MetaAnnotationUtils {
 			return null;
 		}
 
-		// Declared locally?
+		// Declared locally? (实现类)
 		if (AnnotationUtils.isAnnotationDeclaredLocally(annotationType, clazz)) {
 			return new AnnotationDescriptor<T>(clazz, clazz.getAnnotation(annotationType));
 		}
 
-		// Declared on a composed annotation (i.e., as a meta-annotation)?
+		// Declared on a composed annotation (i.e., as a meta-annotation)? (组合注解)
 		for (Annotation composedAnnotation : clazz.getDeclaredAnnotations()) {
 			if (!AnnotationUtils.isInJavaLangAnnotationPackage(composedAnnotation) && visited.add(composedAnnotation)) {
 				AnnotationDescriptor<T> descriptor = findAnnotationDescriptor(
@@ -121,7 +108,7 @@ public abstract class MetaAnnotationUtils {
 			}
 		}
 
-		// Declared on interface?
+		// Declared on interface? (接口)
 		for (Class<?> ifc : clazz.getInterfaces()) {
 			AnnotationDescriptor<T> descriptor = findAnnotationDescriptor(ifc, visited, annotationType);
 			if (descriptor != null) {
@@ -130,7 +117,7 @@ public abstract class MetaAnnotationUtils {
 			}
 		}
 
-		// Declared on a superclass?
+		// Declared on a superclass? (父类)
 		return findAnnotationDescriptor(clazz.getSuperclass(), visited, annotationType);
 	}
 
@@ -276,17 +263,34 @@ public abstract class MetaAnnotationUtils {
 	 * public class UserRepositoryTests { }
 	 * </pre>
 	 */
+    // 注解描述符
 	public static class AnnotationDescriptor<T extends Annotation> {
 
+        /**
+         * 声明的根类型
+         */
 		private final Class<?> rootDeclaringClass;
 
+        /**
+         * 声明的类型
+         */
 		private final Class<?> declaringClass;
 
+        /**
+         * 组合的注解
+         */
 		private final Annotation composedAnnotation;
 
+        /**
+         * 注解
+         */
 		private final T annotation;
 
+        /**
+         * 注解属性列表
+         */
 		private final AnnotationAttributes annotationAttributes;
+
 
 		public AnnotationDescriptor(Class<?> rootDeclaringClass, T annotation) {
 			this(rootDeclaringClass, rootDeclaringClass, null, annotation);
@@ -368,6 +372,7 @@ public abstract class MetaAnnotationUtils {
 	 * to describe the declaration of one of several candidate annotation types
 	 * where the actual annotation type cannot be predetermined.
 	 */
+    // 注解描述符的非类型扩展
 	public static class UntypedAnnotationDescriptor extends AnnotationDescriptor<Annotation> {
 
 		public UntypedAnnotationDescriptor(Class<?> rootDeclaringClass, Annotation annotation) {
