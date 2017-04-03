@@ -1,18 +1,3 @@
-/*
- * Copyright 2002-2016 the original author or authors.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 
 package org.springframework.test.context.web;
 
@@ -42,6 +27,7 @@ import org.springframework.web.context.request.ServletWebRequest;
  * {@code TestExecutionListener} which provides mock Servlet API support to
  * {@link WebApplicationContext WebApplicationContexts} loaded by the <em>Spring
  * TestContext Framework</em>.
+ * 提供支持Web应用上下文的模拟服务端程序接口
  *
  * <p>Specifically, {@code ServletTestExecutionListener} sets up thread-local
  * state via Spring Web's {@link RequestContextHolder} during {@linkplain
@@ -181,6 +167,7 @@ public class ServletTestExecutionListener extends AbstractTestExecutionListener 
 		return Boolean.TRUE.equals(testContext.getAttribute(POPULATED_REQUEST_CONTEXT_HOLDER_ATTRIBUTE));
 	}
 
+    // 设置请求上下文
 	private void setUpRequestContextIfNecessary(TestContext testContext) {
 		if (!isActivated(testContext) || alreadyPopulatedRequestContextHolder(testContext)) {
 			return;
@@ -188,9 +175,9 @@ public class ServletTestExecutionListener extends AbstractTestExecutionListener 
 
 		ApplicationContext context = testContext.getApplicationContext();
 
-		if (context instanceof WebApplicationContext) {
+		if (context instanceof WebApplicationContext) { // Web应用上下文
 			WebApplicationContext wac = (WebApplicationContext) context;
-			ServletContext servletContext = wac.getServletContext();
+			ServletContext servletContext = wac.getServletContext(); // 服务端程序上下文
 			if (!(servletContext instanceof MockServletContext)) {
 				throw new IllegalStateException(String.format(
 						"The WebApplicationContext for test context %s must be configured with a MockServletContext.",
@@ -213,7 +200,7 @@ public class ServletTestExecutionListener extends AbstractTestExecutionListener 
 			testContext.setAttribute(POPULATED_REQUEST_CONTEXT_HOLDER_ATTRIBUTE, Boolean.TRUE);
 			testContext.setAttribute(RESET_REQUEST_CONTEXT_HOLDER_ATTRIBUTE, Boolean.TRUE);
 
-			if (wac instanceof ConfigurableApplicationContext) {
+			if (wac instanceof ConfigurableApplicationContext) { // 可配置的应用上下文
 				@SuppressWarnings("resource")
 				ConfigurableApplicationContext configurableApplicationContext = (ConfigurableApplicationContext) wac;
 				ConfigurableListableBeanFactory bf = configurableApplicationContext.getBeanFactory();

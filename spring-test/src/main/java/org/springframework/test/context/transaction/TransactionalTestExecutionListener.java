@@ -1,18 +1,3 @@
-/*
- * Copyright 2002-2016 the original author or authors.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 
 package org.springframework.test.context.transaction;
 
@@ -163,7 +148,9 @@ public class TransactionalTestExecutionListener extends AbstractTestExecutionLis
 	 */
 	@Override
 	public void beforeTestMethod(final TestContext testContext) throws Exception {
+		// 测试方法
 		final Method testMethod = testContext.getTestMethod();
+        // 测试类实例
 		final Class<?> testClass = testContext.getTestClass();
 		Assert.notNull(testMethod, "The test method of the supplied TestContext must not be null");
 
@@ -172,6 +159,7 @@ public class TransactionalTestExecutionListener extends AbstractTestExecutionLis
 			throw new IllegalStateException("Cannot start a new transaction without ending the existing transaction.");
 		}
 
+        // 平台事务管理者
 		PlatformTransactionManager tm = null;
 		TransactionAttribute transactionAttribute = this.attributeSource.getTransactionAttribute(testMethod, testClass);
 
@@ -441,6 +429,7 @@ public class TransactionalTestExecutionListener extends AbstractTestExecutionLis
 	 * @return all annotated methods in the supplied class and its superclasses
 	 * as well as annotated interface default methods
 	 */
+    // 获取注解的方法列表
 	private List<Method> getAnnotatedMethods(Class<?> clazz, Class<? extends Annotation> annotationType) {
 		List<Method> methods = new ArrayList<Method>(4);
 		for (Method method : ReflectionUtils.getUniqueDeclaredMethods(clazz)) {

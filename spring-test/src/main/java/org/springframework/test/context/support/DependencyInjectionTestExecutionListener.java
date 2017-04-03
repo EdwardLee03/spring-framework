@@ -1,18 +1,3 @@
-/*
- * Copyright 2002-2014 the original author or authors.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 
 package org.springframework.test.context.support;
 
@@ -26,6 +11,7 @@ import org.springframework.test.context.TestContext;
 /**
  * {@code TestExecutionListener} which provides support for dependency
  * injection and initialization of test instances.
+ * 提供测试实例的依赖注入和初始化支持。
  *
  * @author Sam Brannen
  * @author Juergen Hoeller
@@ -112,10 +98,15 @@ public class DependencyInjectionTestExecutionListener extends AbstractTestExecut
 	 * @see #prepareTestInstance(TestContext)
 	 * @see #beforeTestMethod(TestContext)
 	 */
+	// 注入依赖关系
 	protected void injectDependencies(final TestContext testContext) throws Exception {
+        // 测试实例
 		Object bean = testContext.getTestInstance();
+        // 具有自动装配能力的组件工厂
 		AutowireCapableBeanFactory beanFactory = testContext.getApplicationContext().getAutowireCapableBeanFactory();
+        // 装配组件属性
 		beanFactory.autowireBeanProperties(bean, AutowireCapableBeanFactory.AUTOWIRE_NO, false);
+        // 初始化组件
 		beanFactory.initializeBean(bean, testContext.getTestClass().getName());
 		testContext.removeAttribute(REINJECT_DEPENDENCIES_ATTRIBUTE);
 	}

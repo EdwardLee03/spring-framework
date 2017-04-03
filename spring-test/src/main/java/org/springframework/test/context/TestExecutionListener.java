@@ -1,18 +1,3 @@
-/*
- * Copyright 2002-2016 the original author or authors.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 
 package org.springframework.test.context;
 
@@ -20,6 +5,7 @@ package org.springframework.test.context;
  * {@code TestExecutionListener} defines a <em>listener</em> API for reacting to
  * test execution events published by the {@link TestContextManager} with which
  * the listener is registered.
+ * 定义监听器(<em>listener</em>)接口对测试执行事件做出反应。
  *
  * <p>Concrete implementations must provide a {@code public} no-args constructor,
  * so that listeners can be instantiated transparently by tools and configuration
@@ -52,6 +38,7 @@ package org.springframework.test.context;
  * @author Juergen Hoeller
  * @since 2.5
  */
+// 核心接口 测试执行监听器
 public interface TestExecutionListener {
 
 	/**
@@ -64,6 +51,7 @@ public interface TestExecutionListener {
 	 * @param testContext the test context for the test; never {@code null}
 	 * @throws Exception allows any exception to propagate
 	 */
+    // 核心方法 在执行所有测试之前预处理测试类
 	void beforeTestClass(TestContext testContext) throws Exception;
 
 	/**
@@ -74,6 +62,7 @@ public interface TestExecutionListener {
 	 * @param testContext the test context for the test; never {@code null}
 	 * @throws Exception allows any exception to propagate
 	 */
+    // 准备测试实例
 	void prepareTestInstance(TestContext testContext) throws Exception;
 
 	/**
@@ -87,6 +76,7 @@ public interface TestExecutionListener {
 	 * executed; never {@code null}
 	 * @throws Exception allows any exception to propagate
 	 */
+    // 核心方法 在测试方法执行之前预处理测试实例
 	void beforeTestMethod(TestContext testContext) throws Exception;
 
 	/**
@@ -100,6 +90,7 @@ public interface TestExecutionListener {
 	 * executed; never {@code null}
 	 * @throws Exception allows any exception to propagate
 	 */
+    // 核心方法 在测试方法执行之后后处理测试实例
 	void afterTestMethod(TestContext testContext) throws Exception;
 
 	/**
@@ -112,6 +103,7 @@ public interface TestExecutionListener {
 	 * @param testContext the test context for the test; never {@code null}
 	 * @throws Exception allows any exception to propagate
 	 */
+    // 核心方法 在执行所有测试之后后处理测试类
 	void afterTestClass(TestContext testContext) throws Exception;
 
 }

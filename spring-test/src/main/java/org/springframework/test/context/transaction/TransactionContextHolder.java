@@ -1,18 +1,3 @@
-/*
- * Copyright 2002-2014 the original author or authors.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 
 package org.springframework.test.context.transaction;
 
@@ -20,12 +5,17 @@ import org.springframework.core.NamedInheritableThreadLocal;
 
 /**
  * {@link InheritableThreadLocal}-based holder for the current {@link TransactionContext}.
+ * 当前事务上下文({@link TransactionContext})
+ * 基于可继承的线程本地变量({@link InheritableThreadLocal})持有者。
  *
  * @author Sam Brannen
  * @since 4.1
  */
 class TransactionContextHolder {
 
+    /**
+     * 可继承的当前事务上下文
+     */
 	private static final ThreadLocal<TransactionContext> currentTransactionContext = new NamedInheritableThreadLocal<TransactionContext>(
 		"Test Transaction Context");
 
@@ -39,7 +29,7 @@ class TransactionContextHolder {
 	}
 
 	static TransactionContext removeCurrentTransactionContext() {
-		synchronized (currentTransactionContext) {
+		synchronized (currentTransactionContext) { // 同步对象
 			TransactionContext transactionContext = currentTransactionContext.get();
 			currentTransactionContext.remove();
 			return transactionContext;
