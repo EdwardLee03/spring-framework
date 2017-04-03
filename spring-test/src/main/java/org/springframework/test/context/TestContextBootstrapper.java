@@ -1,18 +1,3 @@
-/*
- * Copyright 2002-2016 the original author or authors.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 
 package org.springframework.test.context;
 
@@ -27,7 +12,7 @@ import java.util.List;
  * current test and to {@linkplain #buildTestContext build the TestContext} that
  * it manages.
  *
- * <h3>Configuration</h3>
+ * <h3>Configuration (配置)</h3>
  *
  * <p>A custom bootstrapping strategy can be configured for a test class (or
  * test class hierarchy) via {@link BootstrapWith @BootstrapWith}, either
@@ -55,11 +40,13 @@ import java.util.List;
  * @see BootstrapWith
  * @see BootstrapContext
  */
+// 核心接口 测试上下文引导者
 public interface TestContextBootstrapper {
 
 	/**
 	 * Set the {@link BootstrapContext} to be used by this bootstrapper.
 	 */
+	// 核心方法 设置引导上下文
 	void setBootstrapContext(BootstrapContext bootstrapContext);
 
 	/**
@@ -74,6 +61,7 @@ public interface TestContextBootstrapper {
 	 * @since 4.2
 	 * @see #buildMergedContextConfiguration()
 	 */
+	// 核心方法 构建测试上下文
 	TestContext buildTestContext();
 
 	/**
@@ -105,6 +93,7 @@ public interface TestContextBootstrapper {
 	 * @return the merged context configuration, never {@code null}
 	 * @see #buildTestContext()
 	 */
+    // 核心方法 构建合并后的测试上下文配置
 	MergedContextConfiguration buildMergedContextConfiguration();
 
 	/**
@@ -129,6 +118,7 @@ public interface TestContextBootstrapper {
 	 * be appended to the end of the list of listeners declared in superclasses.
 	 * @return a list of {@code TestExecutionListener} instances
 	 */
+    // 核心方法 获取测试执行监听器列表
 	List<TestExecutionListener> getTestExecutionListeners();
 
 }

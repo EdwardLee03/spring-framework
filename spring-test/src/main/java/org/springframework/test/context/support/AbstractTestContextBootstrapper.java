@@ -1,18 +1,3 @@
-/*
- * Copyright 2002-2016 the original author or authors.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 
 package org.springframework.test.context.support;
 
@@ -75,10 +60,14 @@ import org.springframework.util.StringUtils;
  * @author Phillip Webb
  * @since 4.1
  */
+// 核心类 测试上下文引导者抽象基类
 public abstract class AbstractTestContextBootstrapper implements TestContextBootstrapper {
 
 	private final Log logger = LogFactory.getLog(getClass());
 
+	/**
+	 * 引导上下文
+	 */
 	private BootstrapContext bootstrapContext;
 
 
@@ -109,6 +98,7 @@ public abstract class AbstractTestContextBootstrapper implements TestContextBoot
 	 */
 	@Override
 	public TestContext buildTestContext() {
+        // 构建一个新的测试执行上下文
 		return new DefaultTestContext(getBootstrapContext().getTestClass(), buildMergedContextConfiguration(),
 				getCacheAwareContextLoaderDelegate());
 	}
@@ -118,7 +108,9 @@ public abstract class AbstractTestContextBootstrapper implements TestContextBoot
 	 */
 	@Override
 	public final List<TestExecutionListener> getTestExecutionListeners() {
+        // 测试类实例
 		Class<?> clazz = getBootstrapContext().getTestClass();
+        // 测试执行监听器注解类型
 		Class<TestExecutionListeners> annotationType = TestExecutionListeners.class;
 		List<Class<? extends TestExecutionListener>> classesList = new ArrayList<Class<? extends TestExecutionListener>>();
 		boolean usingDefaults = false;
@@ -189,6 +181,7 @@ public abstract class AbstractTestContextBootstrapper implements TestContextBoot
 		return listeners;
 	}
 
+    // 初始化测试执行监听器
 	private List<TestExecutionListener> instantiateListeners(List<Class<? extends TestExecutionListener>> classesList) {
 		List<TestExecutionListener> listeners = new ArrayList<TestExecutionListener>(classesList.size());
 		for (Class<? extends TestExecutionListener> listenerClass : classesList) {
