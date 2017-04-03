@@ -176,6 +176,7 @@ public class TransactionalTestExecutionListener extends AbstractTestExecutionLis
 				return;
 			}
 
+            // 获取事务管理者
 			tm = getTransactionManager(testContext, transactionAttribute.getQualifier());
 
 			if (tm == null) {
@@ -186,8 +187,11 @@ public class TransactionalTestExecutionListener extends AbstractTestExecutionLis
 		}
 
 		if (tm != null) {
+            // 事务执行上下文
 			txContext = new TransactionContext(testContext, tm, transactionAttribute, isRollback(testContext));
+            // 运行@BeforeTransaction注解的方法
 			runBeforeTransactionMethods(testContext);
+            // 开始事务
 			txContext.startTransaction();
 			TransactionContextHolder.setCurrentTransactionContext(txContext);
 		}
@@ -202,20 +206,25 @@ public class TransactionalTestExecutionListener extends AbstractTestExecutionLis
 	 */
 	@Override
 	public void afterTestMethod(TestContext testContext) throws Exception {
+        // 测试方法
 		Method testMethod = testContext.getTestMethod();
 		Assert.notNull(testMethod, "The test method of the supplied TestContext must not be null");
 
+        // 事务上下文
 		TransactionContext txContext = TransactionContextHolder.removeCurrentTransactionContext();
 		// If there was (or perhaps still is) a transaction...
 		if (txContext != null) {
+            // 事务状态
 			TransactionStatus transactionStatus = txContext.getTransactionStatus();
 			try {
 				// If the transaction is still active...
 				if ((transactionStatus != null) && !transactionStatus.isCompleted()) {
+                    // 结束事务
 					txContext.endTransaction();
 				}
 			}
 			finally {
+                // 运行@AfterTransaction注解的方法
 				runAfterTransactionMethods(testContext);
 			}
 		}
@@ -231,6 +240,7 @@ public class TransactionalTestExecutionListener extends AbstractTestExecutionLis
 	 */
 	protected void runBeforeTransactionMethods(TestContext testContext) throws Exception {
 		try {
+            // @BeforeTransaction
 			List<Method> methods = getAnnotatedMethods(testContext.getTestClass(), BeforeTransaction.class);
 			Collections.reverse(methods);
 			for (Method method : methods) {
@@ -238,6 +248,7 @@ public class TransactionalTestExecutionListener extends AbstractTestExecutionLis
 					logger.debug("Executing @BeforeTransaction method [" + method + "] for test context " + testContext);
 				}
 				ReflectionUtils.makeAccessible(method);
+                // 执行方法
 				method.invoke(testContext.getTestInstance());
 			}
 		}
@@ -261,6 +272,7 @@ public class TransactionalTestExecutionListener extends AbstractTestExecutionLis
 	protected void runAfterTransactionMethods(TestContext testContext) throws Exception {
 		Throwable afterTransactionException = null;
 
+        // @AfterTransaction
 		List<Method> methods = getAnnotatedMethods(testContext.getTestClass(), AfterTransaction.class);
 		for (Method method : methods) {
 			try {
@@ -312,7 +324,7 @@ public class TransactionalTestExecutionListener extends AbstractTestExecutionLis
 				// Use autowire-capable factory in order to support extended qualifier matching
 				// (only exposed on the internal BeanFactory, not on the ApplicationContext).
 				BeanFactory bf = testContext.getApplicationContext().getAutowireCapableBeanFactory();
-
+                // 从组建工厂中获取平台事务管理者实例
 				return BeanFactoryAnnotationUtils.qualifiedBeanOfType(bf, PlatformTransactionManager.class, qualifier);
 			}
 			catch (RuntimeException ex) {

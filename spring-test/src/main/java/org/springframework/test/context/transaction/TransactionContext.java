@@ -19,20 +19,33 @@ import org.springframework.transaction.TransactionStatus;
  * @see org.springframework.transaction.annotation.Transactional
  * @see org.springframework.test.context.transaction.TransactionalTestExecutionListener
  */
+// 事务执行上下文
 class TransactionContext {
 
 	private static final Log logger = LogFactory.getLog(TransactionContext.class);
 
+    /**
+     * 测试执行上下文
+     */
 	private final TestContext testContext;
 
+    /**
+     * 事务定义
+     */
 	private final TransactionDefinition transactionDefinition;
 
+    /**
+     * 平台事务管理者
+     */
 	private final PlatformTransactionManager transactionManager;
 
 	private final boolean defaultRollback;
 
 	private boolean flaggedForRollback;
 
+    /**
+     * 事务状态
+     */
 	private TransactionStatus transactionStatus;
 
 	private volatile int transactionsStarted = 0;
@@ -74,12 +87,14 @@ class TransactionContext {
 	 * transaction has been previously started.
 	 * @throws TransactionException if starting the transaction fails
 	 */
+    // 开始事务
 	void startTransaction() {
 		if (this.transactionStatus != null) {
 			throw new IllegalStateException(
 				"Cannot start a new transaction without ending the existing transaction first.");
 		}
 		this.flaggedForRollback = this.defaultRollback;
+        // 获取事务
 		this.transactionStatus = this.transactionManager.getTransaction(this.transactionDefinition);
 		++this.transactionsStarted;
 		if (logger.isInfoEnabled()) {
@@ -94,6 +109,7 @@ class TransactionContext {
 	 * for the configured {@linkplain #getTestContext test context}, according to
 	 * the {@linkplain #isFlaggedForRollback rollback flag}.
 	 */
+    // 结束事务
 	void endTransaction() {
 		if (logger.isTraceEnabled()) {
 			logger.trace(String.format(
@@ -107,9 +123,11 @@ class TransactionContext {
 
 		try {
 			if (flaggedForRollback) {
+                // 回滚事务
 				this.transactionManager.rollback(this.transactionStatus);
 			}
 			else {
+                // 提交事务
 				this.transactionManager.commit(this.transactionStatus);
 			}
 		}

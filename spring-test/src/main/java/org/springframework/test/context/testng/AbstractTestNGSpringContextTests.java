@@ -30,6 +30,8 @@ import org.testng.annotations.BeforeMethod;
  * Abstract base test class which integrates the <em>Spring TestContext Framework</em>
  * with explicit {@link ApplicationContext} testing support in a <strong>TestNG</strong>
  * environment.
+ * 在TestNG环境中，集成使用显示的应用上下文测试支持的<em>Spring TestContext Framework</em>的
+ * 抽象测试基类。
  *
  * <p>Concrete subclasses:
  * <ul>
@@ -70,7 +72,8 @@ import org.testng.annotations.BeforeMethod;
  * @see AbstractTransactionalTestNGSpringContextTests
  * @see org.springframework.test.context.junit4.AbstractJUnit4SpringContextTests
  */
-// 基于TestNG的抽象测试基类
+// 基于TestNG的集成抽象测试基类
+// 测试执行监听器
 @TestExecutionListeners({ ServletTestExecutionListener.class, DirtiesContextBeforeModesTestExecutionListener.class,
 	DependencyInjectionTestExecutionListener.class, DirtiesContextTestExecutionListener.class })
 public abstract class AbstractTestNGSpringContextTests implements IHookable, ApplicationContextAware {
