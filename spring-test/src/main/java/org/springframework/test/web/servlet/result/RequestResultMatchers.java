@@ -1,34 +1,18 @@
-/*
- * Copyright 2002-2015 the original author or authors.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 
 package org.springframework.test.web.servlet.result;
+
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.springframework.test.util.AssertionErrors.assertEquals;
 
 import java.util.concurrent.Callable;
 import javax.servlet.http.HttpServletRequest;
 
 import org.hamcrest.Matcher;
-
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.ResultMatcher;
 import org.springframework.web.context.request.async.DeferredResult;
 import org.springframework.web.context.request.async.WebAsyncTask;
-
-import static org.hamcrest.MatcherAssert.*;
-import static org.springframework.test.util.AssertionErrors.*;
 
 /**
  * Factory for assertions on the request.
@@ -39,6 +23,7 @@ import static org.springframework.test.util.AssertionErrors.*;
  * @author Sam Brannen
  * @since 3.2
  */
+// 请求执行结果匹配程序
 public class RequestResultMatchers {
 
 	/**
@@ -87,6 +72,7 @@ public class RequestResultMatchers {
 	 * <p>This method can be used when a controller method returns {@link Callable}
 	 * or {@link WebAsyncTask}.
 	 */
+    // 异步执行结果
 	public <T> ResultMatcher asyncResult(final Matcher<T> matcher) {
 		return new ResultMatcher() {
 			@Override
@@ -105,6 +91,7 @@ public class RequestResultMatchers {
 	 * or {@link WebAsyncTask}. The value matched is the value returned from the
 	 * {@code Callable} or the exception raised.
 	 */
+    // 期望的异步执行结果
 	public <T> ResultMatcher asyncResult(final Object expectedResult) {
 		return new ResultMatcher() {
 			@Override

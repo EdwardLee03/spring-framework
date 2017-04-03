@@ -1,18 +1,3 @@
-/*
- * Copyright 2002-2015 the original author or authors.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 
 package org.springframework.test.web.servlet;
 
@@ -58,20 +43,39 @@ import org.springframework.web.context.request.ServletRequestAttributes;
  * @author Sam Brannen
  * @since 3.2
  */
+// 核心类 MVC模拟
 public final class MockMvc {
 
 	static String MVC_RESULT_ATTRIBUTE = MockMvc.class.getName().concat(".MVC_RESULT_ATTRIBUTE");
 
+    /**
+     * 分发程序
+     */
 	private final TestDispatcherServlet servlet;
 
+    /**
+     * 过滤器列表
+     */
 	private final Filter[] filters;
 
+    /**
+     * 服务端程序执行上下文
+     */
 	private final ServletContext servletContext;
 
+    /**
+     * 请求构建者
+     */
 	private RequestBuilder defaultRequestBuilder;
 
+    /**
+     * 结果匹配程序列表
+     */
 	private List<ResultMatcher> defaultResultMatchers = new ArrayList<ResultMatcher>();
 
+    /**
+     * 结果处理程序列表
+     */
 	private List<ResultHandler> defaultResultHandlers = new ArrayList<ResultHandler>();
 
 
@@ -80,7 +84,6 @@ public final class MockMvc {
 	 * @see org.springframework.test.web.servlet.setup.MockMvcBuilders
 	 */
 	MockMvc(TestDispatcherServlet servlet, Filter[] filters, ServletContext servletContext) {
-
 		Assert.notNull(servlet, "DispatcherServlet is required");
 		Assert.notNull(filters, "filters cannot be null");
 		Assert.noNullElements(filters, "filters cannot contain null values");
@@ -130,14 +133,15 @@ public final class MockMvc {
 	 * @see org.springframework.test.web.servlet.request.MockMvcRequestBuilders
 	 * @see org.springframework.test.web.servlet.result.MockMvcResultMatchers
 	 */
+    // 核心实现 执行请求
 	public ResultActions perform(RequestBuilder requestBuilder) throws Exception {
-
 		if (this.defaultRequestBuilder != null) {
 			if (requestBuilder instanceof Mergeable) {
 				requestBuilder = (RequestBuilder) ((Mergeable) requestBuilder).merge(this.defaultRequestBuilder);
 			}
 		}
 
+		// HTTP请求、响应
 		MockHttpServletRequest request = requestBuilder.buildRequest(this.servletContext);
 		MockHttpServletResponse response = new MockHttpServletResponse();
 
@@ -145,35 +149,41 @@ public final class MockMvc {
 			request = ((SmartRequestBuilder) requestBuilder).postProcessRequest(request);
 		}
 
+        // 执行结果
 		final MvcResult mvcResult = new DefaultMvcResult(request, response);
 		request.setAttribute(MVC_RESULT_ATTRIBUTE, mvcResult);
 
 		RequestAttributes previousAttributes = RequestContextHolder.getRequestAttributes();
 		RequestContextHolder.setRequestAttributes(new ServletRequestAttributes(request, response));
 
+        // 过滤器链
 		MockFilterChain filterChain = new MockFilterChain(this.servlet, this.filters);
 		filterChain.doFilter(request, response);
 
+        // 异步请求
 		if (DispatcherType.ASYNC.equals(request.getDispatcherType()) &&
 				request.getAsyncContext() != null & !request.isAsyncStarted()) {
 
 			request.getAsyncContext().complete();
 		}
 
+        // 应用结果行为
 		applyDefaultResultActions(mvcResult);
 
 		RequestContextHolder.setRequestAttributes(previousAttributes);
 
-		return new ResultActions() {
+		return new ResultActions() { // 请求执行结果行为
 
 			@Override
 			public ResultActions andExpect(ResultMatcher matcher) throws Exception {
+                // 匹配执行结果
 				matcher.match(mvcResult);
 				return this;
 			}
 
 			@Override
 			public ResultActions andDo(ResultHandler handler) throws Exception {
+                // 处理执行结果
 				handler.handle(mvcResult);
 				return this;
 			}
@@ -182,15 +192,18 @@ public final class MockMvc {
 			public MvcResult andReturn() {
 				return mvcResult;
 			}
+
 		};
 	}
 
+    // 应用结果行为
 	private void applyDefaultResultActions(MvcResult mvcResult) throws Exception {
-
+        // 结果匹配程序
 		for (ResultMatcher matcher : this.defaultResultMatchers) {
 			matcher.match(mvcResult);
 		}
 
+        // 结果处理程序
 		for (ResultHandler handler : this.defaultResultHandlers) {
 			handler.handle(mvcResult);
 		}

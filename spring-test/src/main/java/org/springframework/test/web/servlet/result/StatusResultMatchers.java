@@ -1,29 +1,13 @@
-/*
- * Copyright 2002-2015 the original author or authors.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 
 package org.springframework.test.web.servlet.result;
 
-import org.hamcrest.Matcher;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.springframework.test.util.AssertionErrors.assertEquals;
 
+import org.hamcrest.Matcher;
 import org.springframework.http.HttpStatus;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.ResultMatcher;
-
-import static org.hamcrest.MatcherAssert.*;
-import static org.springframework.test.util.AssertionErrors.*;
 
 /**
  * Factory for assertions on the response status.
@@ -36,6 +20,7 @@ import static org.springframework.test.util.AssertionErrors.*;
  * @author Brian Clozel
  * @since 3.2
  */
+// 请求响应状态匹配程序
 public class StatusResultMatchers {
 
 	/**
@@ -61,6 +46,7 @@ public class StatusResultMatchers {
 	/**
 	 * Assert the response status code is equal to an integer value.
 	 */
+	// 期望的响应状态
 	public ResultMatcher is(final int status) {
 		return new ResultMatcher() {
 			@Override

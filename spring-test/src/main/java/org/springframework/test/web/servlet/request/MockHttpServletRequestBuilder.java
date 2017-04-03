@@ -1,18 +1,3 @@
-/*
- * Copyright 2002-2017 the original author or authors.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 
 package org.springframework.test.web.servlet.request;
 
@@ -76,18 +61,31 @@ import org.springframework.web.util.UriUtils;
  * @author Kamill Sokol
  * @since 3.2
  */
+// HTTP程序请求构建者模拟
 public class MockHttpServletRequestBuilder
 		implements ConfigurableSmartRequestBuilder<MockHttpServletRequestBuilder>, Mergeable {
 
 	private static final Charset UTF8_CHARSET = Charset.forName("UTF-8");
 
 
+    /**
+     * 请求方法
+     */
 	private final String method;
 
+    /**
+     * 请求URL
+     */
 	private final URI url;
 
+    /**
+     * 上下文路径
+     */
 	private String contextPath = "";
 
+    /**
+     * 服务端程序路径
+     */
 	private String servletPath = "";
 
 	private String pathInfo = "";
@@ -98,8 +96,14 @@ public class MockHttpServletRequestBuilder
 
 	private MockHttpSession session;
 
+    /**
+     * 字符编码
+     */
 	private String characterEncoding;
 
+    /**
+     * 请求内容
+     */
 	private byte[] content;
 
 	private String contentType;
@@ -581,6 +585,7 @@ public class MockHttpServletRequestBuilder
 	/**
 	 * Build a {@link MockHttpServletRequest}.
 	 */
+    // 核心实现 构建HTTP程序请求
 	@Override
 	public final MockHttpServletRequest buildRequest(ServletContext servletContext) {
 		MockHttpServletRequest request = createServletRequest(servletContext);

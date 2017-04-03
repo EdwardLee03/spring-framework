@@ -1,18 +1,3 @@
-/*
- * Copyright 2002-2014 the original author or authors.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 
 package org.springframework.test.web.servlet;
 
@@ -43,6 +28,7 @@ import org.springframework.web.servlet.ModelAndView;
  * @author Rob Winch
  * @since 3.2
  */
+// 核心类 测试分发程序
 @SuppressWarnings("serial")
 final class TestDispatcherServlet extends DispatcherServlet {
 
@@ -57,22 +43,27 @@ final class TestDispatcherServlet extends DispatcherServlet {
 	}
 
 
+	// 核心实现 执行请求
 	@Override
 	protected void service(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-
+        // 注册异步执行结果拦截器
 		registerAsyncResultInterceptors(request);
 		super.service(request, response);
 	}
 
+	// 注册异步结果拦截器列表
 	private void registerAsyncResultInterceptors(final HttpServletRequest request) {
+        // 异步请求管理者
 		WebAsyncManager asyncManager = WebAsyncUtils.getAsyncManager(request);
+        // 注册调用拦截器
 		asyncManager.registerCallableInterceptor(KEY, new CallableProcessingInterceptorAdapter() {
 			@Override
 			public <T> void postProcess(NativeWebRequest r, Callable<T> task, Object value) throws Exception {
 				getMvcResult(request).setAsyncResult(value);
 			}
 		});
+        // 注册结果拦截器
 		asyncManager.registerDeferredResultInterceptor(KEY, new DeferredResultProcessingInterceptorAdapter() {
 			@Override
 			public <T> void postProcess(NativeWebRequest r, DeferredResult<T> result, Object value) throws Exception {
@@ -85,8 +76,10 @@ final class TestDispatcherServlet extends DispatcherServlet {
 		return (DefaultMvcResult) request.getAttribute(MockMvc.MVC_RESULT_ATTRIBUTE);
 	}
 
+	// 核心实现 处理程序执行链
 	@Override
 	protected HandlerExecutionChain getHandler(HttpServletRequest request) throws Exception {
+        // 处理执行链
 		HandlerExecutionChain chain = super.getHandler(request);
 		if (chain != null) {
 			DefaultMvcResult mvcResult = getMvcResult(request);
@@ -96,6 +89,7 @@ final class TestDispatcherServlet extends DispatcherServlet {
 		return chain;
 	}
 
+	// 核心实现 提交响应
 	@Override
 	protected void render(ModelAndView mv, HttpServletRequest request, HttpServletResponse response)
 			throws Exception {
@@ -105,6 +99,7 @@ final class TestDispatcherServlet extends DispatcherServlet {
 		super.render(mv, request, response);
 	}
 
+	// 核心实现 处理执行异常
 	@Override
 	protected ModelAndView processHandlerException(HttpServletRequest request, HttpServletResponse response,
 			Object handler, Exception ex) throws Exception {

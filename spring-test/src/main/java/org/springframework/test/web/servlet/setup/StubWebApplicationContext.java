@@ -1,18 +1,3 @@
-/*
- * Copyright 2002-2016 the original author or authors.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 
 package org.springframework.test.web.servlet.setup;
 
@@ -355,8 +340,10 @@ class StubWebApplicationContext implements WebApplicationContext {
 	 * AutowireCapableBeanFactory in order to allow bean initialization of
 	 * {@link ApplicationContextAware} singletons.
 	 */
+	// 组件工厂存根
 	private class StubBeanFactory extends StaticListableBeanFactory implements AutowireCapableBeanFactory {
 
+        // 初始化组件
 		@Override
 		public Object initializeBean(Object existingBean, String beanName) throws BeansException {
 			if (existingBean instanceof ApplicationContextAware) {
@@ -365,6 +352,7 @@ class StubWebApplicationContext implements WebApplicationContext {
 			return existingBean;
 		}
 
+        // 创建组件
 		@Override
 		public <T> T createBean(Class<T> beanClass) {
 			return BeanUtils.instantiateClass(beanClass);
@@ -375,6 +363,7 @@ class StubWebApplicationContext implements WebApplicationContext {
 			return BeanUtils.instantiateClass(beanClass);
 		}
 
+        // 自动装配组件
 		@Override
 		public Object autowire(Class<?> beanClass, int autowireMode, boolean dependencyCheck) {
 			return BeanUtils.instantiateClass(beanClass);
@@ -384,10 +373,12 @@ class StubWebApplicationContext implements WebApplicationContext {
 		public void autowireBean(Object existingBean) throws BeansException {
 		}
 
+        // 自动装配组件属性
 		@Override
 		public void autowireBeanProperties(Object existingBean, int autowireMode, boolean dependencyCheck) {
 		}
 
+        // 配置组件
 		@Override
 		public Object configureBean(Object existingBean, String beanName) {
 			return existingBean;
@@ -398,6 +389,7 @@ class StubWebApplicationContext implements WebApplicationContext {
 			throw new UnsupportedOperationException("Dependency resolution not supported");
 		}
 
+        // 解析依赖关系
 		@Override
 		public Object resolveDependency(DependencyDescriptor descriptor, String requestingBeanName) {
 			throw new UnsupportedOperationException("Dependency resolution not supported");
@@ -409,20 +401,24 @@ class StubWebApplicationContext implements WebApplicationContext {
 			throw new UnsupportedOperationException("Dependency resolution not supported");
 		}
 
+        // 应用组件属性值
 		@Override
 		public void applyBeanPropertyValues(Object existingBean, String beanName) throws BeansException {
 		}
 
+        // 在初始化之前应用组件后置处理器
 		@Override
 		public Object applyBeanPostProcessorsBeforeInitialization(Object existingBean, String beanName) {
 			return existingBean;
 		}
 
+        // 在初始化之后应用组件后置处理器
 		@Override
 		public Object applyBeanPostProcessorsAfterInitialization(Object existingBean, String beanName) {
 			return existingBean;
 		}
 
+        // 销毁组件
 		@Override
 		public void destroyBean(Object existingBean) {
 		}

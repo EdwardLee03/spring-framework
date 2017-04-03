@@ -1,32 +1,17 @@
-/*
- * Copyright 2002-2016 the original author or authors.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 
 package org.springframework.test.web.servlet.result;
 
 import java.io.UnsupportedEncodingException;
 
-import com.jayway.jsonpath.JsonPath;
 import org.hamcrest.Matcher;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.core.StringStartsWith;
-
 import org.springframework.test.util.JsonPathExpectationsHelper;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.ResultMatcher;
 import org.springframework.util.StringUtils;
+
+import com.jayway.jsonpath.JsonPath;
 
 /**
  * Factory for assertions on the response content using
@@ -41,6 +26,7 @@ import org.springframework.util.StringUtils;
  * @author Brian Clozel
  * @since 3.2
  */
+// JSON路径结果匹配程序
 public class JsonPathResultMatchers {
 
 	private final JsonPathExpectationsHelper jsonPathHelper;
@@ -92,6 +78,7 @@ public class JsonPathResultMatchers {
 	 * Evaluate the JSON path expression against the response content and
 	 * assert that the result is equal to the supplied value.
 	 */
+    // 期望的值
 	public ResultMatcher value(final Object expectedValue) {
 		return new ResultMatcher() {
 			@Override
@@ -249,6 +236,7 @@ public class JsonPathResultMatchers {
 		};
 	}
 
+    // 获取执行结果内容
 	private String getContent(MvcResult result) throws UnsupportedEncodingException {
 		String content = result.getResponse().getContentAsString();
 		if (StringUtils.hasLength(this.prefix)) {

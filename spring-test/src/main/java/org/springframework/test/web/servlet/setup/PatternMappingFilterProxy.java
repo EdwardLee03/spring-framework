@@ -1,18 +1,3 @@
-/*
- * Copyright 2002-2016 the original author or authors.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 
 package org.springframework.test.web.servlet.setup;
 
@@ -38,6 +23,7 @@ import org.springframework.web.util.UrlPathHelper;
  * @author Rob Winch
  * @since 3.2
  */
+// 请求路径模式映射过滤器代理
 final class PatternMappingFilterProxy implements Filter {
 
 	private static final String EXTENSION_MAPPING_PATTERN = "*.";
@@ -90,6 +76,7 @@ final class PatternMappingFilterProxy implements Filter {
 	}
 
 
+    // 核心实现 执行过滤
 	@Override
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain filterChain)
 			throws IOException, ServletException {
@@ -97,7 +84,7 @@ final class PatternMappingFilterProxy implements Filter {
 		HttpServletRequest httpRequest = (HttpServletRequest) request;
 		String requestPath = urlPathHelper.getPathWithinApplication(httpRequest);
 
-		if (matches(requestPath)) {
+		if (matches(requestPath)) { // 匹配请求路径
 			this.delegate.doFilter(request, response, filterChain);
 		}
 		else {

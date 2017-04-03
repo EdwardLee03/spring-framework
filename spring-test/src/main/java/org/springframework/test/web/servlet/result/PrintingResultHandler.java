@@ -1,18 +1,3 @@
-/*
- * Copyright 2002-2015 the original author or authors.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 
 package org.springframework.test.web.servlet.result;
 
@@ -52,6 +37,7 @@ import org.springframework.web.servlet.support.RequestContextUtils;
  * @author Sam Brannen
  * @since 3.2
  */
+// 打印请求执行结果处理程序
 public class PrintingResultHandler implements ResultHandler {
 
 	private final ResultValuePrinter printer;
@@ -75,6 +61,7 @@ public class PrintingResultHandler implements ResultHandler {
 	/**
 	 * Print {@link MvcResult} details.
 	 */
+    // 核心实现 打印MVC请求执行结果详情
 	@Override
 	public final void handle(MvcResult result) throws Exception {
 		this.printer.printHeading("MockHttpServletRequest");
@@ -102,6 +89,7 @@ public class PrintingResultHandler implements ResultHandler {
 	/**
 	 * Print the request.
 	 */
+	// 打印请求信息
 	protected void printRequest(MockHttpServletRequest request) throws Exception {
 		this.printer.printValue("HTTP Method", request.getMethod());
 		this.printer.printValue("Request URI", request.getRequestURI());
@@ -135,6 +123,7 @@ public class PrintingResultHandler implements ResultHandler {
 		return multiValueMap;
 	}
 
+    // 打印请求异步执行结果
 	protected void printAsyncResult(MvcResult result) throws Exception {
 		HttpServletRequest request = result.getRequest();
 		this.printer.printValue("Async started", request.isAsyncStarted());
@@ -150,6 +139,7 @@ public class PrintingResultHandler implements ResultHandler {
 
 	/**
 	 * Print the handler.
+     * 打印处理程序
 	 */
 	protected void printHandler(Object handler, HandlerInterceptor[] interceptors) throws Exception {
 		if (handler == null) {
@@ -220,6 +210,7 @@ public class PrintingResultHandler implements ResultHandler {
 
 	/**
 	 * Print the response.
+     * 打印请求响应信息
 	 */
 	protected void printResponse(MockHttpServletResponse response) throws Exception {
 		this.printer.printValue("Status", response.getStatus());

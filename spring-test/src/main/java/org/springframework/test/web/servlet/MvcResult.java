@@ -1,18 +1,3 @@
-/*
- * Copyright 2002-2016 the original author or authors.
- *
- * Licensed under the Apache License; Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing; software
- * distributed under the License is distributed on an "AS IS" BASIS;
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND; either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 
 package org.springframework.test.web.servlet;
 
@@ -29,6 +14,7 @@ import org.springframework.web.servlet.ModelAndView;
  * @author Rossen Stoyanchev
  * @since 3.2
  */
+// 核心接口 执行的请求结果
 public interface MvcResult {
 
 	/**
@@ -47,12 +33,14 @@ public interface MvcResult {
 	 * Return the executed handler.
 	 * @return the handler, possibly {@code null} if none were executed
 	 */
+    // 返回执行的处理程序
 	Object getHandler();
 
 	/**
 	 * Return interceptors around the handler.
 	 * @return interceptors, or {@code null} if none were selected
 	 */
+    // 返回处理程序的拦截器列表
 	HandlerInterceptor[] getInterceptors();
 
 	/**
@@ -90,6 +78,7 @@ public interface MvcResult {
 	 *  i.e.{@link org.springframework.mock.web.MockAsyncContext#getTimeout()}.
 	 * @throws IllegalStateException if the async result was not set
 	 */
+    // 获取异步执行的结果
 	Object getAsyncResult(long timeToWait);
 
 }

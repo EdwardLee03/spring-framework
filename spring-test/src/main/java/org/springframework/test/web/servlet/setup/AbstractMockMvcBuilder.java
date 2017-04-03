@@ -1,18 +1,3 @@
-/*
- * Copyright 2002-2016 the original author or authors.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 
 package org.springframework.test.web.servlet.setup;
 
@@ -47,23 +32,40 @@ import org.springframework.web.servlet.DispatcherServlet;
  * @author Stephane Nicoll
  * @since 4.0
  */
+// 核心类 MVC构建者模拟抽象基类
 public abstract class AbstractMockMvcBuilder<B extends AbstractMockMvcBuilder<B>>
 		extends MockMvcBuilderSupport implements ConfigurableMockMvcBuilder<B> {
 
+    /**
+     * 过滤器列表
+     */
 	private List<Filter> filters = new ArrayList<Filter>();
 
+    /**
+     * 请求构建者
+     */
 	private RequestBuilder defaultRequestBuilder;
 
+    /**
+     * 结果匹配程序列表
+     */
 	private final List<ResultMatcher> globalResultMatchers = new ArrayList<ResultMatcher>();
 
+    /**
+     * 结果处理程序列表
+     */
 	private final List<ResultHandler> globalResultHandlers = new ArrayList<ResultHandler>();
 
 	private final List<DispatcherServletCustomizer> dispatcherServletCustomizers = new ArrayList<DispatcherServletCustomizer>();
 
+    /**
+     * MVC配置者模拟列表
+     */
 	private final List<MockMvcConfigurer> configurers = new ArrayList<MockMvcConfigurer>(4);
 
 
-	@SuppressWarnings("unchecked")
+	@Override
+    @SuppressWarnings("unchecked")
 	public final <T extends B> T addFilters(Filter... filters) {
 		Assert.notNull(filters, "filters cannot be null");
 
@@ -74,13 +76,15 @@ public abstract class AbstractMockMvcBuilder<B extends AbstractMockMvcBuilder<B>
 		return (T) this;
 	}
 
-	@SuppressWarnings("unchecked")
+	@Override
+    @SuppressWarnings("unchecked")
 	public final <T extends B> T addFilter(Filter filter, String... urlPatterns) {
 
 		Assert.notNull(filter, "filter cannot be null");
 		Assert.notNull(urlPatterns, "urlPatterns cannot be null");
 
 		if (urlPatterns.length > 0) {
+            // 请求路径模式映射过滤器代理
 			filter = new PatternMappingFilterProxy(filter, urlPatterns);
 		}
 
@@ -88,7 +92,8 @@ public abstract class AbstractMockMvcBuilder<B extends AbstractMockMvcBuilder<B>
 		return (T) this;
 	}
 
-	@SuppressWarnings("unchecked")
+	@Override
+    @SuppressWarnings("unchecked")
 	public final <T extends B> T defaultRequest(RequestBuilder requestBuilder) {
 		this.defaultRequestBuilder = requestBuilder;
 		return (T) this;
@@ -121,7 +126,8 @@ public abstract class AbstractMockMvcBuilder<B extends AbstractMockMvcBuilder<B>
 		});
 	}
 
-	@SuppressWarnings("unchecked")
+	@Override
+    @SuppressWarnings("unchecked")
 	public final <T extends B> T apply(MockMvcConfigurer configurer) {
 		configurer.afterConfigurerAdded(this);
 		this.configurers.add(configurer);
@@ -164,6 +170,7 @@ public abstract class AbstractMockMvcBuilder<B extends AbstractMockMvcBuilder<B>
 	 * Invoked from {@link #build()} before the
 	 * {@link org.springframework.test.web.servlet.MockMvc} instance is created.
 	 */
+    // 核心方法 初始化Web应用上下文
 	protected abstract WebApplicationContext initWebAppContext();
 
 }

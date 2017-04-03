@@ -1,18 +1,3 @@
-/*
- * Copyright 2002-2015 the original author or authors.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 
 package org.springframework.test.web.servlet;
 
@@ -27,6 +12,7 @@ package org.springframework.test.web.servlet;
  * @author Rossen Stoyanchev
  * @since 3.2
  */
+// 核心接口 请求执行结果行为
 public interface ResultActions {
 
 	/**
@@ -50,6 +36,7 @@ public interface ResultActions {
 	 *   .andExpect(flash().attribute("message", "success!"));
 	 * </pre>
 	 */
+    // 核心方法 执行一个期望行为
 	ResultActions andExpect(ResultMatcher matcher) throws Exception;
 
 	/**
@@ -62,6 +49,7 @@ public interface ResultActions {
 	 * mockMvc.perform(get("/form")).andDo(print());
 	 * </pre>
 	 */
+    // 执行行为
 	ResultActions andDo(ResultHandler handler) throws Exception;
 
 	/**
@@ -69,6 +57,7 @@ public interface ResultActions {
 	 *
 	 * @return the result of the request
 	 */
+    // 核心方法 返回执行的请求结果
 	MvcResult andReturn();
 
 }

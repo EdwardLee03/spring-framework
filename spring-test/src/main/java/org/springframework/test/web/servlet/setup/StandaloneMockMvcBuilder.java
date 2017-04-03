@@ -1,18 +1,3 @@
-/*
- * Copyright 2002-2016 the original author or authors.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 
 package org.springframework.test.web.servlet.setup;
 
@@ -83,12 +68,22 @@ import org.springframework.web.servlet.view.InternalResourceViewResolver;
  * @author Rossen Stoyanchev
  * @since 3.2
  */
+// 独立的MVC构建者模拟
 public class StandaloneMockMvcBuilder extends AbstractMockMvcBuilder<StandaloneMockMvcBuilder> {
 
+	/**
+	 * 控制器组件列表
+	 */
 	private final Object[] controllers;
 
+	/**
+	 * 控制器通知列表
+	 */
 	private List<Object> controllerAdvice;
 
+	/**
+	 * 消息转换者列表
+	 */
 	private List<HttpMessageConverter<?>> messageConverters = new ArrayList<HttpMessageConverter<?>>();
 
 	private List<HandlerMethodArgumentResolver> customArgumentResolvers = new ArrayList<HandlerMethodArgumentResolver>();
@@ -97,10 +92,16 @@ public class StandaloneMockMvcBuilder extends AbstractMockMvcBuilder<StandaloneM
 
 	private final List<MappedInterceptor> mappedInterceptors = new ArrayList<MappedInterceptor>();
 
+	/**
+	 * 注解校验者
+	 */
 	private Validator validator = null;
 
 	private ContentNegotiationManager contentNegotiationManager;
 
+	/**
+	 * 转换服务
+	 */
 	private FormattingConversionService conversionService = null;
 
 	private List<HandlerExceptionResolver> handlerExceptionResolvers;
@@ -334,6 +335,7 @@ public class StandaloneMockMvcBuilder extends AbstractMockMvcBuilder<StandaloneM
 	}
 
 
+    // 核心实现 初始化Web应用上下文
 	@Override
 	protected WebApplicationContext initWebAppContext() {
 		MockServletContext servletContext = new MockServletContext();

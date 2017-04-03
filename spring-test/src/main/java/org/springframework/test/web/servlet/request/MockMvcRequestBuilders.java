@@ -1,18 +1,3 @@
-/*
- * Copyright 2002-2016 the original author or authors.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 
 package org.springframework.test.web.servlet.request;
 
@@ -45,8 +30,10 @@ import org.springframework.test.web.servlet.RequestBuilder;
  * @author Kamill Sokol
  * @since 3.2
  */
+// 核心类 MVC请求构建者辅助类
 public abstract class MockMvcRequestBuilders {
 
+    // GET
 	/**
 	 * Create a {@link MockHttpServletRequestBuilder} for a GET request.
 	 * @param urlTemplate a URL template; the resulting URL will be encoded
@@ -65,6 +52,7 @@ public abstract class MockMvcRequestBuilders {
 		return new MockHttpServletRequestBuilder(HttpMethod.GET, uri);
 	}
 
+    // POST
 	/**
 	 * Create a {@link MockHttpServletRequestBuilder} for a POST request.
 	 * @param urlTemplate a URL template; the resulting URL will be encoded
@@ -174,6 +162,7 @@ public abstract class MockMvcRequestBuilders {
 		return new MockHttpServletRequestBuilder(HttpMethod.HEAD, uri);
 	}
 
+    // 请求构建者
 	/**
 	 * Create a {@link MockHttpServletRequestBuilder} for a request with the given HTTP method.
 	 * @param method the HTTP method (GET, POST, etc)
@@ -240,6 +229,7 @@ public abstract class MockMvcRequestBuilders {
 	 * </pre>
 	 * @param mvcResult the result from the request that started async processing
 	 */
+    // 异步地分发请求执行结果
 	public static RequestBuilder asyncDispatch(final MvcResult mvcResult) {
 
 		// There must be an async result before dispatching

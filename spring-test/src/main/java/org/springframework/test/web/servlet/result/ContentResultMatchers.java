@@ -1,20 +1,9 @@
-/*
- * Copyright 2002-2015 the original author or authors.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 
 package org.springframework.test.web.servlet.result;
+
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.springframework.test.util.AssertionErrors.assertEquals;
+import static org.springframework.test.util.AssertionErrors.assertTrue;
 
 import java.util.Map;
 import javax.servlet.http.HttpServletResponse;
@@ -22,16 +11,12 @@ import javax.xml.transform.Source;
 import javax.xml.transform.dom.DOMSource;
 
 import org.hamcrest.Matcher;
-import org.w3c.dom.Node;
-
 import org.springframework.http.MediaType;
 import org.springframework.test.util.JsonExpectationsHelper;
 import org.springframework.test.util.XmlExpectationsHelper;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.ResultMatcher;
-
-import static org.hamcrest.MatcherAssert.*;
-import static org.springframework.test.util.AssertionErrors.*;
+import org.w3c.dom.Node;
 
 /**
  * Factory for response content assertions.
@@ -41,6 +26,7 @@ import static org.springframework.test.util.AssertionErrors.*;
  * @author Rossen Stoyanchev
  * @since 3.2
  */
+// 核心类 请求响应内容断言
 public class ContentResultMatchers {
 
 	private final XmlExpectationsHelper xmlHelper;
@@ -73,6 +59,7 @@ public class ContentResultMatchers {
 	 * parameters. For checking only the type and sub-type see
 	 * {@link #contentTypeCompatibleWith(MediaType)}.
 	 */
+    // 响应内容类型
 	public ResultMatcher contentType(final MediaType contentType) {
 		return new ResultMatcher() {
 			@Override
@@ -113,6 +100,7 @@ public class ContentResultMatchers {
 	 * Assert the character encoding in the ServletResponse.
 	 * @see HttpServletResponse#getCharacterEncoding()
 	 */
+    // 字符编码
 	public ResultMatcher encoding(final String characterEncoding) {
 		return new ResultMatcher() {
 			@Override
@@ -130,6 +118,7 @@ public class ContentResultMatchers {
 	 *   .andExpect(content(containsString("text")));
 	 * </pre>
 	 */
+    // 响应体内容断言
 	public ResultMatcher string(final Matcher<? super String> matcher) {
 		return new ResultMatcher() {
 			@Override
@@ -142,6 +131,7 @@ public class ContentResultMatchers {
 	/**
 	 * Assert the response body content as a String.
 	 */
+    // 期望的响应内容
 	public ResultMatcher string(final String expectedContent) {
 		return new ResultMatcher() {
 			@Override
@@ -221,6 +211,7 @@ public class ContentResultMatchers {
 	 * @param jsonContent the expected JSON content
 	 * @since 4.1
 	 */
+    // JSON字符串匹配
 	public ResultMatcher json(final String jsonContent) {
 		return json(jsonContent, false);
 	}
