@@ -1,5 +1,5 @@
 # Default TestExecutionListeners for the Spring TestContext Framework
-#
+# 测试执行监听器
 org.springframework.test.context.TestExecutionListener = \
 	org.springframework.test.context.web.ServletTestExecutionListener,\
 	org.springframework.test.context.support.DirtiesContextBeforeModesTestExecutionListener,\
@@ -9,6 +9,6 @@ org.springframework.test.context.TestExecutionListener = \
 	org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener
 
 # Default ContextCustomizerFactory implementations for the Spring TestContext Framework
-#
+# 上下文定制工厂
 org.springframework.test.context.ContextCustomizerFactory = \
 	org.springframework.test.context.web.socket.MockServerContainerContextCustomizerFactory
