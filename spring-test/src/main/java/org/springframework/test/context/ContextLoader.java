@@ -1,18 +1,3 @@
-/*
- * Copyright 2002-2015 the original author or authors.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 
 package org.springframework.test.context;
 
@@ -21,6 +6,7 @@ import org.springframework.context.ApplicationContext;
 /**
  * Strategy interface for loading an {@link ApplicationContext application context}
  * for an integration test managed by the Spring TestContext Framework.
+ * 为集成测试加载应用上下文的策略接口。
  *
  * <p><b>Note</b>: as of Spring 3.1, implement {@link SmartContextLoader} instead
  * of this interface in order to provide support for annotated classes, active
@@ -47,6 +33,7 @@ import org.springframework.context.ApplicationContext;
  * @see SmartContextLoader
  * @see org.springframework.test.context.support.AnnotationConfigContextLoader AnnotationConfigContextLoader
  */
+// 核心接口 应用上下文加载器
 public interface ContextLoader {
 
 	/**
@@ -59,6 +46,7 @@ public interface ContextLoader {
 	 * application context (can be {@code null} or empty)
 	 * @return an array of application context resource locations
 	 */
+    // 核心方法 处理资源文件位置
 	String[] processLocations(Class<?> clazz, String... locations);
 
 	/**
@@ -83,6 +71,7 @@ public interface ContextLoader {
 	 * @return a new application context
 	 * @throws Exception if context loading failed
 	 */
+    // 核心方法 基于提供的资源文件位置加载一个新的应用上下文
 	ApplicationContext loadContext(String... locations) throws Exception;
 
 }

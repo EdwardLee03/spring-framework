@@ -1,18 +1,3 @@
-/*
- * Copyright 2002-2016 the original author or authors.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 
 package org.springframework.test.context.web;
 
@@ -125,13 +110,21 @@ public abstract class AbstractGenericWebContextLoader extends AbstractContextLoa
 		if (parent != null) {
 			context.setParent(parent);
 		}
+		// 配置Web资源
 		configureWebResources(context, webMergedConfig);
+		// 应用上下文加载准备
 		prepareContext(context, webMergedConfig);
+        // 自定义组件工厂
 		customizeBeanFactory(context.getDefaultListableBeanFactory(), webMergedConfig);
+        // 加载组件定义
 		loadBeanDefinitions(context, webMergedConfig);
+        // 注册注解配置处理器
 		AnnotationConfigUtils.registerAnnotationConfigProcessors(context);
+        // 自定义应用上下文
 		customizeContext(context, webMergedConfig);
+        // 刷新上下文
 		context.refresh();
+        // 注册上下文关闭钩子
 		context.registerShutdownHook();
 		return context;
 	}
