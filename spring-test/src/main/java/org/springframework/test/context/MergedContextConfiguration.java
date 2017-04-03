@@ -1,18 +1,3 @@
-/*
- * Copyright 2002-2016 the original author or authors.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 
 package org.springframework.test.context;
 
@@ -64,6 +49,7 @@ import org.springframework.util.StringUtils;
  * @see ContextConfigurationAttributes
  * @see SmartContextLoader#loadContext(MergedContextConfiguration)
  */
+// 核心类 合并的应用上下文配置
 public class MergedContextConfiguration implements Serializable {
 
 	private static final long serialVersionUID = -3290560718464957422L;
@@ -73,31 +59,61 @@ public class MergedContextConfiguration implements Serializable {
 	private static final Class<?>[] EMPTY_CLASS_ARRAY = new Class<?>[0];
 
 	private static final Set<Class<? extends ApplicationContextInitializer<? extends ConfigurableApplicationContext>>> EMPTY_INITIALIZER_CLASSES =
-			Collections.<Class<? extends ApplicationContextInitializer<? extends ConfigurableApplicationContext>>> emptySet();
+			Collections.emptySet();
 
-	private static final Set<ContextCustomizer> EMPTY_CONTEXT_CUSTOMIZERS = Collections.<ContextCustomizer> emptySet();
+	private static final Set<ContextCustomizer> EMPTY_CONTEXT_CUSTOMIZERS = Collections.emptySet();
 
 
+	/**
+	 * 测试类实例
+	 */
 	private final Class<?> testClass;
 
+    /**
+     * 资源文件位置列表
+     */
 	private final String[] locations;
 
+    /**
+     * 配置的注解组件类型
+     */
 	private final Class<?>[] classes;
 
+    /**
+     * 应用上下文初始化者类实例列表
+     */
 	private final Set<Class<? extends ApplicationContextInitializer<? extends ConfigurableApplicationContext>>> contextInitializerClasses;
 
+    /**
+     * 配置文件列表
+     */
 	private final String[] activeProfiles;
 
+    /**
+     * 属性源文件位置
+     */
 	private final String[] propertySourceLocations;
 
+    /**
+     * 属性源文件属性列表
+     */
 	private final String[] propertySourceProperties;
 
+    /**
+     * 上下文定制者集合
+     */
 	private final Set<ContextCustomizer> contextCustomizers;
 
+    /**
+     * 上下文加载器
+     */
 	private final ContextLoader contextLoader;
 
 	private final CacheAwareContextLoaderDelegate cacheAwareContextLoaderDelegate;
 
+    /**
+     * 上下文配置的祖先
+     */
 	private final MergedContextConfiguration parent;
 
 

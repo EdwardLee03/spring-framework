@@ -1,18 +1,3 @@
-/*
- * Copyright 2002-2016 the original author or authors.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 
 package org.springframework.test.context;
 
@@ -31,8 +16,9 @@ import org.springframework.core.annotation.AliasFor;
  * {@code @ContextConfiguration} defines class-level metadata that is used to determine
  * how to load and configure an {@link org.springframework.context.ApplicationContext
  * ApplicationContext} for integration tests.
+ * 定义类型级别的元数据，用于确定如何加载和配置集成测试的应用上下文。
  *
- * <h3>Supported Resource Types</h3>
+ * <h3>Supported Resource Types (支持的资源类型)</h3>
  *
  * <p>
  * Prior to Spring 3.1, only path-based resource locations (typically XML configuration
@@ -47,30 +33,34 @@ import org.springframework.core.annotation.AliasFor;
  * of Spring 4.1, path-based resource locations may be either XML configuration files or
  * Groovy scripts (if Groovy is on the classpath). Of course, third-party frameworks may
  * choose to support additional types of path-based resources.
+ * 3.1版本，支持基于路径或基于类型的资源；4.0.4版本，上下文加载器可选择同时支持两者。
+ * 4.1版本，基于路径的资源位置可以是XML配置文件或Groovy脚本。
  *
- * <h3>Annotated Classes</h3>
+ * <h3>Annotated Classes (注解的类型)</h3>
  *
  * <p>
- * The term <em>annotated class</em> can refer to any of the following.
+ * The term <em>annotated class (注解类)</em> can refer to any of the following.
  *
  * <ul>
- * <li>A class annotated with {@link org.springframework.context.annotation.Configuration @Configuration}</li>
- * <li>A component (i.e., a class annotated with
+ * <li>A class annotated with {@link org.springframework.context.annotation.Configuration @Configuration} (组件配置注解)</li>
+ * <li>A component (组件注解) (i.e., a class annotated with
  * {@link org.springframework.stereotype.Component @Component},
  * {@link org.springframework.stereotype.Service @Service},
  * {@link org.springframework.stereotype.Repository @Repository}, etc.)</li>
- * <li>A JSR-330 compliant class that is annotated with {@code javax.inject} annotations</li>
- * <li>Any other class that contains {@link org.springframework.context.annotation.Bean @Bean}-methods</li>
+ * <li>A JSR-330 compliant class that is annotated with {@code javax.inject} annotations (依赖注入注解)</li>
+ * <li>Any other class that contains {@link org.springframework.context.annotation.Bean @Bean}-methods (包含@Bean方法的类)</li>
  * </ul>
  *
  * <p>
  * Consult the Javadoc for {@link org.springframework.context.annotation.Configuration @Configuration}
  * and {@link org.springframework.context.annotation.Bean @Bean} for further
  * information regarding the configuration and semantics of <em>annotated classes</em>.
+ * 注解类的配置和语义（@Configuration + @Bean）。
  *
  * <p>
  * As of Spring Framework 4.0, this annotation may be used as a <em>meta-annotation</em>
  * to create custom <em>composed annotations</em>.
+ * 使用元注解(<em>meta-annotation</em>)来创建自定义的组合注解(<em>composed annotations</em>)。
  *
  * @author Sam Brannen
  * @since 2.5
@@ -87,6 +77,7 @@ import org.springframework.core.annotation.AliasFor;
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 @Inherited
+// 核心类 应用上下文配置
 public @interface ContextConfiguration {
 
 	/**
@@ -123,6 +114,7 @@ public @interface ContextConfiguration {
 	 * @since 2.5
 	 * @see #inheritLocations
 	 */
+    // 用于加载应用上下文的资源文件位置
 	@AliasFor("value")
 	String[] locations() default {};
 
@@ -140,6 +132,7 @@ public @interface ContextConfiguration {
 	 * @see org.springframework.test.context.support.AnnotationConfigContextLoader
 	 * @see #inheritLocations
 	 */
+    // 用于加载应用上下文的注解类型
 	Class<?>[] classes() default {};
 
 	/**
@@ -275,6 +268,7 @@ public @interface ContextConfiguration {
 	 * {@link org.springframework.test.context.web.AnnotationConfigWebContextLoader AnnotationConfigWebContextLoader}.
 	 * @since 2.5
 	 */
+    // 应用上下文加载器
 	Class<? extends ContextLoader> loader() default ContextLoader.class;
 
 	/**

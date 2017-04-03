@@ -1,18 +1,3 @@
-/*
- * Copyright 2002-2016 the original author or authors.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 
 package org.springframework.test.context;
 
@@ -45,7 +30,7 @@ import org.springframework.core.annotation.AliasFor;
  * Furthermore, inlined {@link #properties} have higher precedence than
  * properties loaded from resource {@link #locations}.
  *
- * <h3>Default Properties File Detection</h3>
+ * <h3>Default Properties File Detection (默认的属性文件检测)</h3>
  * <p>If {@code @TestPropertySource} is declared as an <em>empty</em> annotation
  * (i.e., without explicit values for {@link #locations} or {@link #properties}),
  * an attempt will be made to detect a <em>default</em> properties file relative
@@ -86,6 +71,7 @@ import org.springframework.core.annotation.AliasFor;
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 @Inherited
+// 核心类 测试属性源文件
 public @interface TestPropertySource {
 
 	/**
@@ -136,6 +122,7 @@ public @interface TestPropertySource {
 	 * @see #properties
 	 * @see org.springframework.core.env.PropertySource
 	 */
+    // 属性文件位置
 	@AliasFor("value")
 	String[] locations() default {};
 

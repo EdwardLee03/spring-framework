@@ -1,18 +1,3 @@
-/*
- * Copyright 2002-2016 the original author or authors.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 
 package org.springframework.test.context;
 
@@ -32,6 +17,8 @@ import org.springframework.util.StringUtils;
 /**
  * {@code ContextConfigurationAttributes} encapsulates the context configuration
  * attributes declared via {@link ContextConfiguration @ContextConfiguration}.
+ * 封装通过上下文配置注解({@link ContextConfiguration @ContextConfiguration})声明的
+ * 上下文配置属性列表。
  *
  * @author Sam Brannen
  * @author Phillip Webb
@@ -40,29 +27,48 @@ import org.springframework.util.StringUtils;
  * @see SmartContextLoader#processContextConfiguration(ContextConfigurationAttributes)
  * @see MergedContextConfiguration
  */
+// 核心类 应用上下文配置属性列表
 public class ContextConfigurationAttributes {
+
+    private static final Log logger = LogFactory.getLog(ContextConfigurationAttributes.class);
 
 	private static final String[] EMPTY_LOCATIONS = new String[0];
 
 	private static final Class<?>[] EMPTY_CLASSES = new Class<?>[0];
 
 
-	private static final Log logger = LogFactory.getLog(ContextConfigurationAttributes.class);
-
+    /**
+     * 声明了上下文配置注解的测试类实例
+     */
 	private final Class<?> declaringClass;
 
+    /**
+     * 配置的类实例列表
+     */
 	private Class<?>[] classes;
 
+    /**
+     * 配置的资源路径列表
+     */
 	private String[] locations;
 
 	private final boolean inheritLocations;
 
+    /**
+     * 可配置的应用上下文初始化者列表
+     */
 	private final Class<? extends ApplicationContextInitializer<? extends ConfigurableApplicationContext>>[] initializers;
 
 	private final boolean inheritInitializers;
 
+    /**
+     * 上下文层次结构级别的名称
+     */
 	private final String name;
 
+    /**
+     * 上下文加载器的类实例
+     */
 	private final Class<? extends ContextLoader> contextLoaderClass;
 
 
@@ -81,8 +87,8 @@ public class ContextConfigurationAttributes {
 	 * Construct a new {@link ContextConfigurationAttributes} instance for the
 	 * supplied {@link ContextConfiguration @ContextConfiguration} annotation and
 	 * the {@linkplain Class test class} that declared it.
-	 * @param declaringClass the test class that declared {@code @ContextConfiguration}
-	 * @param contextConfiguration the annotation from which to retrieve the attributes
+	 * @param declaringClass the test class that declared {@code @ContextConfiguration} (测试类实例)
+	 * @param contextConfiguration the annotation from which to retrieve the attributes (检索属性的注解)
 	 */
 	public ContextConfigurationAttributes(Class<?> declaringClass, ContextConfiguration contextConfiguration) {
 		this(declaringClass, contextConfiguration.locations(), contextConfiguration.classes(),
@@ -179,6 +185,7 @@ public class ContextConfigurationAttributes {
 	 * or implicitly.
 	 * @return the declaring class (never {@code null})
 	 */
+    // 获取声明了上下文配置注解的测试类实例
 	public Class<?> getDeclaringClass() {
 		return this.declaringClass;
 	}
@@ -222,6 +229,7 @@ public class ContextConfigurationAttributes {
 	 * original value declared via {@link ContextConfiguration @ContextConfiguration}.
 	 * @see #getLocations()
 	 */
+    // 设置要处理的资源路径列表
 	public void setLocations(String... locations) {
 		this.locations = locations;
 	}
@@ -301,6 +309,7 @@ public class ContextConfigurationAttributes {
 	 * @see ContextConfiguration#name()
 	 * @since 3.2.2
 	 */
+    // 获取上下文层次结构级别的名称
 	public String getName() {
 		return this.name;
 	}
@@ -329,6 +338,7 @@ public class ContextConfigurationAttributes {
 	 */
 	@Override
 	public boolean equals(Object other) {
+        // Effective Java里建议的优化措施
 		if (this == other) {
 			return true;
 		}
