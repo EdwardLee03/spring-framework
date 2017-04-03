@@ -1,18 +1,3 @@
-/*
- * Copyright 2002-2016 the original author or authors.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 
 package org.springframework.test.context;
 
@@ -40,18 +25,34 @@ import org.springframework.util.ClassUtils;
  */
 abstract class BootstrapUtils {
 
+	// 默认配置
+    /**
+     * 默认的引导上下文
+     */
 	private static final String DEFAULT_BOOTSTRAP_CONTEXT_CLASS_NAME =
 			"org.springframework.test.context.support.DefaultBootstrapContext";
 
+    /**
+     * 默认的缓存通知上下文加载器代理
+     */
 	private static final String DEFAULT_CACHE_AWARE_CONTEXT_LOADER_DELEGATE_CLASS_NAME =
 			"org.springframework.test.context.cache.DefaultCacheAwareContextLoaderDelegate";
 
-	private static final String DEFAULT_TEST_CONTEXT_BOOTSTRAPPER_CLASS_NAME =
+    /**
+     * 默认的测试执行上下文引导者
+     */
+    private static final String DEFAULT_TEST_CONTEXT_BOOTSTRAPPER_CLASS_NAME =
 			"org.springframework.test.context.support.DefaultTestContextBootstrapper";
 
+    /**
+     * Web测试执行上下文引导者
+     */
 	private static final String DEFAULT_WEB_TEST_CONTEXT_BOOTSTRAPPER_CLASS_NAME =
 			"org.springframework.test.context.web.WebTestContextBootstrapper";
 
+    /**
+     * Web应用配置
+     */
 	private static final String WEB_APP_CONFIGURATION_ANNOTATION_CLASS_NAME =
 			"org.springframework.test.context.web.WebAppConfiguration";
 
@@ -65,6 +66,7 @@ abstract class BootstrapUtils {
 	 * @param testClass the test class for which the bootstrap context should be created
 	 * @return a new {@code BootstrapContext}; never {@code null}
 	 */
+    // 核心实现 创建引导上下文
 	@SuppressWarnings("unchecked")
 	static BootstrapContext createBootstrapContext(Class<?> testClass) {
 		CacheAwareContextLoaderDelegate cacheAwareContextLoaderDelegate = createCacheAwareContextLoaderDelegate();
@@ -118,6 +120,7 @@ abstract class BootstrapUtils {
 	 * @param bootstrapContext the bootstrap context to use
 	 * @return a fully configured {@code TestContextBootstrapper}
 	 */
+    // 核心实现 解析测试执行上下文引导者
 	static TestContextBootstrapper resolveTestContextBootstrapper(BootstrapContext bootstrapContext) {
 		Class<?> testClass = bootstrapContext.getTestClass();
 

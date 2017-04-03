@@ -18,7 +18,7 @@ import org.springframework.test.annotation.DirtiesContext.HierarchyMode;
  * @author Sam Brannen
  * @since 3.2.2
  */
-// 应用上下文加载器代理
+// 核心接口 基于上下文缓存的应用上下文加载器代理
 public interface CacheAwareContextLoaderDelegate {
 
 	/**
