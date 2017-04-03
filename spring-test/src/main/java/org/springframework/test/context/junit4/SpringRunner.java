@@ -1,18 +1,3 @@
-/*
- * Copyright 2002-2016 the original author or authors.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 
 package org.springframework.test.context.junit4;
 
@@ -23,6 +8,7 @@ import org.junit.runners.model.InitializationError;
  *
  * <p>To use this class, simply annotate a JUnit 4 based test class with
  * {@code @RunWith(SpringRunner.class)}.
+ * 使用@RunWith(SpringRunner.class)来注解基于JUnit 4的测试类。
  *
  * <p>If you would like to use the Spring TestContext Framework with a runner other than
  * this one, use {@link org.springframework.test.context.junit4.rules.SpringClassRule}
@@ -36,6 +22,7 @@ import org.junit.runners.model.InitializationError;
  * @see org.springframework.test.context.junit4.rules.SpringClassRule
  * @see org.springframework.test.context.junit4.rules.SpringMethodRule
  */
+// 测试运行者
 public final class SpringRunner extends SpringJUnit4ClassRunner {
 
 	/**
@@ -45,6 +32,7 @@ public final class SpringRunner extends SpringJUnit4ClassRunner {
 	 * @param clazz the test class to be run
 	 * @see #createTestContextManager(Class)
 	 */
+    // 初始化测试执行上下文管理者来提供测试功能
 	public SpringRunner(Class<?> clazz) throws InitializationError {
 		super(clazz);
 	}

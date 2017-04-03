@@ -1,18 +1,3 @@
-/*
- * Copyright 2002-2016 the original author or authors.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 
 package org.springframework.test.context.junit4;
 
@@ -58,6 +43,8 @@ import org.springframework.util.ReflectionUtils;
  *
  * <p>To use this class, simply annotate a JUnit 4 based test class with
  * {@code @RunWith(SpringJUnit4ClassRunner.class)} or {@code @RunWith(SpringRunner.class)}.
+ * 使用@RunWith(SpringJUnit4ClassRunner.class)或者@RunWith(SpringRunner.class)
+ * 注解基于JUnit 4的测试类。
  *
  * <p>The following list constitutes all annotations currently supported directly
  * or indirectly by {@code SpringJUnit4ClassRunner}. <em>(Note that additional
@@ -95,6 +82,9 @@ public class SpringJUnit4ClassRunner extends BlockJUnit4ClassRunner {
 
 	private static final Log logger = LogFactory.getLog(SpringJUnit4ClassRunner.class);
 
+    /**
+     * 使用规则的方法
+     */
 	private static final Method withRulesMethod;
 
 	static {
@@ -111,6 +101,9 @@ public class SpringJUnit4ClassRunner extends BlockJUnit4ClassRunner {
 	}
 
 
+    /**
+     * 测试执行上下文管理者
+     */
 	private final TestContextManager testContextManager;
 
 
@@ -148,6 +141,7 @@ public class SpringJUnit4ClassRunner extends BlockJUnit4ClassRunner {
 	 * <p>Can be overridden by subclasses.
 	 * @param clazz the test class to be managed
 	 */
+    // 创建新的测试执行上下文管理者实例
 	protected TestContextManager createTestContextManager(Class<?> clazz) {
 		return new TestContextManager(clazz);
 	}
@@ -198,6 +192,7 @@ public class SpringJUnit4ClassRunner extends BlockJUnit4ClassRunner {
 	 * Framework.
 	 * @see RunBeforeTestClassCallbacks
 	 */
+    // @BeforeClass
 	@Override
 	protected Statement withBeforeClasses(Statement statement) {
 		Statement junitBeforeClasses = super.withBeforeClasses(statement);
@@ -210,6 +205,7 @@ public class SpringJUnit4ClassRunner extends BlockJUnit4ClassRunner {
 	 * JUnit functionality while adding support for the Spring TestContext Framework.
 	 * @see RunAfterTestClassCallbacks
 	 */
+    // @AfterClass
 	@Override
 	protected Statement withAfterClasses(Statement statement) {
 		Statement junitAfterClasses = super.withAfterClasses(statement);
@@ -222,6 +218,7 @@ public class SpringJUnit4ClassRunner extends BlockJUnit4ClassRunner {
 	 * prepare the test instance before returning it.
 	 * @see TestContextManager#prepareTestInstance
 	 */
+    // 创建测试实例
 	@Override
 	protected Object createTest() throws Exception {
 		Object testInstance = super.createTest();
@@ -315,6 +312,7 @@ public class SpringJUnit4ClassRunner extends BlockJUnit4ClassRunner {
 	 * via {@code @IfProfileValue}.
 	 * @see ProfileValueUtils#isTestEnabledInThisEnvironment(Method, Class)
 	 */
+    // @Ignore
 	protected boolean isTestMethodIgnored(FrameworkMethod frameworkMethod) {
 		Method method = frameworkMethod.getMethod();
 		return (method.isAnnotationPresent(Ignore.class) ||
@@ -340,6 +338,7 @@ public class SpringJUnit4ClassRunner extends BlockJUnit4ClassRunner {
 	 * <p>Can be overridden by subclasses.
 	 * @return the expected exception, or {@code null} if none was specified
 	 */
+    // 获取期望的异常
 	protected Class<? extends Throwable> getExpectedException(FrameworkMethod frameworkMethod) {
 		Test test = frameworkMethod.getAnnotation(Test.class);
 		return (test != null && test.expected() != Test.None.class ? test.expected() : null);

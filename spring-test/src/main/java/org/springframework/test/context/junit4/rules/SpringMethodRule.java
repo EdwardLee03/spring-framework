@@ -1,18 +1,3 @@
-/*
- * Copyright 2002-2015 the original author or authors.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 
 package org.springframework.test.context.junit4.rules;
 
@@ -90,6 +75,7 @@ import org.springframework.util.ReflectionUtils;
  * @see org.springframework.test.context.TestContextManager
  * @see org.springframework.test.context.junit4.SpringJUnit4ClassRunner
  */
+// 自定义的方法测试规则
 public class SpringMethodRule implements MethodRule {
 
 	private static final Log logger = LogFactory.getLog(SpringMethodRule.class);
@@ -118,7 +104,7 @@ public class SpringMethodRule implements MethodRule {
 	 * in {@code TestExecutionListeners}.
 	 * @param base the base {@code Statement} that this rule should be applied to
 	 * @param frameworkMethod the method which is about to be invoked on the test instance
-	 * @param testInstance the current test instance
+	 * @param testInstance the current test instance (当前的测试实例)
 	 * @return a statement that wraps the supplied {@code base} with instance-level
 	 * and method-level features of the Spring TestContext Framework
 	 * @see #withBeforeTestMethodCallbacks
@@ -133,16 +119,25 @@ public class SpringMethodRule implements MethodRule {
 		if (logger.isDebugEnabled()) {
 			logger.debug("Applying SpringMethodRule to test method [" + frameworkMethod.getMethod() + "]");
 		}
+		// 测试类实例
 		Class<?> testClass = testInstance.getClass();
+        // 校验类型规则配置
 		validateSpringClassRuleConfiguration(testClass);
+        // 测试执行上下文管理者
 		TestContextManager testContextManager = SpringClassRule.getTestContextManager(testClass);
 
 		Statement statement = base;
+        // 在测试方法执行之前的回调
 		statement = withBeforeTestMethodCallbacks(statement, frameworkMethod, testInstance, testContextManager);
+        // 在测试方法执行之后的回调
 		statement = withAfterTestMethodCallbacks(statement, frameworkMethod, testInstance, testContextManager);
+        // 测试实例准备阶段
 		statement = withTestInstancePreparation(statement, testInstance, testContextManager);
+        // 重复执行
 		statement = withPotentialRepeat(statement, frameworkMethod, testInstance);
+        // 超时时间
 		statement = withPotentialTimeout(statement, frameworkMethod, testInstance);
+        // 返回值检查
 		statement = withProfileValueCheck(statement, frameworkMethod, testInstance);
 		return statement;
 	}
@@ -217,7 +212,7 @@ public class SpringMethodRule implements MethodRule {
 		Field ruleField = null;
 
 		for (Field field : testClass.getFields()) {
-			if (ReflectionUtils.isPublicStaticFinal(field) && SpringClassRule.class.isAssignableFrom(field.getType())) {
+			if (ReflectionUtils.isPublicStaticFinal(field) && SpringClassRule.class.isAssignableFrom(field.getType())) { // SpringClassRule
 				ruleField = field;
 				break;
 			}
@@ -229,7 +224,7 @@ public class SpringMethodRule implements MethodRule {
 					"Consult the javadoc for SpringClassRule for details.", testClass.getName()));
 		}
 
-		if (!ruleField.isAnnotationPresent(ClassRule.class)) {
+		if (!ruleField.isAnnotationPresent(ClassRule.class)) { // @ClassRule
 			throw new IllegalStateException(String.format(
 					"SpringClassRule field [%s] must be annotated with JUnit's @ClassRule annotation. " +
 					"Consult the javadoc for SpringClassRule for details.", ruleField));

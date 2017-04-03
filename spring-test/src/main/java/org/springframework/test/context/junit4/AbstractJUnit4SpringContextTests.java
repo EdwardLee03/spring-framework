@@ -1,18 +1,3 @@
-/*
- * Copyright 2002-2016 the original author or authors.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 
 package org.springframework.test.context.junit4;
 
@@ -36,6 +21,7 @@ import org.springframework.test.context.web.ServletTestExecutionListener;
  * Abstract base test class which integrates the <em>Spring TestContext
  * Framework</em> with explicit {@link ApplicationContext} testing support
  * in a <strong>JUnit</strong> environment.
+ * 在JUnit环境中，集成使用显示的应用上下文测试支持的<em>Spring TestContext Framework</em>。
  *
  * <p>Concrete subclasses should typically declare a class-level
  * {@link ContextConfiguration @ContextConfiguration} annotation to
@@ -85,7 +71,9 @@ import org.springframework.test.context.web.ServletTestExecutionListener;
  * @see AbstractTransactionalJUnit4SpringContextTests
  * @see org.springframework.test.context.testng.AbstractTestNGSpringContextTests
  */
-@RunWith(SpringRunner.class)
+// 基于JUnit 4的集成抽象测试基类
+@RunWith(SpringRunner.class) // 运行者
+// 测试执行监听器
 @TestExecutionListeners({ ServletTestExecutionListener.class, DirtiesContextBeforeModesTestExecutionListener.class,
 	DependencyInjectionTestExecutionListener.class, DirtiesContextTestExecutionListener.class })
 public abstract class AbstractJUnit4SpringContextTests implements ApplicationContextAware {
@@ -98,6 +86,7 @@ public abstract class AbstractJUnit4SpringContextTests implements ApplicationCon
 	/**
 	 * The {@link ApplicationContext} that was injected into this test instance
 	 * via {@link #setApplicationContext(ApplicationContext)}.
+     * 应用上下文
 	 */
 	protected ApplicationContext applicationContext;
 

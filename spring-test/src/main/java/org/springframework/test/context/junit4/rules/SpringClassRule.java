@@ -1,18 +1,3 @@
-/*
- * Copyright 2002-2015 the original author or authors.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 
 package org.springframework.test.context.junit4.rules;
 
@@ -41,6 +26,7 @@ import org.springframework.util.ClassUtils;
  * <em>class-level</em> features of the <em>Spring TestContext Framework</em>
  * in standard JUnit tests by means of the {@link TestContextManager} and
  * associated support classes and annotations.
+ * 是一个自定义的测试规则({@link TestRule})，支持类级别的功能。
  *
  * <p>In contrast to the {@link org.springframework.test.context.junit4.SpringJUnit4ClassRunner
  * SpringJUnit4ClassRunner}, Spring's rule-based JUnit support has the advantage
@@ -87,12 +73,14 @@ import org.springframework.util.ClassUtils;
  * @see org.springframework.test.context.TestContextManager
  * @see org.springframework.test.context.junit4.SpringJUnit4ClassRunner
  */
+// 自定义的类型测试规则
 public class SpringClassRule implements TestRule {
 
 	private static final Log logger = LogFactory.getLog(SpringClassRule.class);
 
 	/**
 	 * Cache of {@code TestContextManagers} keyed by test class.
+     * {@code <测试类, 测试执行上下文管理者>}缓存
 	 */
 	private static final Map<Class<?>, TestContextManager> testContextManagerCache =
 			new ConcurrentHashMap<Class<?>, TestContextManager>(64);
@@ -127,18 +115,25 @@ public class SpringClassRule implements TestRule {
 	 * @see #withProfileValueCheck
 	 * @see #withTestContextManagerCacheEviction
 	 */
+    // 核心实现 应用类级别的功能
 	@Override
 	public Statement apply(Statement base, Description description) {
+        // 测试类实例
 		Class<?> testClass = description.getTestClass();
 		if (logger.isDebugEnabled()) {
 			logger.debug("Applying SpringClassRule to test class [" + testClass.getName() + "]");
 		}
+        // 校验方法规则配置
 		validateSpringMethodRuleConfiguration(testClass);
+        // 获取测试执行上下文管理者
 		TestContextManager testContextManager = getTestContextManager(testClass);
 
 		Statement statement = base;
+        // 在测试类实例执行之前的回调
 		statement = withBeforeTestClassCallbacks(statement, testContextManager);
+        // 在测试类实例执行之后的回调
 		statement = withAfterTestClassCallbacks(statement, testContextManager);
+        // 返回值检查
 		statement = withProfileValueCheck(statement, testClass);
 		statement = withTestContextManagerCacheEviction(statement, testClass);
 		return statement;
@@ -188,7 +183,7 @@ public class SpringClassRule implements TestRule {
 		for (Field field : testClass.getFields()) {
 			int modifiers = field.getModifiers();
 			if (!Modifier.isStatic(modifiers) && Modifier.isPublic(modifiers) &&
-					SpringMethodRule.class.isAssignableFrom(field.getType())) {
+					SpringMethodRule.class.isAssignableFrom(field.getType())) { // SpringMethodRule
 				ruleField = field;
 				break;
 			}
@@ -200,7 +195,7 @@ public class SpringClassRule implements TestRule {
 					"Consult the javadoc for SpringClassRule for details.", testClass.getName()));
 		}
 
-		if (!ruleField.isAnnotationPresent(Rule.class)) {
+		if (!ruleField.isAnnotationPresent(Rule.class)) { // @Rule
 			throw new IllegalStateException(String.format(
 					"SpringMethodRule field [%s] must be annotated with JUnit's @Rule annotation. " +
 					"Consult the javadoc for SpringClassRule for details.", ruleField));
@@ -213,7 +208,7 @@ public class SpringClassRule implements TestRule {
 	 */
 	static TestContextManager getTestContextManager(Class<?> testClass) {
 		Assert.notNull(testClass, "testClass must not be null");
-		synchronized (testContextManagerCache) {
+		synchronized (testContextManagerCache) { // 同步语句块
 			TestContextManager testContextManager = testContextManagerCache.get(testClass);
 			if (testContextManager == null) {
 				testContextManager = new TestContextManager(testClass);
