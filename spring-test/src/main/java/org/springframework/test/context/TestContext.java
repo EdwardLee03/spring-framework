@@ -1,18 +1,3 @@
-/*
- * Copyright 2002-2015 the original author or authors.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 
 package org.springframework.test.context;
 
@@ -30,6 +15,7 @@ import org.springframework.test.annotation.DirtiesContext.HierarchyMode;
  * @author Sam Brannen
  * @since 2.5
  */
+// 核心接口 测试执行上下文
 public interface TestContext extends AttributeAccessor, Serializable {
 
 	/**
@@ -42,12 +28,14 @@ public interface TestContext extends AttributeAccessor, Serializable {
 	 * @throws IllegalStateException if an error occurs while retrieving the
 	 * application context
 	 */
+    // 核心方法 获取此测试上下文的应用上下文
 	ApplicationContext getApplicationContext();
 
 	/**
 	 * Get the {@linkplain Class test class} for this test context.
 	 * @return the test class (never {@code null})
 	 */
+    // 核心方法 获取此测试上下文的测试类
 	Class<?> getTestClass();
 
 	/**
@@ -56,6 +44,7 @@ public interface TestContext extends AttributeAccessor, Serializable {
 	 * @return the current test instance (may be {@code null})
 	 * @see #updateState(Object, Method, Throwable)
 	 */
+    // 核心方法 获取当前的测试实例
 	Object getTestInstance();
 
 	/**
@@ -64,6 +53,7 @@ public interface TestContext extends AttributeAccessor, Serializable {
 	 * @return the current test method (may be {@code null})
 	 * @see #updateState(Object, Method, Throwable)
 	 */
+    // 核心方法 获取当前的测试法
 	Method getTestMethod();
 
 	/**
@@ -74,6 +64,7 @@ public interface TestContext extends AttributeAccessor, Serializable {
 	 * exception was thrown
 	 * @see #updateState(Object, Method, Throwable)
 	 */
+    // 核心方法 获取测试方法执行期间抛出的异常
 	Throwable getTestException();
 
 	/**
@@ -98,6 +89,7 @@ public interface TestContext extends AttributeAccessor, Serializable {
 	 * @param testException the exception that was thrown in the test method, or
 	 * {@code null} if no exception was thrown
 	 */
+    // 核心方法 更新当前执行测试的状态
 	void updateState(Object testInstance, Method testMethod, Throwable testException);
 
 }

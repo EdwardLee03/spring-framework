@@ -1,18 +1,3 @@
-/*
- * Copyright 2002-2015 the original author or authors.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 
 package org.springframework.test.context.support;
 
@@ -35,20 +20,39 @@ import org.springframework.util.Assert;
  * @author Juergen Hoeller
  * @since 4.0
  */
+// 核心类 测试执行上下文的默认实现
 public class DefaultTestContext extends AttributeAccessorSupport implements TestContext {
 
 	private static final long serialVersionUID = -5827157174866681233L;
 
+    /**
+     * 上下文加载器代理
+     */
 	private final CacheAwareContextLoaderDelegate cacheAwareContextLoaderDelegate;
 
+    /**
+     * 合并的上下文配置
+     */
 	private final MergedContextConfiguration mergedContextConfiguration;
 
+    /**
+     * 测试类实例
+     */
 	private final Class<?> testClass;
 
+    /**
+     * 测试实例
+     */
 	private Object testInstance;
 
+    /**
+     * 测试方法
+     */
 	private Method testMethod;
 
+    /**
+     * 测试异常
+     */
 	private Throwable testException;
 
 
@@ -79,7 +83,9 @@ public class DefaultTestContext extends AttributeAccessorSupport implements Test
 	 * @throws IllegalStateException if the context returned by the context
 	 * loader delegate is not <em>active</em> (i.e., has been closed).
 	 */
-	public ApplicationContext getApplicationContext() {
+	@Override
+    public ApplicationContext getApplicationContext() {
+        // 基于应用上下文加载器代理来加载上下文
 		ApplicationContext context = this.cacheAwareContextLoaderDelegate.loadContext(this.mergedContextConfiguration);
 		if (context instanceof ConfigurableApplicationContext) {
 			@SuppressWarnings("resource")
@@ -98,27 +104,34 @@ public class DefaultTestContext extends AttributeAccessorSupport implements Test
 	 * that was supplied when this {@code TestContext} was constructed.
 	 * @see CacheAwareContextLoaderDelegate#closeContext
 	 */
-	public void markApplicationContextDirty(HierarchyMode hierarchyMode) {
+	@Override
+    public void markApplicationContextDirty(HierarchyMode hierarchyMode) {
 		this.cacheAwareContextLoaderDelegate.closeContext(this.mergedContextConfiguration, hierarchyMode);
 	}
 
-	public final Class<?> getTestClass() {
+	@Override
+    public final Class<?> getTestClass() {
 		return this.testClass;
 	}
 
-	public final Object getTestInstance() {
+	@Override
+    public final Object getTestInstance() {
 		return this.testInstance;
 	}
 
-	public final Method getTestMethod() {
+	@Override
+    public final Method getTestMethod() {
 		return this.testMethod;
 	}
 
-	public final Throwable getTestException() {
+	@Override
+    public final Throwable getTestException() {
 		return this.testException;
 	}
 
-	public void updateState(Object testInstance, Method testMethod, Throwable testException) {
+    // 切换测试方法
+	@Override
+    public void updateState(Object testInstance, Method testMethod, Throwable testException) {
 		this.testInstance = testInstance;
 		this.testMethod = testMethod;
 		this.testException = testException;
