@@ -29,7 +29,7 @@ import org.springframework.test.context.MergedContextConfiguration;
  * @since 4.2
  * @see ContextCacheUtils#retrieveMaxCacheSize()
  */
-// 核心接口 应用上下文缓存
+// 核心接口 应用上下文缓存，保证运行测试时仅有一个应用上下文实例
 public interface ContextCache {
 
 	/**
