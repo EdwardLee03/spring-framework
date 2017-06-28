@@ -1,30 +1,15 @@
-/*
- * Copyright 2002-2016 the original author or authors.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 
 package org.springframework.context.annotation;
+
+import org.springframework.beans.factory.annotation.Autowire;
+import org.springframework.beans.factory.support.AbstractBeanDefinition;
+import org.springframework.core.annotation.AliasFor;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
-
-import org.springframework.beans.factory.annotation.Autowire;
-import org.springframework.beans.factory.support.AbstractBeanDefinition;
-import org.springframework.core.annotation.AliasFor;
 
 /**
  * Indicates that a method produces a bean to be managed by the Spring container.
@@ -34,6 +19,7 @@ import org.springframework.core.annotation.AliasFor;
  * <p>The names and semantics of the attributes to this annotation are intentionally
  * similar to those of the {@code <bean/>} element in the Spring XML schema. For
  * example:
+ * 与Spring XML schema中的{@code <bean/>}元素很相似。
  *
  * <pre class="code">
  *     &#064;Bean
@@ -188,6 +174,7 @@ import org.springframework.core.annotation.AliasFor;
 @Target({ElementType.METHOD, ElementType.ANNOTATION_TYPE})
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
+// 方法生成组件的注解类
 public @interface Bean {
 
 	/**
@@ -208,6 +195,7 @@ public @interface Bean {
 	 * attribute if no other attributes are declared.
 	 * @see #value
 	 */
+    // 逻辑组件名称
 	@AliasFor("value")
 	String[] name() default {};
 
@@ -221,6 +209,7 @@ public @interface Bean {
 	 * @see Autowire#BY_NAME
 	 * @see Autowire#BY_TYPE
 	 */
+    // 自动装配约定
 	Autowire autowire() default Autowire.NO;
 
 	/**
@@ -229,6 +218,7 @@ public @interface Bean {
 	 * within the body of a Bean-annotated method.
 	 * <p>The default value is {@code ""}, indicating no init method to be called.
 	 */
+    // 组件实例初始化方法
 	String initMethod() default "";
 
 	/**
@@ -256,6 +246,7 @@ public @interface Bean {
 	 * other scope.
 	 * @see org.springframework.context.ConfigurableApplicationContext#close()
 	 */
+    // 组件实例销毁方法
 	String destroyMethod() default AbstractBeanDefinition.INFER_METHOD;
 
 }

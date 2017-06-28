@@ -1,18 +1,3 @@
-/*
- * Copyright 2002-2012 the original author or authors.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 
 package org.springframework.beans.factory.annotation;
 
@@ -28,6 +13,7 @@ import java.lang.annotation.Target;
  *
  * <p>Typically used for expression-driven dependency injection. Also supported
  * for dynamic resolution of handler method parameters, e.g. in Spring MVC.
+ * 通常用于表达式驱动的依赖注入，也支持处理程序方法参数的动态解决方案。
  *
  * <p>A common use case is to assign default field values using
  * "#{systemProperties.myProp}" style expressions.
@@ -52,6 +38,7 @@ import java.lang.annotation.Target;
 @Target({ElementType.FIELD, ElementType.METHOD, ElementType.PARAMETER, ElementType.ANNOTATION_TYPE})
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
+// 方法/构造函数参数的字段注解
 public @interface Value {
 
 	/**
