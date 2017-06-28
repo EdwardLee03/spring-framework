@@ -1,18 +1,3 @@
-/*
- * Copyright 2002-2007 the original author or authors.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 
 package org.springframework.stereotype;
 
@@ -26,9 +11,10 @@ import java.lang.annotation.Target;
  * Indicates that an annotated class is a "component".
  * Such classes are considered as candidates for auto-detection
  * when using annotation-based configuration and classpath scanning.
+ * 组件，这样的类会被作为自动检测的候选者，当使用基于注解的配置和类路径扫描时。
  *
  * <p>Other class-level annotations may be considered as identifying
- * a component as well, typically a special kind of component:
+ * a component as well, typically a special kind of component/一个特殊的组件:
  * e.g. the {@link Repository @Repository} annotation or AspectJ's
  * {@link org.aspectj.lang.annotation.Aspect @Aspect} annotation.
  *
@@ -42,6 +28,7 @@ import java.lang.annotation.Target;
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
+// 核心类 组件注解类
 public @interface Component {
 
 	/**
@@ -49,6 +36,7 @@ public @interface Component {
 	 * to be turned into a Spring bean in case of an autodetected component.
 	 * @return the suggested component name, if any
 	 */
+    // 逻辑组件名称
 	String value() default "";
 
 }

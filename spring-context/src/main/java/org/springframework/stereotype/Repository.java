@@ -1,18 +1,3 @@
-/*
- * Copyright 2002-2011 the original author or authors.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 
 package org.springframework.stereotype;
 
@@ -26,8 +11,9 @@ import java.lang.annotation.Target;
  * Indicates that an annotated class is a "Repository", originally defined by
  * Domain-Driven Design (Evans, 2003) as "a mechanism for encapsulating storage,
  * retrieval, and search behavior which emulates a collection of objects".
+ * 存储库，领域驱动设计 (Evans, 2003) 作为用于封装存储、检索和搜索行为的一种机制，模拟对象的集合。
  *
- * <p>Teams implementing traditional J2EE patterns such as "Data Access Object"
+ * <p>Teams implementing traditional J2EE patterns such as "Data Access Object/数据访问对象"
  * may also apply this stereotype to DAO classes, though care should be taken to
  * understand the distinction between Data Access Object and DDD-style repositories
  * before doing so. This annotation is a general-purpose stereotype and individual teams
@@ -44,6 +30,7 @@ import java.lang.annotation.Target;
  * <p>As of Spring 2.5, this annotation also serves as a specialization of
  * {@link Component @Component}, allowing for implementation classes to be autodetected
  * through classpath scanning.
+ * 允许实现类将通过类路径扫描被探测到
  *
  * @author Rod Johnson
  * @author Juergen Hoeller
@@ -56,7 +43,8 @@ import java.lang.annotation.Target;
 @Target({ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-@Component
+@Component // 组件注解
+// 存储库组件注解类
 public @interface Repository {
 
 	/**
