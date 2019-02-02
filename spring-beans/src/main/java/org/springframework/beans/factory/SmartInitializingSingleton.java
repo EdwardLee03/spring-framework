@@ -1,18 +1,3 @@
-/*
- * Copyright 2002-2014 the original author or authors.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 
 package org.springframework.beans.factory;
 
@@ -24,6 +9,7 @@ package org.springframework.beans.factory;
  * initialization (e.g. from {@link ListableBeanFactory#getBeansOfType} calls).
  * In that sense, it is an alternative to {@link InitializingBean} which gets
  * triggered right at the end of a bean's local construction phase.
+ * 在BeanFactory引导期间，在单例预实例化阶段结束时，触发回调接口。
  *
  * <p>This callback variant is somewhat similar to
  * {@link org.springframework.context.event.ContextRefreshedEvent} but doesn't

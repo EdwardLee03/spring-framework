@@ -23,6 +23,8 @@ package org.springframework.beans.factory;
  * determined by individual subinterfaces, but should typically
  * consist of just one void-returning method that accepts a single
  * argument.
+ * 表示bean有资格通过回调方法由Spring容器通知特定框架对象。
+ * 实际方法签名由各个子接口确定，但通常应该只包含一个接受单个参数的void返回方法。
  *
  * <p>Note that merely implementing {@link Aware} provides no default
  * functionality. Rather, processing must be done explicitly, for example
@@ -35,5 +37,5 @@ package org.springframework.beans.factory;
  * @since 3.1
  */
 public interface Aware {
-
+    // 基于回调方法的容器通知
 }

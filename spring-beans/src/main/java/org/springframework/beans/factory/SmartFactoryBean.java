@@ -1,18 +1,3 @@
-/*
- * Copyright 2002-2012 the original author or authors.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 
 package org.springframework.beans.factory;
 
@@ -21,6 +6,8 @@ package org.springframework.beans.factory;
  * indicate whether they always return independent instances, for the
  * case where their {@link #isSingleton()} implementation returning
  * {@code false} does not clearly indicate independent instances.
+ * 本实现可以指示它们是否总是返回独立的实例，
+ * 因为它们的{@link #isSingleton()}实现返回false并不清楚地指示独立的实例。
  *
  * <p>Plain {@link FactoryBean} implementations which do not implement
  * this extended interface are simply assumed to always return independent
