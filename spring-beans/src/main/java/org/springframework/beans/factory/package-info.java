@@ -1,6 +1,7 @@
 /**
  * The core package implementing Spring's lightweight Inversion of Control (IoC) container.
  * core包实现Spring的轻量级控制反转容器（Inversion of Control (IoC)）。
+ * (依赖注入/Dependency Injection，统一装配依赖的对象)
  *
  * <p>Provides an alternative to the Singleton and Prototype design
  * patterns, including a consistent approach to configuration management.
