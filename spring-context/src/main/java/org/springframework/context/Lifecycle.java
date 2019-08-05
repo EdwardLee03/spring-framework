@@ -47,9 +47,10 @@ package org.springframework.context;
  * @see org.springframework.scheduling.quartz.SchedulerFactoryBean
  */
 public interface Lifecycle {
-
 	/**
 	 * Start this component.
+	 * <p>
+	 * 启动这个组件。
 	 * <p>Should not throw an exception if the component is already running.
 	 * <p>In the case of a container, this will propagate the start signal to all
 	 * components that apply.
@@ -61,6 +62,8 @@ public interface Lifecycle {
 	 * Stop this component, typically in a synchronous fashion, such that the component is
 	 * fully stopped upon return of this method. Consider implementing {@link SmartLifecycle}
 	 * and its {@code stop(Runnable)} variant when asynchronous stop behavior is necessary.
+	 * <p>
+	 * 停止这个组件，同步方式。
 	 * <p>Note that this stop notification is not guaranteed to come before destruction: On
 	 * regular shutdown, {@code Lifecycle} beans will first receive a stop notification before
 	 * the general destruction callbacks are being propagated; however, on hot refresh during a
@@ -75,10 +78,11 @@ public interface Lifecycle {
 
 	/**
 	 * Check whether this component is currently running.
+	 * <p>
+	 * 检查这个组件当前是否正在运行。
 	 * <p>In the case of a container, this will return {@code true} only if <i>all</i>
 	 * components that apply are currently running.
 	 * @return whether the component is currently running
 	 */
 	boolean isRunning();
-
 }
