@@ -24,6 +24,7 @@ import java.net.URL;
 /**
  * Interface for a resource descriptor that abstracts from the actual
  * type of underlying resource, such as a file or class path resource.
+ * 资源描述符，抽象来自底层资源的实际类型资源。
  *
  * <p>An InputStream can be opened for every resource if it exists in
  * physical form, but a URL or File handle can just be returned for
@@ -45,7 +46,6 @@ import java.net.URL;
  * @see InputStreamResource
  */
 public interface Resource extends InputStreamSource {
-
 	/**
 	 * Determine whether this resource actually exists in physical form.
 	 * <p>This method performs a definitive existence check, whereas the
@@ -133,5 +133,4 @@ public interface Resource extends InputStreamSource {
 	 * @see Object#toString()
 	 */
 	String getDescription();
-
 }

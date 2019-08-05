@@ -21,6 +21,7 @@ import java.util.Locale;
 /**
  * Strategy interface for resolving messages, with support for the parameterization
  * and internationalization of such messages.
+ * 信息源，解析信息的策略接口。
  *
  * <p>Spring provides two out-of-the-box implementations for production:
  * <ul>
@@ -36,7 +37,6 @@ import java.util.Locale;
  * @see org.springframework.context.support.ReloadableResourceBundleMessageSource
  */
 public interface MessageSource {
-
 	/**
 	 * Try to resolve the message. Return default message if no message was found.
 	 * @param code the code to lookup up, such as 'calculator.noRateSet'. Users of
@@ -79,5 +79,4 @@ public interface MessageSource {
 	 * @see java.text.MessageFormat
 	 */
 	String getMessage(MessageSourceResolvable resolvable, Locale locale) throws NoSuchMessageException;
-
 }

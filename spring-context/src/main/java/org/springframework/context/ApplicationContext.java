@@ -28,6 +28,7 @@ import org.springframework.core.io.support.ResourcePatternResolver;
  * reloaded if the implementation supports this.
  *
  * <p>An ApplicationContext provides:
+ * <p>应用上下文提供如下功能：
  * <ul>
  * <li>Bean factory methods for accessing application components.
  * Inherited from {@link org.springframework.beans.factory.ListableBeanFactory}.
@@ -47,6 +48,8 @@ import org.springframework.core.io.support.ResourcePatternResolver;
  * lifecycle capabilities, ApplicationContext implementations detect and invoke
  * {@link ApplicationContextAware} beans as well as {@link ResourceLoaderAware},
  * {@link ApplicationEventPublisherAware} and {@link MessageSourceAware} beans.
+ * Bean工厂的组件生命周期管理能力，应用上下文实现检测和调用应用上下文通知{@link ApplicationContextAware}的组件列表，
+ * 资源加载器通知{@link ResourceLoaderAware}，应用事件发布者通知{@link ApplicationEventPublisherAware}的组件列表。
  *
  * @author Rod Johnson
  * @author Juergen Hoeller
@@ -56,27 +59,30 @@ import org.springframework.core.io.support.ResourcePatternResolver;
  */
 public interface ApplicationContext extends EnvironmentCapable, ListableBeanFactory, HierarchicalBeanFactory,
 		MessageSource, ApplicationEventPublisher, ResourcePatternResolver {
-
 	/**
 	 * Return the unique id of this application context.
+	 * 返回这个应用上下文的唯一标识。
 	 * @return the unique id of the context, or {@code null} if none
 	 */
 	String getId();
 
 	/**
 	 * Return a name for the deployed application that this context belongs to.
+	 * 返回这个应用上下文所属的部署应用的名称。
 	 * @return a name for the deployed application, or the empty String by default
 	 */
 	String getApplicationName();
 
 	/**
 	 * Return a friendly name for this context.
+	 * 返回这个应用上下文的友好展示名称。
 	 * @return a display name for this context (never {@code null})
 	 */
 	String getDisplayName();
 
 	/**
 	 * Return the timestamp when this context was first loaded.
+	 * 返回这个应用上下文首次被加载的时间戳。
 	 * @return the timestamp (ms) when this context was first loaded
 	 */
 	long getStartupDate();
@@ -90,6 +96,7 @@ public interface ApplicationContext extends EnvironmentCapable, ListableBeanFact
 
 	/**
 	 * Expose AutowireCapableBeanFactory functionality for this context.
+	 * 为这个应用上下文暴露具有自动装配能力的Bean工厂的功能。
 	 * <p>This is not typically used by application code, except for the purpose of
 	 * initializing bean instances that live outside of the application context,
 	 * applying the Spring bean lifecycle (fully or partly) to them.
@@ -110,5 +117,4 @@ public interface ApplicationContext extends EnvironmentCapable, ListableBeanFact
 	 * @see ConfigurableApplicationContext#getBeanFactory()
 	 */
 	AutowireCapableBeanFactory getAutowireCapableBeanFactory() throws IllegalStateException;
-
 }
