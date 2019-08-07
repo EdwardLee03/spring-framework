@@ -1,18 +1,3 @@
-/*
- * Copyright 2002-2016 the original author or authors.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 
 package org.springframework.util;
 
@@ -27,6 +12,7 @@ import java.net.URLConnection;
 /**
  * Utility methods for resolving resource locations to files in the
  * file system. Mainly for internal use within the framework.
+ * 用于将资源位置解析为文件的辅助方法集。
  *
  * <p>Consider using Spring's Resource abstraction in the core package
  * for handling all kinds of file resources in a uniform manner.
@@ -51,13 +37,19 @@ import java.net.URLConnection;
  */
 public abstract class ResourceUtils {
 
-	/** Pseudo URL prefix for loading from the class path: "classpath:" */
+	/**
+	 * Pseudo URL prefix for loading from the class path: "classpath:"
+	 * 加载类路径中的所有资源的伪URL前缀为"classpath:"
+	 */
 	public static final String CLASSPATH_URL_PREFIX = "classpath:";
 
 	/** URL prefix for loading from the file system: "file:" */
 	public static final String FILE_URL_PREFIX = "file:";
 
-	/** URL prefix for loading from a jar file: "jar:" */
+	/**
+	 * URL prefix for loading from a jar file: "jar:"
+	 * 加载jar文件的URL前缀
+	 */
 	public static final String JAR_URL_PREFIX = "jar:";
 
 	/** URL prefix for loading from a war file on Tomcat: "war:" */
@@ -84,10 +76,16 @@ public abstract class ResourceUtils {
 	/** URL protocol for a general JBoss VFS resource: "vfs" */
 	public static final String URL_PROTOCOL_VFS = "vfs";
 
-	/** File extension for a regular jar file: ".jar" */
+	/**
+	 * File extension for a regular jar file: ".jar"
+	 * jar文件扩展名
+	 */
 	public static final String JAR_FILE_EXTENSION = ".jar";
 
-	/** Separator between JAR URL and file path within the JAR: "!/" */
+	/**
+	 * Separator between JAR URL and file path within the JAR: "!/"
+	 * JAR URL和文件路径之间的分隔符
+	 */
 	public static final String JAR_URL_SEPARATOR = "!/";
 
 	/** Special separator between WAR URL and jar part on Tomcat */

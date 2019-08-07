@@ -1,18 +1,3 @@
-/*
- * Copyright 2002-2016 the original author or authors.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 
 package org.springframework.core.io;
 
@@ -23,6 +8,7 @@ import org.springframework.util.ResourceUtils;
  * resources). An {@link org.springframework.context.ApplicationContext}
  * is required to provide this functionality, plus extended
  * {@link org.springframework.core.io.support.ResourcePatternResolver} support.
+ * 资源加载器，加载资源的策略接口。
  *
  * <p>{@link DefaultResourceLoader} is a standalone implementation that is
  * usable outside an ApplicationContext, also used by {@link ResourceEditor}.
@@ -40,12 +26,16 @@ import org.springframework.util.ResourceUtils;
  */
 public interface ResourceLoader {
 
-	/** Pseudo URL prefix for loading from the class path: "classpath:" */
+	/**
+	 * Pseudo URL prefix for loading from the class path: "classpath:"
+	 * 加载类路径中的所有资源的伪URL前缀为"classpath:"。
+	 */
 	String CLASSPATH_URL_PREFIX = ResourceUtils.CLASSPATH_URL_PREFIX;
 
 
 	/**
 	 * Return a Resource handle for the specified resource location.
+	 * 返回指定资源位置的资源句柄。
 	 * <p>The handle should always be a reusable resource descriptor,
 	 * allowing for multiple {@link Resource#getInputStream()} calls.
 	 * <p><ul>
@@ -67,6 +57,7 @@ public interface ResourceLoader {
 
 	/**
 	 * Expose the ClassLoader used by this ResourceLoader.
+	 * 暴露这个资源加载器使用的类加载器。
 	 * <p>Clients which need to access the ClassLoader directly can do so
 	 * in a uniform manner with the ResourceLoader, rather than relying
 	 * on the thread context ClassLoader.

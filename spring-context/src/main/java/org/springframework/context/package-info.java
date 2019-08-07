@@ -3,6 +3,7 @@
  * message sources and for the Observer design pattern, and the
  * ability for application objects to obtain resources using a
  * consistent API.
+ * 应用程序对象使用一致API获取资源的能力。
  *
  * <p>There is no necessity for Spring applications to depend
  * on ApplicationContext or even BeanFactory functionality

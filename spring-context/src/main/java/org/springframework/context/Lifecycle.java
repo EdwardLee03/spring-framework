@@ -1,18 +1,3 @@
-/*
- * Copyright 2002-2015 the original author or authors.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 
 package org.springframework.context;
 
@@ -21,6 +6,8 @@ package org.springframework.context;
  * The typical use case for this is to control asynchronous processing.
  * <b>NOTE: This interface does not imply specific auto-startup semantics.
  * Consider implementing {@link SmartLifecycle} for that purpose.</b>
+ * 组件生命周期管理接口，定义启动/停止生命周期控制的方法。
+ * 典型用例是控制异步处理。
  *
  * <p>Can be implemented by both components (typically a Spring bean defined in a
  * Spring context) and containers  (typically a Spring {@link ApplicationContext}
@@ -47,6 +34,7 @@ package org.springframework.context;
  * @see org.springframework.scheduling.quartz.SchedulerFactoryBean
  */
 public interface Lifecycle {
+
 	/**
 	 * Start this component.
 	 * <p>
@@ -85,4 +73,5 @@ public interface Lifecycle {
 	 * @return whether the component is currently running
 	 */
 	boolean isRunning();
+
 }
