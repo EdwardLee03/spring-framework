@@ -20,7 +20,7 @@ public interface ApplicationEventPublisher {
 	 * Notify all <strong>matching</strong> listeners registered with this
 	 * application of an application event. Events may be framework events
 	 * (such as RequestHandledEvent) or application-specific events.
-	 * 通知所有匹配的注册了这个应用事件的监听者列表。
+	 * 通知所有匹配的注册了这个应用事件的监听器列表。
 	 * @param event the event to publish
 	 * @see org.springframework.web.context.support.RequestHandledEvent
 	 */
