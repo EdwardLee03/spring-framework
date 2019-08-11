@@ -58,6 +58,7 @@ public class EventPublicationInterceptor
 			throw new IllegalArgumentException("applicationEventClass needs to extend ApplicationEvent");
 		}
 		try {
+			// public ApplicationEvent(Object source)
 			this.applicationEventClassConstructor =
 					applicationEventClass.getConstructor(Object.class);
 		}
@@ -85,7 +86,7 @@ public class EventPublicationInterceptor
      */
 	@Override
 	public Object invoke(MethodInvocation invocation) throws Throwable {
-	    // 处理链中的下一个拦截器
+		// 处理方法调用链中的下一个拦截器
 		Object retVal = invocation.proceed();
 
 		ApplicationEvent event = (ApplicationEvent)
