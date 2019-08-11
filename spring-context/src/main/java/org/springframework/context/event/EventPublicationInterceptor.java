@@ -16,7 +16,7 @@ import org.springframework.context.ApplicationEventPublisherAware;
  * {@code ApplicationEvent} to all {@code ApplicationListeners}
  * registered with an {@code ApplicationEventPublisher} after each
  * <i>successful</i> method invocation.
- * 应用事件发布拦截器，发布一个应用事件到所有的应用事件监听者列表的方法拦截器。
+ * 应用事件发布拦截器，发布一个应用事件到所有的应用事件监听器列表的方法拦截器。
  *
  * <p>Note that this interceptor is only capable of publishing <i>stateless</i>
  * events configured via the
@@ -91,7 +91,7 @@ public class EventPublicationInterceptor
 
 		ApplicationEvent event = (ApplicationEvent)
 				this.applicationEventClassConstructor.newInstance(invocation.getThis());
-        // 通知所有匹配的注册了这个应用事件的监听者列表
+        // 通知所有匹配的注册了这个应用事件的监听器列表
 		this.applicationEventPublisher.publishEvent(event);
 
 		return retVal;

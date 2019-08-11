@@ -43,7 +43,7 @@ package org.springframework.core.env;
  * as of Spring 3.1 is registered by default when using
  * {@code <context:property-placeholder/>}.
  * 但是，在大多数情况下，应用程序级别的beans不需要直接与应用环境对象交互，
- * 而是可能必须由属性占位符配置器将{@code ${...}}属性值替换，例如属性源占位符配置者PropertySourcesPlaceholderConfigurer，
+ * 而是可能必须由属性占位符配置器将${...}属性值替换，例如属性源占位符配置者PropertySourcesPlaceholderConfigurer，
  * 它本身就是应用环境通知对象EnvironmentAware。
  *
  * <p>Configuration of the environment object must be done through the
