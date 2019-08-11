@@ -12,6 +12,8 @@ import org.springframework.core.ResolvableType;
  * are available for specific purposes.
  * Bean工厂，用于访问Spring bean容器的根接口。
  * 这是bean容器的基本客户端视图(bean容器，管控bean对象)；
+ * 其他接口，如{@link ListableBeanFactory}和{@link org.springframework.beans.factory.config.ConfigurableBeanFactory}，
+ * 可用于特定目的。
  *
  * <p>This interface is implemented by objects that hold a number of bean definitions,
  * each uniquely identified by a String name. Depending on the bean definition,
@@ -22,9 +24,8 @@ import org.springframework.core.ResolvableType;
  * depends on the bean factory configuration: the API is the same. Since Spring
  * 2.0, further scopes are available depending on the concrete application
  * context (e.g. "request" and "session" scopes in a web environment).
- * 此接口由持有许多bean定义的对象实现，每个bean定义由字符串名称唯一标识。
- * 根据bean定义，bean工厂将返回一个包含对象的独立实例（原型设计模式），
- * 或单个共享实例（单例设计模式的高级替代，其中实例是工厂范围内的单例）。
+ * 本接口由持有许多bean定义的对象实现，每个bean定义由字符串名称唯一标识。
+ * 根据bean定义，bean工厂将返回一个包含对象的独立实例(原型设计模式)，或单个共享实例(单例设计模式的高级替代，其中实例是工厂范围内的单例)。
  * 将返回哪种类型的实例取决于bean工厂配置：API是相同的。
  * 从Spring 2.0开始，根据具体的应用上下文，可以使用更多的范围。
  *
@@ -43,7 +44,7 @@ import org.springframework.core.ResolvableType;
  * BeanFactory lookup. Spring's Dependency Injection functionality is
  * implemented using this BeanFactory interface and its subinterfaces.
  * 注意：通常最好依靠依赖注入/Dependency Injection("推送"配置)来通过设置方法或构造函数来配置应用程序对象，
- * 而不是像BeanFactory查找一样使用任何形式的"拉"配置。
+ * 而不是像BeanFactory查找一样使用任何形式的"拉取"配置。
  * Spring的依赖注入功能是使用这个BeanFactory接口及其子接口实现的。
  *
  * <p>Normally a BeanFactory will load bean definitions stored in a configuration
@@ -56,7 +57,7 @@ import org.springframework.core.ResolvableType;
  * 通常，BeanFactory将加载存储在配置源中的bean定义，并使用beans包来配置beans。
  * 但是，BeanFactory实现可以直接在Java代码中简单地返回它创建的Java对象。
  * 如何存储bean定义没有限制：LDAP，RDBMS，XML，属性文件等。
- * 鼓励BeanFactory实现支持beans之间的引用（依赖注入/Dependency Injection）。
+ * 鼓励BeanFactory实现支持beans之间的引用(依赖注入/Dependency Injection)。
  *
  * <p>In contrast to the methods in {@link ListableBeanFactory}, all of the
  * operations in this interface will also check parent factories if this is a
@@ -64,42 +65,42 @@ import org.springframework.core.ResolvableType;
  * the immediate parent factory will be asked. Beans in this factory instance
  * are supposed to override beans of the same name in any parent factory.
  * 与{@link ListableBeanFactory}中的方法相反，
- * 如果这是{@link HierarchicalBeanFactory}，则此接口中的所有操作也将检查父Bean工厂。
- * 如果在此工厂实例中找不到bean，则会询问直接的父工厂。
- * 此工厂实例中的Beans应该在任何父工厂中覆盖相同名称的beans。
+ * 如果这是{@link HierarchicalBeanFactory}，则此接口中的所有操作也将检查父亲Bean工厂。
+ * 如果在此工厂实例中找不到bean，则会询问直接的父亲Bean工厂。
+ * 此工厂实例中的Beans应该在任何父亲Bean工厂中覆盖相同名称的beans。
  *
  * <p>Bean factory implementations should support the standard bean lifecycle interfaces
  * as far as possible. The full set of initialization methods and their standard order is:
- * Bean工厂实现应尽可能地支持标准的bean生命周期接口。
+ * Bean工厂实现应尽可能地支持标准的<b>bean生命周期接口</b>。
  * 完整的初始化方法及其标准顺序是：
  * <ol>
- * <li>BeanNameAware's {@code setBeanName} Bean名称
- * <li>BeanClassLoaderAware's {@code setBeanClassLoader} Bean类加载器
- * <li>BeanFactoryAware's {@code setBeanFactory} Bean工厂
- * <li>EnvironmentAware's {@code setEnvironment} 属性环境
- * <li>EmbeddedValueResolverAware's {@code setEmbeddedValueResolver} 嵌套的属性值解析器
- * <li>ResourceLoaderAware's {@code setResourceLoader} 资源加载器
+ * <li>BeanNameAware's {@code setBeanName} 1.Bean名称
+ * <li>BeanClassLoaderAware's {@code setBeanClassLoader} 2.Bean类加载器
+ * <li>BeanFactoryAware's {@code setBeanFactory} 3.Bean工厂
+ * <li>EnvironmentAware's {@code setEnvironment} 4.应用环境
+ * <li>EmbeddedValueResolverAware's {@code setEmbeddedValueResolver} 5.嵌套的属性值解析器
+ * <li>ResourceLoaderAware's {@code setResourceLoader} 6.资源加载器
  * (only applicable when running in an application context/仅适用于在应用上下文中运行时)
- * <li>ApplicationEventPublisherAware's {@code setApplicationEventPublisher} 应用程序事件发布者
+ * <li>ApplicationEventPublisherAware's {@code setApplicationEventPublisher} 7.应用事件发布者
  * (only applicable when running in an application context)
- * <li>MessageSourceAware's {@code setMessageSource} 消息源
+ * <li>MessageSourceAware's {@code setMessageSource} 8.消息源
  * (only applicable when running in an application context)
- * <li>ApplicationContextAware's {@code setApplicationContext} 应用上下文
+ * <li>ApplicationContextAware's {@code setApplicationContext} 9.应用上下文
  * (only applicable when running in an application context)
- * <li>ServletContextAware's {@code setServletContext} 服务端程序上下文
+ * <li>ServletContextAware's {@code setServletContext} 10.服务端程序上下文
  * (only applicable when running in a web application context)
- * <li>{@code postProcessBeforeInitialization} methods of BeanPostProcessors 初始化前置处理的Bean后置处理器列表
- * <li>InitializingBean's {@code afterPropertiesSet} 在设置所有Bean属性后处理
- * <li>a custom init-method definition 自定义的初始化方法定义
- * <li>{@code postProcessAfterInitialization} methods of BeanPostProcessors 初始化后置处理的Bean后置处理器列表
+ * <li>{@code postProcessBeforeInitialization} methods of BeanPostProcessors 11.Bean后置处理器列表的Bean初始化之前处理
+ * <li>InitializingBean's {@code afterPropertiesSet} 12.在设置所有Bean属性后处理
+ * <li>a custom init-method definition 13.自定义的初始化方法定义
+ * <li>{@code postProcessAfterInitialization} methods of BeanPostProcessors 14.Bean后置处理器列表的Bean初始化完成后处理
  * </ol>
  *
  * <p>On shutdown of a bean factory, the following lifecycle methods apply:
  * 在bean工厂关闭时，以下生命周期方法适用：
  * <ol>
- * <li>{@code postProcessBeforeDestruction} methods of DestructionAwareBeanPostProcessors 销毁前置处理的Bean后置处理器列表
- * <li>DisposableBean's {@code destroy} 在Bean销毁时处理
- * <li>a custom destroy-method definition 自定义的销毁方法定义
+ * <li>{@code postProcessBeforeDestruction} methods of DestructionAwareBeanPostProcessors 1.销毁通知的Bean后置处理器列表的Bean销毁之前处理
+ * <li>DisposableBean's {@code destroy} 2.在Bean销毁时处理
+ * <li>a custom destroy-method definition 3.自定义的销毁方法定义
  * </ol>
  *
  * @author Rod Johnson
@@ -121,7 +122,6 @@ import org.springframework.core.ResolvableType;
  * @see DisposableBean#destroy
  * @see org.springframework.beans.factory.support.RootBeanDefinition#getDestroyMethodName
  */
-// 核心接口 Bean工厂，用于访问bean容器的根接口
 public interface BeanFactory {
 
 	/**
@@ -134,7 +134,8 @@ public interface BeanFactory {
 	String FACTORY_BEAN_PREFIX = "&";
 
 
-	// bean名称/类型
+	// 查找bean实例
+	/// bean名称/类型
 
 	/**
 	 * Return an instance, which may be shared or independent, of the specified bean.
@@ -144,6 +145,8 @@ public interface BeanFactory {
 	 * returned objects in the case of Singleton beans.
 	 * <p>Translates aliases back to the corresponding canonical bean name.
 	 * Will ask the parent factory if the bean cannot be found in this factory instance.
+	 * 将bean别名转换回相应的规范bean名称。
+	 * 若在当前bean工厂实例找不到bean时，将询问父亲bean工厂。
 	 * @param name the name of the bean to retrieve
 	 * @return an instance of the bean
 	 * @throws NoSuchBeanDefinitionException if there is no bean definition
@@ -154,6 +157,7 @@ public interface BeanFactory {
 
 	/**
 	 * Return an instance, which may be shared or independent, of the specified bean.
+	 * 返回指定bean名称和类型的实例，该实例可以是共享的或独立的。(bean同名但类型不同)
 	 * <p>Behaves the same as {@link #getBean(String)}, but provides a measure of type
 	 * safety by throwing a BeanNotOfRequiredTypeException if the bean is not of the
 	 * required type. This means that ClassCastException can't be thrown on casting
@@ -190,13 +194,14 @@ public interface BeanFactory {
 	 */
 	<T> T getBean(Class<T> requiredType) throws BeansException;
 
-    // bean名称/类型+方法参数列表
+	/// bean名称/类型+方法参数列表
 
 	/**
 	 * Return an instance, which may be shared or independent, of the specified bean.
+	 * 返回指定bean名称和类型的实例，该实例可以是共享的或独立的。
 	 * <p>Allows for specifying explicit constructor arguments / factory method arguments,
 	 * overriding the specified default arguments (if any) in the bean definition.
-     * 允许指定显示的构造函数/工厂方法参数列表
+	 * 允许指定显示的构造函数/工厂方法参数列表，覆盖bean定义中指定的默认参数(如果有)。
 	 * @param name the name of the bean to retrieve
 	 * @param args arguments to use when creating a bean instance using explicit arguments
 	 * (only applied when creating a new instance as opposed to retrieving an existing one)
@@ -211,8 +216,10 @@ public interface BeanFactory {
 
 	/**
 	 * Return an instance, which may be shared or independent, of the specified bean.
+	 * 返回指定bean名称和类型的实例，该实例可以是共享的或独立的。
 	 * <p>Allows for specifying explicit constructor arguments / factory method arguments,
 	 * overriding the specified default arguments (if any) in the bean definition.
+	 * 允许指定显示的构造函数/工厂方法参数列表，覆盖bean定义中指定的默认参数(如果有)。
 	 * <p>This method goes into {@link ListableBeanFactory} by-type lookup territory
 	 * but may also be translated into a conventional by-name lookup based on the name
 	 * of the given type. For more extensive retrieval operations across sets of beans,
@@ -230,13 +237,12 @@ public interface BeanFactory {
 	 */
 	<T> T getBean(Class<T> requiredType, Object... args) throws BeansException;
 
-
 	// bean存在性
 
 	/**
 	 * Does this bean factory contain a bean definition or externally registered singleton
 	 * instance with the given name?
-	 * 此bean工厂是否包含具有给定名称的bean定义或外部注册的单个实例？
+	 * 这个bean工厂是否包含具有给定名称的bean定义或外部注册的单个实例？
 	 * <p>If the given name is an alias, it will be translated back to the corresponding
 	 * canonical bean name.
 	 * <p>If this factory is hierarchical, will ask any parent factory if the bean cannot
@@ -254,8 +260,9 @@ public interface BeanFactory {
 	// bean作用域
 
 	/**
-	 * Is this bean a shared singleton? That is, will {@link #getBean} always
+	 * Is this bean a shared singleton? That is, will {@link #getBean(String)} always
 	 * return the same instance?
+	 * 这个bean是共享单例吗？也就是说，{@link #getBean(String)}总会返回相同的实例吗？
 	 * <p>Note: This method returning {@code false} does not clearly indicate
 	 * independent instances. It indicates non-singleton instances, which may correspond
 	 * to a scoped bean as well. Use the {@link #isPrototype} operation to explicitly
@@ -273,6 +280,7 @@ public interface BeanFactory {
 	/**
 	 * Is this bean a prototype? That is, will {@link #getBean} always return
 	 * independent instances?
+	 * 这个bean是原型吗？也就是说，{@link #getBean(String)}总会返回独立的实例吗？
 	 * <p>Note: This method returning {@code false} does not clearly indicate
 	 * a singleton object. It indicates non-independent instances, which may correspond
 	 * to a scoped bean as well. Use the {@link #isSingleton} operation to explicitly
@@ -294,6 +302,8 @@ public interface BeanFactory {
 	 * Check whether the bean with the given name matches the specified type.
 	 * More specifically, check whether a {@link #getBean} call for the given name
 	 * would return an object that is assignable to the specified target type.
+	 * 检查具有给定名称的bean是否与指定的类型匹配。
+	 * 更具体地说，检查给定名称的{@link #getBean(String)}调用是否将返回可分配给指定目标类型的对象。
 	 * <p>Translates aliases back to the corresponding canonical bean name.
 	 * Will ask the parent factory if the bean cannot be found in this factory instance.
 	 * @param name the name of the bean to query
@@ -311,6 +321,8 @@ public interface BeanFactory {
 	 * Check whether the bean with the given name matches the specified type.
 	 * More specifically, check whether a {@link #getBean} call for the given name
 	 * would return an object that is assignable to the specified target type.
+	 * 检查具有给定名称的bean是否与指定的类型匹配。
+	 * 更具体地说，检查给定名称的{@link #getBean(String)}调用是否将返回可分配给指定目标类型的对象。
 	 * <p>Translates aliases back to the corresponding canonical bean name.
 	 * Will ask the parent factory if the bean cannot be found in this factory instance.
 	 * @param name the name of the bean to query
@@ -328,6 +340,7 @@ public interface BeanFactory {
 	 * Determine the type of the bean with the given name. More specifically,
 	 * determine the type of object that {@link #getBean} would return for the given name.
 	 * 确定具有给定名称的bean的类型。
+	 * 更具体地说，确定{@link #getBean(String)}将为给定名称返回对象类型。
 	 * <p>For a {@link FactoryBean}, return the type of object that the FactoryBean creates,
 	 * as exposed by {@link FactoryBean#getObjectType()}.
 	 * <p>Translates aliases back to the corresponding canonical bean name.
@@ -347,6 +360,7 @@ public interface BeanFactory {
 	 * Return the aliases for the given bean name, if any.
 	 * All of those aliases point to the same bean when used in a {@link #getBean} call.
 	 * 返回给定bean名称的别名列表，如果有。
+	 * 当在{@link #getBean(String)}调用中使用时，所有这些别名都指向同一个bean。
 	 * <p>If the given name is an alias, the corresponding original bean name
 	 * and other aliases (if any) will be returned, with the original bean name
 	 * being the first element in the array.
