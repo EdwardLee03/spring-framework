@@ -414,6 +414,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 	 */
 	LifecycleProcessor getLifecycleProcessor() throws IllegalStateException {
 		if (this.lifecycleProcessor == null) {
+			// 组件生命周期处理器尚未初始化
 			throw new IllegalStateException("LifecycleProcessor not initialized - " +
 					"call 'refresh' before invoking lifecycle methods via the context: " + this);
 		}
@@ -537,6 +538,8 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 
 				// Check for listener beans and register them.
 				registerListeners();
+
+				// 二、Bean工厂
 
 				// Instantiate all remaining (non-lazy-init) singletons.
 				finishBeanFactoryInitialization(beanFactory);
@@ -826,6 +829,8 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 		}
 	}
 
+	// 11.实例化所有剩余(非延迟初始化)的单例beans对象
+
 	/**
 	 * Finish the initialization of this context's bean factory,
 	 * initializing all remaining singleton beans.
@@ -866,6 +871,8 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 		beanFactory.preInstantiateSingletons();
 	}
 
+	// 12.最后一步：发布相应的应用上下文事件
+
 	/**
 	 * Finish the refresh of this context, invoking the LifecycleProcessor's
 	 * onRefresh() method and publishing the
@@ -884,6 +891,8 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 		// Participate in LiveBeansView MBean, if active.
 		LiveBeansView.registerApplicationContext(this);
 	}
+
+	// 2.重置'活动'状态标识为非活动状态
 
 	/**
 	 * Cancel this context's refresh attempt, resetting the {@code active} flag
@@ -908,6 +917,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 		CachedIntrospectionResults.clearClassLoader(getClassLoader());
 	}
 
+	// 应用上下文关闭
 
 	/**
 	 * Register a shutdown hook with the JVM runtime, closing this context
@@ -1023,6 +1033,8 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 	 * The default implementation destroy all cached singletons in this context,
 	 * invoking {@code DisposableBean.destroy()} and/or the specified
 	 * "destroy-method".
+	 * 用于销毁这个应用上下文管理的所有beans的模板方法。
+	 * 默认实现是销毁这个应用上下文中所有缓存的单例beans，调用{@code DisposableBean.destroy()}和/或指定的"destroy-method"。
 	 * <p>Can be overridden to add context-specific bean destruction steps
 	 * right before or right after standard singleton destruction,
 	 * while the context's BeanFactory is still active.
@@ -1030,12 +1042,15 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 	 * @see org.springframework.beans.factory.config.ConfigurableBeanFactory#destroySingletons()
 	 */
 	protected void destroyBeans() {
+		// 销毁这个工厂中的所有单例beans，包括已注册为一次性的内部beans
 		getBeanFactory().destroySingletons();
 	}
 
 	/**
 	 * Template method which can be overridden to add context-specific shutdown work.
 	 * The default implementation is empty.
+	 * 可以被重写的模板方法，以添加特定应用上下文的关闭工作。
+	 * 默认实现是空操作。
 	 * <p>Called at the end of {@link #doClose}'s shutdown procedure, after
 	 * this context's BeanFactory has been closed. If custom shutdown logic
 	 * needs to execute while the BeanFactory is still active, override
@@ -1053,6 +1068,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 	/**
 	 * Assert that this context's BeanFactory is currently active,
 	 * throwing an {@link IllegalStateException} if it isn't.
+	 * 断言这个应用上下文的Bean工厂当前处于活动状态，如果不是则抛出非法状态异常。
 	 * <p>Invoked by all {@link BeanFactory} delegation methods that depend
 	 * on an active context, i.e. in particular all bean accessor methods.
 	 * <p>The default implementation checks the {@link #isActive() 'active'} status
@@ -1061,10 +1077,13 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 	 */
 	protected void assertBeanFactoryActive() {
 		if (!this.active.get()) {
+			// 非活动状态
 			if (this.closed.get()) {
+				// 这个应用上下文已经关闭
 				throw new IllegalStateException(getDisplayName() + " has been closed already");
 			}
 			else {
+				// 这个应用上下文还没有刷新
 				throw new IllegalStateException(getDisplayName() + " has not been refreshed yet");
 			}
 		}
@@ -1072,17 +1091,20 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 
 
 	//---------------------------------------------------------------------
-	// Implementation of BeanFactory interface
+	// Implementation of BeanFactory interface (Bean工厂接口的实现)
 	//---------------------------------------------------------------------
+	// 必填参数：bean名称/类型
 
 	@Override
 	public Object getBean(String name) throws BeansException {
+		// 断言这个应用上下文的Bean工厂当前处于活动状态
 		assertBeanFactoryActive();
 		return getBeanFactory().getBean(name);
 	}
 
 	@Override
 	public <T> T getBean(String name, Class<T> requiredType) throws BeansException {
+		// 断言这个应用上下文的Bean工厂当前处于活动状态
 		assertBeanFactoryActive();
 		return getBeanFactory().getBean(name, requiredType);
 	}
@@ -1142,13 +1164,17 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 
 	@Override
 	public String[] getAliases(String name) {
+		// 别名列表
 		return getBeanFactory().getAliases(name);
 	}
 
 
 	//---------------------------------------------------------------------
-	// Implementation of ListableBeanFactory interface
+	// Implementation of ListableBeanFactory interface (列表的Bean工厂接口的实现)
 	//---------------------------------------------------------------------
+	// 必填参数：bean名称/类型
+
+	// Bean定义
 
 	@Override
 	public boolean containsBeanDefinition(String beanName) {
@@ -1162,8 +1188,11 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 
 	@Override
 	public String[] getBeanDefinitionNames() {
+		// Bean定义的名称列表
 		return getBeanFactory().getBeanDefinitionNames();
 	}
+
+	// Bean名称列表
 
 	@Override
 	public String[] getBeanNamesForType(ResolvableType type) {
@@ -1183,6 +1212,8 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 		return getBeanFactory().getBeanNamesForType(type, includeNonSingletons, allowEagerInit);
 	}
 
+	// Bean实例映射表
+
 	@Override
 	public <T> Map<String, T> getBeansOfType(Class<T> type) throws BeansException {
 		assertBeanFactoryActive();
@@ -1197,6 +1228,8 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 		return getBeanFactory().getBeansOfType(type, includeNonSingletons, allowEagerInit);
 	}
 
+	// 注解的Bean
+
 	@Override
 	public String[] getBeanNamesForAnnotation(Class<? extends Annotation> annotationType) {
 		assertBeanFactoryActive();
@@ -1206,26 +1239,25 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 	@Override
 	public Map<String, Object> getBeansWithAnnotation(Class<? extends Annotation> annotationType)
 			throws BeansException {
-
 		assertBeanFactoryActive();
 		return getBeanFactory().getBeansWithAnnotation(annotationType);
 	}
 
 	@Override
 	public <A extends Annotation> A findAnnotationOnBean(String beanName, Class<A> annotationType)
-			throws NoSuchBeanDefinitionException{
-
+			throws NoSuchBeanDefinitionException {
 		assertBeanFactoryActive();
 		return getBeanFactory().findAnnotationOnBean(beanName, annotationType);
 	}
 
 
 	//---------------------------------------------------------------------
-	// Implementation of HierarchicalBeanFactory interface
+	// Implementation of HierarchicalBeanFactory interface (分层的Bean工厂接口的实现)
 	//---------------------------------------------------------------------
 
 	@Override
 	public BeanFactory getParentBeanFactory() {
+		// 父亲Bean工厂
 		return getParent();
 	}
 
@@ -1288,7 +1320,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 
 
 	//---------------------------------------------------------------------
-	// Implementation of ResourcePatternResolver interface
+	// Implementation of ResourcePatternResolver interface (资源模式解析器接口的实现)
 	//---------------------------------------------------------------------
 
 	@Override
@@ -1298,23 +1330,28 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 
 
 	//---------------------------------------------------------------------
-	// Implementation of Lifecycle interface
+	// Implementation of Lifecycle interface (组件生命周期处理器接口的实现)
 	//---------------------------------------------------------------------
 
 	@Override
 	public void start() {
+		// 启动这个应用上下文
 		getLifecycleProcessor().start();
+		// 发布这个应用上下文启动事件
 		publishEvent(new ContextStartedEvent(this));
 	}
 
 	@Override
 	public void stop() {
+		// 停止这个应用上下文
 		getLifecycleProcessor().stop();
+		// 发布这个应用上下文停止事件
 		publishEvent(new ContextStoppedEvent(this));
 	}
 
 	@Override
 	public boolean isRunning() {
+		// 检查这个应用上下文当前是否正在运行
 		return (this.lifecycleProcessor != null && this.lifecycleProcessor.isRunning());
 	}
 
@@ -1365,8 +1402,10 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder(getDisplayName());
+		// 这个应用上下文启动时的系统时间
 		sb.append(": startup date [").append(new Date(getStartupDate()));
 		sb.append("]; ");
+		// 父亲应用上下文
 		ApplicationContext parent = getParent();
 		if (parent == null) {
 			sb.append("root of context hierarchy");
