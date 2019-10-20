@@ -13,14 +13,12 @@ public interface LifecycleProcessor extends Lifecycle {
 
 	/**
 	 * Notification of context refresh, e.g. for auto-starting components.
-	 * <p>
-	 * 应用上下文刷新的通知，如自动启动的组件列表。
+	 * 应用上下文刷新阶段的通知，如自动启动的组件列表。
 	 */
 	void onRefresh();
 
 	/**
 	 * Notification of context close phase, e.g. for auto-stopping components.
-	 * <p>
 	 * 应用上下文关闭阶段的通知，如自动停止的组件列表。
 	 */
 	void onClose();
