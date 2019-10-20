@@ -1,18 +1,3 @@
-/*
- * Copyright 2002-2016 the original author or authors.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 
 package org.springframework.context;
 
@@ -30,10 +15,14 @@ import org.springframework.core.io.ProtocolResolver;
  * Provides facilities to configure an application context in addition
  * to the application context client methods in the
  * {@link org.springframework.context.ApplicationContext} interface.
+ * 可配置的应用上下文的SPI接口。
+ * 提供配置应用上下文的设施。
  *
  * <p>Configuration and lifecycle methods are encapsulated here to avoid
  * making them obvious to ApplicationContext client code. The present
  * methods should only be used by startup and shutdown code.
+ * 这里封装了配置和生命周期方法，以避免它们对应用上下文客户端代码变得明显。
+ * 本方法只能由启动和关闭代码使用。
  *
  * @author Juergen Hoeller
  * @author Chris Beams
@@ -44,6 +33,7 @@ public interface ConfigurableApplicationContext extends ApplicationContext, Life
 	/**
 	 * Any number of these characters are considered delimiters between
 	 * multiple context config paths in a single String value.
+	 * 任何数量的这些字符都被视为单个字符串值中多个应用上下文配置路径之间的分隔符。
 	 * @see org.springframework.context.support.AbstractXmlApplicationContext#setConfigLocation
 	 * @see org.springframework.web.context.ContextLoader#CONFIG_LOCATION_PARAM
 	 * @see org.springframework.web.servlet.FrameworkServlet#setContextConfigLocation
@@ -53,6 +43,7 @@ public interface ConfigurableApplicationContext extends ApplicationContext, Life
 	/**
 	 * Name of the ConversionService bean in the factory.
 	 * If none is supplied, default conversion rules apply.
+	 * 转换服务bean的名称。
 	 * @see org.springframework.core.convert.ConversionService
 	 * @since 3.0
 	 */
@@ -62,6 +53,7 @@ public interface ConfigurableApplicationContext extends ApplicationContext, Life
 	 * Name of the LoadTimeWeaver bean in the factory. If such a bean is supplied,
 	 * the context will use a temporary ClassLoader for type matching, in order
 	 * to allow the LoadTimeWeaver to process all actual bean classes.
+	 * 加载时编织者bean的名称。
 	 * @since 2.5
 	 * @see org.springframework.instrument.classloading.LoadTimeWeaver
 	 */
@@ -69,18 +61,21 @@ public interface ConfigurableApplicationContext extends ApplicationContext, Life
 
 	/**
 	 * Name of the {@link Environment} bean in the factory.
+	 * 应用环境bean的名称。
 	 * @since 3.1
 	 */
 	String ENVIRONMENT_BEAN_NAME = "environment";
 
 	/**
 	 * Name of the System properties bean in the factory.
+	 * 系统属性bean的名称。
 	 * @see java.lang.System#getProperties()
 	 */
 	String SYSTEM_PROPERTIES_BEAN_NAME = "systemProperties";
 
 	/**
 	 * Name of the System environment bean in the factory.
+	 * 系统环境bean的名称。
 	 * @see java.lang.System#getenv()
 	 */
 	String SYSTEM_ENVIRONMENT_BEAN_NAME = "systemEnvironment";
@@ -88,15 +83,18 @@ public interface ConfigurableApplicationContext extends ApplicationContext, Life
 
 	/**
 	 * Set the unique id of this application context.
+	 * 设置这个应用上下文的唯一ID。
 	 * @since 3.0
 	 */
 	void setId(String id);
 
 	/**
 	 * Set the parent of this application context.
+	 * 设置这个应用上下文的父亲应用上下文。
 	 * <p>Note that the parent shouldn't be changed: It should only be set outside
 	 * a constructor if it isn't available when an object of this class is created,
 	 * for example in case of WebApplicationContext setup.
+	 * 请注意，不应更改父亲应用上下文：如果在创建这个类的对象时不可用，则应仅在构造函数外部设置它。
 	 * @param parent the parent context
 	 * @see org.springframework.web.context.ConfigurableWebApplicationContext
 	 */
@@ -104,6 +102,7 @@ public interface ConfigurableApplicationContext extends ApplicationContext, Life
 
 	/**
 	 * Return the Environment for this application context in configurable form.
+	 * 以可配置的形式返回这个应用上下文的可配置的应用环境。
 	 * @since 3.1
 	 */
 	@Override
@@ -111,6 +110,7 @@ public interface ConfigurableApplicationContext extends ApplicationContext, Life
 
 	/**
 	 * Set the {@code Environment} for this application context.
+	 * 为这个应用上下文设置可配置的应用环境。
 	 * @param environment the new environment
 	 * @since 3.1
 	 */
