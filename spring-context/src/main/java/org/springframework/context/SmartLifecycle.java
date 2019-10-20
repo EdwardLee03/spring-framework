@@ -22,14 +22,14 @@ package org.springframework.context;
  * is the lowest possible, and Integer.MAX_VALUE is the highest possible). The
  * shutdown process will apply the reverse order. Any components with the
  * same value will be arbitrarily ordered within the same phase.
- * 启动过程始于最低的阶段值，终于最高的阶段值。
+ * 启动过程始于最低的相位值，终于最高的相位值。
  * 关闭过程将应用相反的顺序。
  * 具有相同值的任何组件将在同一阶段内任意顺序。
  *
  * <p>Example: if component B depends on component A having already started, then
  * component A should have a lower phase value than component B. During the
  * shutdown process, component B would be stopped before component A.
- * 示例：如果组件B依赖已经启动的组件A，那么组件A的阶段值应低于组件B的。
+ * 示例：如果组件B依赖已经启动的组件A，那么组件A的相位值应低于组件B的。
  * 在关闭过程期间，组件B应该在组件A之前停止。
  *
  * <p>Any explicit "depends-on" relationship will take precedence over
