@@ -190,7 +190,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 
 	/**
 	 * System time in milliseconds when this context started
-	 * 这个应用上下文启动时的系统时间
+	 * 这个应用上下文启动时的系统时间(首次被加载的时间戳)
 	 */
 	private long startupDate;
 
